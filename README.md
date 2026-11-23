@@ -8,7 +8,7 @@ questions, rapports, flux RSS. Toutes les données sont publiques (open data et 
 
 - `scripts/update.sh full|light` télécharge les données et construit le site dans `_site/`.
 - `.github/workflows/update.yml` lance la mise à jour automatiquement et publie le site sur GitHub Pages :
-  - chaque matin à 8 h 30 (heure d'hiver), après la publication quotidienne des données de l'Assemblée et du Sénat : collecte complète (open data de l'Assemblée, Sénat, Cour des comptes) ;
+  - chaque matin à 8 h 30 (heure d'hiver), après la publication quotidienne des données de l'Assemblée et du Sénat : collecte complète, puis une seconde à 14 h pour les amendements déposés dans la journée (open data de l'Assemblée, Sénat, Cour des comptes) ;
   - toutes les heures en semaine, de 7 h à 21 h : agenda de l'Assemblée, ordre du jour du Sénat, flux RSS.
 - Les données téléchargées sont gardées en cache entre deux exécutions (actions/cache), pas dans le dépôt.
 
