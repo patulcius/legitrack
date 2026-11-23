@@ -17,7 +17,7 @@ declare -A AN_ZIPS=(
   [qosd]="$B/questions/questions_orales_sans_debat/Questions_orales_sans_debat.json.zip"
   [qag]="$B/questions/questions_gouvernement/Questions_gouvernement.json.zip"
   [amo10]="$B/amo/deputes_actifs_mandats_actifs_organes/AMO10_deputes_actifs_mandats_actifs_organes.json.zip"
-  [organes]="$B/amo/acteurs_mandats_organes_divises/AMO50_acteurs_mandats_organes_divises.json.zip"
+  [organes]="$B/amo/tous_acteurs_mandats_organes_xi_legislature/AMO30_tous_acteurs_tous_mandats_tous_organes_historique.json.zip"
   [scrutins]="$B/loi/scrutins/Scrutins.json.zip"
   [amendements]="$B/loi/amendements_div_legis/Amendements.json.zip"
 )

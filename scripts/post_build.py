@@ -13,6 +13,8 @@ Usage : post_build.py <dossier du site> <dossier d'état>
     ics/tout.ics            agenda complet (délais, séances, commissions, auditions)
     ics/<thème>.ics         un agenda par thématique
     ics/t/<texte>.ics       un agenda par texte ayant des événements
+    feeds/m/<mission>.xml   un flux par mission d'information ou commission d'enquête
+    ics/m/<mission>.ics     un agenda par mission ayant des réunions
 Variables : SITE_URL (adresse publique du site ; déduite de GITHUB_REPOSITORY à défaut).
 """
 import glob
@@ -52,6 +54,8 @@ TYPE_L = {
     "rapport": "Publication",
     "question": "Question",
     "reponse": "Réponse du Gouvernement",
+    "cr": "Compte rendu publié",
+    "mission": "Mission ou commission d'enquête",
 }
 
 
@@ -137,6 +141,11 @@ def snapshot(site):
     for e in load(os.path.join(site, "agenda.json"), []) or []:
         snap["ag"][ev_key(e)] = 1
     snap["rap"] = sorted({r.get("url") or h(r.get("t"), r.get("d")) for r in load(os.path.join(site, "rapports.json"), []) or []})
+    ctl = (load(os.path.join(site, "controle.json"), {}) or {}).get("items", [])
+    if ctl:
+        snap["mi"] = {m["id"]: {"ev": [h(e.get("d"), e.get("t")) for e in m.get("ev", []) if e.get("k") != "cr" and not e.get("x")],
+                                "cr": [e["cr"] for e in m.get("ev", []) if e.get("cr")],
+                                "rp": [r.get("url") for r in m.get("rp", [])]} for m in ctl}
     for q in load(os.path.join(site, "questions.json"), []) or []:
         snap["q"][q.get("id") or h(q.get("ch"), q.get("n"))] = q.get("st") or "a"
     return snap, core, dossiers, det
@@ -187,6 +196,8 @@ def diff(prev, cur, core, dossiers, det, site, now_iso):
         k = ev_key(e)
         if k in prev["ag"] or (e.get("d") or "")[:10] < today:
             continue
+        if e.get("mi") and prev.get("mi") is not None and cur.get("mi"):
+            continue  # signalé avec la mission
         d = dossiers.get(e.get("ds") or "", {})
         kind = e.get("k")
         lab = KIND_L.get(kind, "Réunion")
@@ -208,6 +219,34 @@ def diff(prev, cur, core, dossiers, det, site, now_iso):
         out.append({"k": "rapport", "th": r.get("th", []), "ch": src or "CC", "t": r.get("t", ""),
                     "s": " · ".join(x for x in (r.get("ty"), who) if x), "u": r.get("url"), "d": r.get("d")})
 
+    # Missions d'information et commissions d'enquête : nouvelles réunions, comptes rendus, rapports
+    if prev.get("mi") is not None and cur.get("mi"):
+        ctl = {m["id"]: m for m in (load(os.path.join(site, "controle.json"), {}) or {}).get("items", [])}
+        for mid, c in cur["mi"].items():
+            m = ctl.get(mid) or {}
+            mb = {"mi": mid, "th": m.get("th", []), "ch": m.get("ch", "AN"), "t": m.get("t", "")}
+            p = prev["mi"].get(mid)
+            if p is None:
+                if (m.get("deb") or "") >= (datetime.fromisoformat(today) - timedelta(days=10)).date().isoformat():
+                    out.append({**mb, "k": "mission", "s": f"{m.get('tl', 'Mission')} créée" + (f" ({m['par']})" if m.get("par") else ""), "d": m.get("deb")})
+                p = {"ev": [], "cr": [], "rp": []}
+                if m.get("ch") == "SN" or not m.get("deb") or m["deb"] < (datetime.fromisoformat(today) - timedelta(days=10)).date().isoformat():
+                    continue
+            pe, pc, pr = set(p["ev"]), set(p["cr"]), set(p["rp"])
+            for e in m.get("ev", []):
+                if e.get("x") or e.get("k") == "cr":
+                    continue
+                if h(e.get("d"), e.get("t")) not in pe and (e.get("d") or "")[:10] >= today:
+                    lab = "Audition" if e.get("k") == "audition" else "Réunion"
+                    out.append({**mb, "k": "agenda", "s": f"{lab}, {fr_date(e.get('d', ''))} : {e.get('t', '')}"[:400], "e": e.get("d")})
+            for e in m.get("ev", []):
+                if e.get("cr") and e["cr"] not in pc:
+                    what = e.get("t", "") if e.get("k") == "cr" else f"{'Audition' if e.get('k') == 'audition' else 'Réunion'} du {fr_date(e.get('d', '')[:10])} : {e.get('t', '')}"
+                    out.append({**mb, "k": "cr", "s": what[:400], "u": e["cr"], "d": e.get("d")})
+            for r in m.get("rp", []):
+                if r.get("url") and r["url"] not in pr:
+                    out.append({**mb, "k": "rapport", "s": r.get("t") or "Rapport", "u": r["url"], "d": r.get("d")})
+
     for q in load(os.path.join(site, "questions.json"), []) or []:
         k = q.get("id") or h(q.get("ch"), q.get("n"))
         was = prev["q"].get(k)
@@ -220,7 +259,7 @@ def diff(prev, cur, core, dossiers, det, site, now_iso):
                         "ai": q.get("ai"), "d": q.get("r") if kind == "reponse" else q.get("d")})
     uniq, seen_k = [], set()
     for o in out:
-        key = (o["k"], o.get("ds"), o.get("t") if not o.get("ds") else "", o.get("s"), o.get("u"))
+        key = (o["k"], o.get("ds") or o.get("mi"), o.get("t") if not o.get("ds") else "", o.get("s"), o.get("u"))
         if key in seen_k:
             continue
         seen_k.add(key)
@@ -228,8 +267,8 @@ def diff(prev, cur, core, dossiers, det, site, now_iso):
     out = uniq
     for o in out:
         o["ts"] = now_iso
-        o["id"] = h(o["k"], o.get("ds"), o.get("t"), o.get("s"), o.get("u"), o.get("d"), o.get("e"))
-        for f in ("ds", "u", "ai", "d", "e", "n"):
+        o["id"] = h(o["k"], o.get("ds") or o.get("mi"), o.get("t"), o.get("s"), o.get("u"), o.get("d"), o.get("e"))
+        for f in ("ds", "mi", "u", "ai", "d", "e", "n"):
             if not o.get(f):
                 o.pop(f, None)
     return out
@@ -255,6 +294,7 @@ def seed(core, dossiers, det, site, now):
             empty["q"][k] = "r" if q.get("st") == "r" and (q.get("r") or "") < lim else "a"
     for e in load(os.path.join(site, "agenda.json"), []) or []:
         empty["ag"][ev_key(e)] = 1  # pas d'agenda rétroactif
+    empty["mi"] = snapshot(site)[0].get("mi", {})
     evs = diff(empty, snapshot(site)[0], core, dossiers, det, site, now.isoformat(timespec="minutes"))
     for o in evs:  # date réelle de l'événement quand elle est connue
         if o.get("d") and o["d"][:10] >= lim:
@@ -272,14 +312,14 @@ def rss(title, desc, link, items, base):
            f"<title>{escape(title)}</title><link>{escape(link)}</link><description>{escape(desc)}</description>",
            f"<language>fr</language><lastBuildDate>{now}</lastBuildDate>"]
     for o in items[:MAX_FLUX]:
-        lk = (base + "#texte-" + o["ds"]) if o.get("ds") and base else (o.get("u") or link)
+        lk = (base + "#texte-" + o["ds"]) if o.get("ds") and base else (base + "#mission-" + o["mi"]) if o.get("mi") and base else (o.get("u") or link)
         lab = TYPE_L.get(o["k"], "Nouveauté")
         try:
             pub = format_datetime(datetime.fromisoformat(o["ts"]))
         except ValueError:
             pub = now
         body = f"<p><b>{escape(lab)}</b> : {escape(o.get('s', ''))}</p>"
-        if o.get("u") and o.get("ds"):
+        if o.get("u") and (o.get("ds") or o.get("mi")):
             body += f'<p><a href="{escape(o["u"])}">Document officiel</a></p>'
         out.append("<item>"
                    f"<title>{escape(lab + ' · ' + (o.get('t') or '')[:180])}</title>"
@@ -319,7 +359,7 @@ def fold(line):
 
 
 def ics(name, events, dossiers, base, stamp):
-    out = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Veille parlementaire//FR", "CALSCALE:GREGORIAN",
+    out = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Legitrack//FR", "CALSCALE:GREGORIAN",
            "METHOD:PUBLISH", f"X-WR-CALNAME:{ics_text(name)}", "X-WR-TIMEZONE:Europe/Paris",
            "REFRESH-INTERVAL;VALUE=DURATION:PT6H", "X-PUBLISHED-TTL:PT6H"]
     body = "".join(fold(l) for l in out) + VTZ
@@ -344,7 +384,9 @@ def ics(name, events, dossiers, base, stamp):
             desc.append("Délai calculé selon le Règlement, à confirmer.")
         if dos and base:
             desc.append(base + "#texte-" + e["ds"])
-        lines = ["BEGIN:VEVENT", f"UID:{ev_key(e)}@veille-parlementaire", f"DTSTAMP:{stamp}"]
+        elif e.get("mi") and base:
+            desc.append(base + "#mission-" + e["mi"])
+        lines = ["BEGIN:VEVENT", f"UID:{ev_key(e)}@legitrack", f"DTSTAMP:{stamp}"]
         ymd = d[:10].replace("-", "")
         if len(d) < 16 or d[11:16] == "00:00":
             nxt = (datetime.strptime(d[:10], "%Y-%m-%d") + timedelta(days=1)).strftime("%Y%m%d")
@@ -359,6 +401,8 @@ def ics(name, events, dossiers, base, stamp):
             lines.append(f"LOCATION:{ics_text(e['lieu'])}")
         if dos and base:
             lines.append(f"URL:{base}#texte-{e['ds']}")
+        elif e.get("mi") and base:
+            lines.append(f"URL:{base}#mission-{e['mi']}")
         lines.append(f"CATEGORIES:{ics_text(lab)}")
         if kind.startswith("dl_"):
             lines += ["BEGIN:VALARM", "ACTION:DISPLAY", f"DESCRIPTION:{ics_text(short)}", "TRIGGER:-P1D", "END:VALARM"]
@@ -387,6 +431,10 @@ def main(site, state):
                 cur[k] = prev[k]
         if not cur["rap"] and prev.get("rap"):
             cur["rap"] = prev["rap"]
+        if not cur.get("mi") and prev.get("mi"):
+            cur["mi"] = prev["mi"]
+        if cur.get("mi") and prev.get("mi") is None:
+            print("Missions : premier instantané, pas de nouveautés reconstituées")
         new = diff(prev, cur, core, dossiers, det, site, now_iso)
         print(f"{len(new)} nouveautés depuis la collecte précédente")
 
@@ -407,11 +455,11 @@ def main(site, state):
     themes = core.get("themes", [])
     home = base or "./"
     write(os.path.join(site, "feeds", "tout.xml"),
-          rss("Veille parlementaire · toutes les nouveautés", "Nouveautés à l'Assemblée nationale, au Sénat et à la Cour des comptes", home, journal, base))
+          rss("Legitrack · toutes les nouveautés", "Nouveautés à l'Assemblée nationale, au Sénat et à la Cour des comptes", home, journal, base))
     for t in themes:
         L = [o for o in journal if t["id"] in (o.get("th") or [])]
         write(os.path.join(site, "feeds", f"{t['id']}.xml"),
-              rss(f"Veille parlementaire · {t['l']}", f"Nouveautés de la thématique « {t['l']} »", home, L, base))
+              rss(f"Legitrack · {t['l']}", f"Nouveautés de la thématique « {t['l']} »", home, L, base))
     by_dos = {}
     for o in journal:
         if o.get("ds"):
@@ -421,7 +469,7 @@ def main(site, state):
         if not d.get("ac") and i not in by_dos:
             continue
         write(os.path.join(site, "feeds", "t", f"{i}.xml"),
-              rss(f"Veille · {d.get('t', '')[:120]}", "Nouveautés sur ce texte", (base + "#texte-" + i) if base else home, by_dos.get(i, []), base))
+              rss(f"Legitrack · {d.get('t', '')[:120]}", "Nouveautés sur ce texte", (base + "#texte-" + i) if base else home, by_dos.get(i, []), base))
         n_feeds += 1
 
     # agendas .ics (30 jours passés et tout le futur)
@@ -431,16 +479,35 @@ def main(site, state):
     for e in ag:
         if not e.get("th") and e.get("ds") in dossiers:
             e["th"] = dossiers[e["ds"]].get("th", [])
-    write(os.path.join(site, "ics", "tout.ics"), ics("Veille parlementaire", ag, dossiers, base, stamp))
+    write(os.path.join(site, "ics", "tout.ics"), ics("Legitrack", ag, dossiers, base, stamp))
     for t in themes:
         write(os.path.join(site, "ics", f"{t['id']}.ics"),
-              ics(f"Veille · {t['l']}", [e for e in ag if t["id"] in (e.get("th") or [])], dossiers, base, stamp))
+              ics(f"Legitrack · {t['l']}", [e for e in ag if t["id"] in (e.get("th") or [])], dossiers, base, stamp))
     by_ag = {}
     for e in ag:
         if e.get("ds"):
             by_ag.setdefault(e["ds"], []).append(e)
     for i, L in by_ag.items():
-        write(os.path.join(site, "ics", "t", f"{i}.ics"), ics(f"Veille · {dossiers.get(i, {}).get('t', i)[:80]}", L, dossiers, base, stamp))
+        write(os.path.join(site, "ics", "t", f"{i}.ics"), ics(f"Legitrack · {dossiers.get(i, {}).get('t', i)[:80]}", L, dossiers, base, stamp))
+    # missions : un flux et un agenda par mission
+    ctl = (load(os.path.join(site, "controle.json"), {}) or {}).get("items", [])
+    by_mi = {}
+    for o in journal:
+        if o.get("mi"):
+            by_mi.setdefault(o["mi"], []).append(o)
+    n_mf = n_mi = 0
+    for m in ctl:
+        mid = m["id"]
+        if m.get("st") in ("En cours", "Permanente") or mid in by_mi:
+            write(os.path.join(site, "feeds", "m", f"{mid}.xml"),
+                  rss(f"Legitrack · {m.get('t', '')[:120]}", "Nouvelles réunions, comptes rendus et rapports", (base + "#mission-" + mid) if base else home, by_mi.get(mid, []), base))
+            n_mf += 1
+        L = [{"d": e["d"], "k": e.get("k", "reunion") if e.get("k") in ("audition", "reunion") else "reunion", "t": e.get("t", ""), "org": m.get("t", "")[:160],
+              "ch": m.get("ch", "AN"), "mi": mid} for e in m.get("ev", []) if e.get("k") != "cr" and not e.get("x") and (e.get("d") or "")[:10] >= since]
+        if L:
+            write(os.path.join(site, "ics", "m", f"{mid}.ics"), ics(f"Legitrack · {m.get('court') or m.get('t', '')[:80]}", L, {}, base, stamp))
+            n_mi += 1
+    print(f"Missions : {n_mf} flux RSS · {n_mi} agendas .ics")
     print(f"Journal : {len(journal)} nouveautés · {len(themes) + 1 + n_feeds} flux RSS · {len(themes) + 1 + len(by_ag)} agendas .ics")
 
 

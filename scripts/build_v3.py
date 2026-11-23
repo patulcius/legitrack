@@ -2,7 +2,7 @@
 """Veille parlementaire v3 : suivi global AN + Sénat + Cour des comptes, avec thématiques et fiches élus.
 
 Usage : python3 build_v3.py <dossier_raw_AN> <dossier_senat> <dossier_ccomptes> <dossier_sortie>
-<dossier_raw_AN> : dossiers/, agenda/, qe/, qosd/, qag/, organes/ (AMO50), amo10/, scrutins/, amendements.zip
+<dossier_raw_AN> : dossiers/, agenda/, qe/, qosd/, qag/, organes/ (AMO30, historique complet), amo10/, scrutins/, amendements.zip
 Sorties (fichiers JSON chargés à la demande par le site) :
   core.json, dos/NN.json, amdt/*.json, agenda.json, questions.json, rapports.json, elus.json, votes/NN.json, scrutins.json
 """
@@ -457,6 +457,7 @@ for f in glob.glob(f"{RAW}/agenda/json/reunion/*.json"):
     points = aslist((odj.get("pointsODJ") or {}).get("pointODJ"))
     lieu = (r.get("lieu") or {}).get("libelleLong")
     base = dict(ch="AN", org=organe, lieu=lieu, etat=etat if etat not in ("Confirmé", "Eventuel") else None, ty=o.get("type") if not seance else "SEANCE")
+    if o.get("type") in ("CNPE", "MISINFO", "MISINFOCOM", "MISINFOPRE", "DELEG", "OFFPAR"): base["mi"] = oref
     done = set()
     for p in points:
         for ref in aslist((p.get("dossiersLegislatifsRefs") or {}).get("dossierRef")):
@@ -761,6 +762,161 @@ except Exception as e:
 dump({s_["cle"]: sorted(sen_recent.get(s_["cle"], []), key=lambda x: x[0] or "", reverse=True)[:60] for s_ in senateurs if s_.get("cle")}, f"{OUT}/senam.json")
 dump({"deputes": deputes, "senateurs": senateurs, "groupes": {k: GCOL.get(k, "#7f8c8d") for k in sorted({d["g"] for d in deputes})}}, f"{OUT}/elus.json")
 
+# ---------------------------------------------------------------- contrôle : missions, commissions d'enquête, délégations
+CTL_LABEL = {"CNPE": "Commission d'enquête", "MISINFO": "Mission d'information", "MISINFOCOM": "Mission d'information commune",
+             "MISINFOPRE": "Mission d'information de la Conférence des présidents", "DELEG": "Délégation", "OFFPAR": "Office parlementaire"}
+CTL_START = "2024-07-18"
+ctl_org = {}
+for f in glob.glob(f"{RAW}/organes/**/organe/*.json", recursive=True):
+    o = load(f)["organe"]
+    ty = o.get("codeType")
+    if ty not in CTL_LABEL: continue
+    vm = o.get("viMoDe") or {}
+    deb, fin = vm.get("dateDebut") or "", vm.get("dateFin")
+    if ty in ("DELEG", "OFFPAR"):
+        if fin: continue
+    elif deb < CTL_START: continue
+    ctl_org[o["uid"]] = {"id": o["uid"], "ch": "AN", "ty": ty, "tl": CTL_LABEL[ty], "t": cap(clean(o.get("libelle"), 400)),
+                         "court": o.get("libelleAbrege"), "par": org_name(o.get("organeParent")), "deb": deb[:10] or None, "fin": (fin or "")[:10] or None,
+                         "pres": [], "rap": [], "nm": 0, "ev": [], "rp": []}
+# Composition (président, rapporteurs) depuis l'historique AMO30
+for f in glob.glob(f"{RAW}/organes/**/acteur/*.json", recursive=True):
+    a = load(f)["acteur"]
+    uid = a["uid"]["#text"] if isinstance(a["uid"], dict) else a["uid"]
+    for m in aslist((a.get("mandats") or {}).get("mandat")):
+        ref = next((x for x in aslist((m.get("organes") or {}).get("organeRef")) if x in ctl_org), None)
+        if not ref: continue
+        mf = s(m.get("dateFin"))
+        if mf and (not ctl_org[ref]["fin"] or mf[:10] < ctl_org[ref]["fin"]): continue
+        q = ((m.get("infosQualite") or {}).get("codeQualite") or "").lower()
+        nom = acteurs.get(uid)
+        if not nom: continue
+        mo = ctl_org[ref]
+        if q.startswith("président"): mo["pres"].append({"n": nom, "id": uid})
+        elif "rapporteu" in q: mo["rap"].append({"n": nom, "id": uid})
+        elif q == "membre": mo["nm"] += 1
+# Réunions (auditions, tables rondes, comptes rendus)
+for f in glob.glob(f"{RAW}/agenda/json/reunion/*.json"):
+    r = load(f)["reunion"]
+    mo = ctl_org.get(r.get("organeReuniRef"))
+    if not mo: continue
+    start = r.get("timeStampDebut") or ""
+    if start[:10] < CTL_START: continue
+    etat = (r.get("cycleDeVie") or {}).get("etat")
+    if etat == "Supprimé": continue
+    odj = r.get("ODJ") or {}
+    resume = txt((odj.get("resumeODJ") or {}).get("item"))
+    conv = txt((odj.get("convocationODJ") or {}).get("item"))
+    points = aslist((odj.get("pointsODJ") or {}).get("pointODJ"))
+    blob = " ".join([resume, conv] + [p.get("objet") or "" for p in points])
+    titre = cap(re.sub(r"^[\s\-–•]+", "", clean(resume or " · ".join(p.get("objet") or "" for p in points) or conv, 500))) or "Réunion"
+    e = {"d": start[:16], "k": "audition" if re.search(r"audition|table ronde|entendre", blob, re.I) else "reunion", "t": titre}
+    if etat == "Annulé": e["x"] = 1
+    if r.get("compteRenduRef"): e["cr"] = f"{AN}/dyn/opendata/{r['compteRenduRef']}.html"
+    if r.get("captationVideo") == "true": e["v"] = 1
+    if r.get("ouverturePresse") == "false": e["hc"] = 1
+    mo["ev"].append(e)
+# Dossiers et rapports rattachés (commissions d'enquête, missions avec dossier)
+for f in glob.glob(f"{RAW}/dossiers/json/dossierParlementaire/*.json"):
+    raw = open(f, encoding="utf-8").read()
+    refs = set(re.findall(r'"(PO\d+)"', raw)) & set(ctl_org)
+    if not refs: continue
+    dp = json.loads(raw)["dossierParlementaire"]
+    tl = []; walk_actes((dp.get("actesLegislatifs") or {}).get("acteLegislatif"), tl)
+    for ref in refs:
+        mo = ctl_org[ref]
+        if ref and dp["uid"] in dossiers: mo["ds"] = dp["uid"]
+        mo["url"] = f"{AN}/dyn/17/dossiers/{dp['uid']}"
+        for it in tl:
+            if it.get("tx") and re.search(r"RAPPORT", it["c"]):
+                doc = documents.get(it["tx"]) or {}
+                num = (doc.get("notice") or {}).get("numNotice")
+                mo["rp"].append({"d": it["d"][:10], "t": f"Rapport n° {num}" if num else "Rapport",
+                                 "url": f"{AN}/dyn/opendata/{it['tx']}.html"})
+            elif re.search(r"COMENQ-CREA|MISINF-CREA|CREA$", it["c"]) and not mo.get("crea"): mo["crea"] = it["d"][:10]
+# Rapports d'information sans dossier : rapprochement par le titre
+def _toks(t): return {w for w in re.findall(r"[a-zàâçéèêëîïôûùüÿœ]{4,}", (t or "").lower())} - {"mission", "information", "commission", "enquête", "rapport", "dans", "pour", "avec", "leurs", "sous", "entre", "relative", "déposé", "application", "article", "règlement", "conclusion", "travaux", "nationale", "assemblée"}
+rinf = []
+for uid, doc in documents.items():
+    if not uid.startswith("RINF") or "L17" not in uid: continue
+    t = (doc.get("titres") or {}).get("titrePrincipal") or ""
+    rinf.append((uid, (doc.get("notice") or {}).get("numNotice"), _toks(t), ((doc.get("cycleDeVie") or {}).get("chrono") or {}).get("dateDepot") or ""))
+for mo in ctl_org.values():
+    if mo["rp"] or mo["ty"] in ("DELEG", "OFFPAR"): continue
+    mt = _toks(re.sub(r"^(mission|commission)[^:]*?\b(sur|relative à|consacrée à)\b", "", mo["t"], flags=re.I))
+    if len(mt) < 2: continue
+    best = max(((len(mt & tt) / len(mt), uid, t, dd) for uid, t, tt, dd in rinf if dd[:10] >= (mo["deb"] or "")), default=None)
+    if best and best[0] >= 0.75:
+        mo["rp"].append({"d": best[3][:10], "t": f"Rapport d'information n° {best[2]}" if best[2] else "Rapport d'information", "url": f"{AN}/dyn/opendata/{best[1]}.html"})
+# Sénat : commissions d'enquête et missions d'information communes
+MOISL = {m: i + 1 for i, m in enumerate(["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"])}
+def _frd(t):
+    m = re.search(r"(\d{1,2})(?:er)?\s+(janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre)\s+(20\d\d)", t or "")
+    return dt.date(int(m.group(3)), MOISL[m.group(2)], int(m.group(1))).isoformat() if m else None
+try: ctl_idx = load(f"{SEN}/controle/index.json")
+except Exception: ctl_idx = []
+for it in ctl_idx:
+    try: h = open(f"{SEN}/controle/{it['slug']}.html", encoding="utf-8", errors="replace").read()
+    except OSError: continue
+    main = (re.search(r"<main.*?</main>", h, re.S) or re.search(r".*", h, re.S)).group(0)
+    main = re.sub(r"<script.*?</script>|<style.*?</style>|<svg.*?</svg>", "", main, flags=re.S)
+    plain = clean(main)
+    h1 = re.search(r"<h1[^>]*>(.*?)</h1>", main, re.S)
+    title = clean(h1.group(1)) if h1 else it["slug"]
+    k = plain.find("informations clés")
+    info = plain[k:k + 1500] if k >= 0 else plain[:1500]
+    def who(lbl):
+        m = re.search(lbl + r"s?\s+(.{3,80}?)\s+(?=Président|Rapporteu|Créée|Crée|À l|A l|La commission|La mission|Le Sénat|Les |Pourquoi|Constitu|Sur |En |Dans |Composée|Saisie|Mission|Commission)", info)
+        if not m: return []
+        return [{"n": x.strip()} for x in re.split(r",\s*|\s+et\s+", m.group(1)) if x.strip()][:4]
+    mo = {"id": "SN-" + it["slug"][:80], "ch": "SN", "ty": "CNPE" if it["kind"] == "CE" else "MISINFOCOM",
+          "tl": "Commission d'enquête" if it["kind"] == "CE" else "Mission d'information commune", "t": cap(title[:400]),
+          "par": None, "deb": None, "fin": None, "pres": who(r"Présidente?"), "rap": who(r"Rapporteure?"), "nm": 0, "ev": [], "rp": [], "url": it["url"]}
+    m = re.search(r"s'est réunie? (?:le )?(\w+ \d{1,2}(?:er)? \w+ 20\d\d)", info)
+    mo["deb"] = _frd(m.group(1)) if m else None
+    m = re.search(r"(?:achever|s'achever) au plus tard le (\d{1,2}(?:er)? \w+ 20\d\d)", info)
+    if m: mo["ech"] = _frd(m.group(1))
+    m = re.search(r"rapport a été adopté (?:le )?(\w+ \d{1,2}(?:er)? \w+ 20\d\d)", info, re.I)
+    rdate = _frd(m.group(1)) if m else None
+    seen = set()
+    for a in re.finditer(r'href="(https?://www\.senat\.fr/notice-rapport/[^"]+)"[^>]*>(.*?)</a>', main, re.S):
+        if a.group(1) in seen: continue
+        seen.add(a.group(1))
+        tm = re.search(r"r\d\d-(\d+)(?:-(\d+))?-notice", a.group(1))
+        lab = (f"Rapport n° {int(tm.group(1))}" + (f", tome {tm.group(2)}" if tm.group(2) else "")) if tm else (clean(a.group(2)) or "Rapport")
+        mo["rp"].append({"d": rdate, "t": lab, "url": a.group(1)})
+    if rdate: mo["fin"] = rdate
+    try:
+        crh = open(f"{SEN}/controle/{it['slug']}__cr.html", encoding="utf-8", errors="replace").read()
+        for a in re.finditer(r'href="(/compte-rendu-commissions/(\d{8})/[^"]+\.html)"[^>]*>(.*?)</a>', crh, re.S):
+            d8 = a.group(2)
+            mo["ev"].append({"d": f"{d8[:4]}-{d8[4:6]}-{d8[6:]}", "k": "cr", "t": "Compte rendu · " + clean(a.group(3)), "cr": "https://www.senat.fr" + a.group(1)})
+    except OSError: pass
+    ctl_org[mo["id"]] = mo
+controle = []
+for mo in ctl_org.values():
+    mo["ev"].sort(key=lambda e: e["d"])
+    mo["rp"].sort(key=lambda r: r.get("d") or "")
+    act = [e for e in mo["ev"] if not e.get("x")]
+    fut = [e for e in act if e["d"][:10] >= TODAY_S]
+    past = [e for e in act if e["d"][:10] < TODAY_S]
+    mo["nx"] = fut[0]["d"] if fut else None
+    mo["la"] = max([e["d"][:10] for e in past] + [r["d"] for r in mo["rp"] if r.get("d")] + [mo["deb"] or ""]) or None
+    mo["na"] = sum(1 for e in act if e["k"] == "audition")
+    mo["ncr"] = sum(1 for e in mo["ev"] if e.get("cr"))
+    if mo["rp"]: mo["st"] = "Rapport publié"
+    elif mo["fin"] and mo["fin"] < TODAY_S: mo["st"] = "Terminée"
+    else: mo["st"] = "En cours"
+    if mo["ty"] in ("DELEG", "OFFPAR"): mo["st"] = "Permanente"
+    if mo["ty"] in ("DELEG", "OFFPAR") and not mo["ev"]: continue
+    mo["th"] = themes_of(mo["t"], mo.get("par"))
+    for k in ("pres", "rap"):
+        u = {}; [u.setdefault(x["n"], x) for x in mo[k]]; mo[k] = list(u.values())
+    controle.append({k: v for k, v in mo.items() if v not in (None, [], "")})
+controle.sort(key=lambda m: (m["st"] in ("Terminée", "Rapport publié"), m["st"] == "Permanente", -(int((m.get("nx") or m.get("la") or "0000-00-00").replace("-", "")[:8] or 0))))
+dump({"genere": NOW_ISO, "items": controle}, f"{OUT}/controle.json")
+print("contrôle :", len(controle), "structures,", sum(len(m.get("ev", [])) for m in controle), "réunions")
+
 # ---------------------------------------------------------------- détail des dossiers et noyau
 NDS = 40
 dshards = defaultdict(dict)
@@ -785,7 +941,7 @@ light.sort(key=lambda x: ((x["nx"] or {}).get("d") or "9999", -(int((x["ld"] or 
 dump(events, f"{OUT}/agenda.json")
 counts = {"dossiers": len(light), "actifs": sum(x["ac"] for x in light), "events": len(events), "questions": len(questions), "rapports": len(rapports),
           "amendements": sum(x["na"] for x in light), "scrutins": len(scrutins), "deputes": len(deputes), "senateurs": len(senateurs),
-          "cc": sum(1 for r in rapports if r["src"] == "CC")}
+          "cc": sum(1 for r in rapports if r["src"] == "CC"), "controle": len(controle)}
 dump({"genere": NOW_ISO, "aujourdhui": TODAY_S, "themes": [{"id": k, "l": l} for k, l, _ in THEMES], "dossiers": light, "counts": counts,
       "groupes": {k: GCOL.get(k, "#7f8c8d") for k in sorted({d["g"] for d in deputes})},
       "sources": [{"nom": "Assemblée nationale (open data)", "url": "https://data.assemblee-nationale.fr/"},

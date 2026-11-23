@@ -1,8 +1,10 @@
-# Veille parlementaire et institutionnelle
+# Legitrack
+
+Veille parlementaire et institutionnelle.
 
 Site statique de veille sur le travail de l'Assemblée nationale, du Sénat et de la Cour des comptes :
 agenda et délais d'amendements, textes et navette, amendements (texte intégral), scrutins et fiches élus,
-questions, rapports, flux RSS. Toutes les données sont publiques (open data et pages officielles).
+questions, rapports, missions d'information et commissions d'enquête (composition, auditions, comptes rendus, rapports), flux RSS. Toutes les données sont publiques (open data et pages officielles).
 
 ## Fonctionnement
 
@@ -16,7 +18,7 @@ questions, rapports, flux RSS. Toutes les données sont publiques (open data et 
 
 1. Dépôt public sur GitHub (GitHub Pages gratuit), contenant ces fichiers.
 2. Settings > Pages > Build and deployment > Source : **GitHub Actions**.
-3. Onglet Actions > « Mise à jour de la veille » > Run workflow (mode full). La première exécution dure environ une heure (collecte complète du Sénat), les suivantes quelques minutes.
+3. Onglet Actions > « Mise à jour de Legitrack » > Run workflow (mode full). La première exécution dure environ une heure (collecte complète du Sénat), les suivantes quelques minutes.
 
 Le site est ensuite disponible à l'adresse `https://<compte>.github.io/<dépôt>/`.
 

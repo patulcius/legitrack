@@ -64,3 +64,31 @@ for i, u in enumerate(sorted(urls)):
         if get(url, dest, force=stale(dest, u)): n += 1
     if i % 50 == 0: print(i, "dossiers", n, "fichiers amdt", flush=True)
 print("FIN", len(urls), "dossiers,", n, "fichiers d'amendements", flush=True)
+
+# Contrôle : commissions d'enquête et missions d'information communes du Sénat (fiche, comptes rendus)
+CTL = f"{SEN}/controle"; os.makedirs(CTL, exist_ok=True)
+ST = "https://www.senat.fr/travaux-parlementaires/structures-temporaires"
+MOISC = {"janv": 1, "févr": 2, "mars": 3, "avr": 4, "mai": 5, "juin": 6, "juil": 7, "août": 8, "sept": 9, "oct": 10, "nov": 11, "déc": 12}
+pages = []
+for kind, lst in (("CE", "commissions-denquete/liste-des-commissions-denquete"), ("MIC", "missions-dinformation-communes/liste-des-missions-dinformation-communes")):
+    dest = f"{CTL}/liste_{kind}.html"
+    if not get(f"{ST}/{lst}.html", dest, force=True): continue
+    h = open(dest, encoding="utf-8", errors="replace").read()
+    for m in re.finditer(r'<a[^>]+href="((?:https://www\.senat\.fr)?/travaux-parlementaires/structures-temporaires/[^"#]+\.html)"[^>]*>.*?</a>(.{0,600})', h, re.S):
+        u, after = m.group(1), m.group(2)
+        if "/liste-des-" in u or "/archives/" in u or "/page/" in u or not re.search(r"/structures-temporaires/(commissions-denquete|missions-dinformation-communes)/[^/]+\.html$", u): continue
+        dm = re.search(r"(\d{1,2})\s+(janv|févr|mars|avr|mai|juin|juil|août|sept|oct|nov|déc)\.?\s+(20\d\d)", re.sub(r"<[^>]+>", " ", after))
+        if dm and int(dm.group(3)) * 100 + MOISC[dm.group(2)] < 202409: continue
+        u = u if u.startswith("http") else "https://www.senat.fr" + u
+        if u not in [p[1] for p in pages]: pages.append((kind, u))
+ctl_index = []
+for kind, u in pages:
+    slug = u.rsplit("/", 1)[-1].replace(".html", "")
+    dest = f"{CTL}/{slug}.html"
+    if not get(u, dest, force=True): continue
+    h = open(dest, encoding="utf-8", errors="replace").read()
+    cr = re.search(r'href="(?:https?://www\.senat\.fr)?(/compte-rendu-commissions/[^"/]+\.html)"', h)
+    if cr: get("https://www.senat.fr" + cr.group(1), f"{CTL}/{slug}__cr.html", force=True)
+    ctl_index.append({"kind": kind, "url": u, "slug": slug})
+json.dump(ctl_index, open(f"{CTL}/index.json", "w"), ensure_ascii=False)
+print("Sénat contrôle :", len(ctl_index), "structures", flush=True)

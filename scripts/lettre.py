@@ -47,7 +47,7 @@ def parse_dest(s):
 
 def render(items, themes_l, base, depuis):
     css_a = "color:#3d4ee0;text-decoration:none"
-    head = (f'<div style="font:600 22px Georgia,serif;color:#17171a;margin:0 0 4px">Veille parlementaire</div>'
+    head = (f'<div style="font:600 22px Georgia,serif;color:#17171a;margin:0 0 4px">Legitrack</div>'
             f'<div style="color:#7c7c86;font-size:13px;margin:0 0 18px">{escape(themes_l)} · nouveautés depuis le {escape(depuis)}</div>')
     body = ""
     for titre, ks in SECTIONS:
@@ -57,7 +57,7 @@ def render(items, themes_l, base, depuis):
         L.sort(key=lambda o: (ORDRE.index(o["k"]), o.get("e") or "", o.get("t") or ""))
         rows = ""
         for o in L[:MAX_SECTION]:
-            link = (base + "#texte-" + o["ds"]) if o.get("ds") and base else (o.get("u") or base)
+            link = (base + "#texte-" + o["ds"]) if o.get("ds") and base else (base + "#mission-" + o["mi"]) if o.get("mi") and base else (o.get("u") or base)
             t = escape((o.get("t") or "")[:220])
             rows += ('<tr><td style="padding:10px 0;border-bottom:1px solid #e7e4dc">'
                      f'<div style="font-size:12px;font-weight:600;color:#7c7c86;text-transform:uppercase;letter-spacing:.04em">{escape(TYPE_L.get(o["k"], ""))}</div>'
@@ -107,10 +107,10 @@ def main(site, state):
                 continue
             lab = ", ".join(tl.get(t, t) for t in themes) if themes else "Toutes les thématiques"
             msg = EmailMessage()
-            msg["Subject"] = f"Veille parlementaire · {len(L)} nouveauté{'s' if len(L) > 1 else ''} · {now.strftime('%d/%m/%Y')}"
+            msg["Subject"] = f"Legitrack · {len(L)} nouveauté{'s' if len(L) > 1 else ''} · {now.strftime('%d/%m/%Y')}"
             msg["From"] = sender
             msg["To"] = mail
-            msg.set_content("Les nouveautés de la veille parlementaire sont lisibles dans un client de messagerie compatible HTML"
+            msg.set_content("Les nouveautés de Legitrack sont lisibles dans un client de messagerie compatible HTML"
                             + (f" ou sur {base}#nouveautes" if base else "") + ".")
             msg.add_alternative(render(L, lab, base, depuis), subtype="html")
             s.send_message(msg)
