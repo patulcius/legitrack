@@ -893,6 +893,64 @@ for it in ctl_idx:
             mo["ev"].append({"d": f"{d8[:4]}-{d8[4:6]}-{d8[6:]}", "k": "cr", "t": "Compte rendu · " + clean(a.group(3)), "cr": "https://www.senat.fr" + a.group(1)})
     except OSError: pass
     ctl_org[mo["id"]] = mo
+# Sénat : programme de contrôle (missions d'information des commissions, contrôle budgétaire, délégations, office)
+try: prog = load(f"{SEN}/controle/programme.json")
+except Exception: prog = []
+sn_titles = {re.sub(r"\W+", " ", m["t"].lower()).strip() for m in ctl_org.values() if m["ch"] == "SN"}
+for p in prog:
+    title = clean(p["t"])
+    if not title or re.sub(r"\W+", " ", title.lower()).strip() in sn_titles: continue
+    u_ = (p.get("url") or "").rstrip("/").replace(".html", "")
+    sl = ("dossier-" + u_.rsplit("/", 1)[-1]) if "/dossier/" in u_ else (u_.rsplit("/", 1)[-1] if u_ else re.sub(r"[^a-z0-9]+", "-", title.lower()))
+    sl = re.sub(r"[^a-z0-9-]+", "-", sl.lower()).strip("-")
+    pid = "SN-p-" + sl[:110].rstrip("-")
+    if pid in ctl_org: continue
+    h = ""
+    if p.get("slug"):
+        try: h = open(f"{SEN}/controle/p_{p['slug']}.html", encoding="utf-8", errors="replace").read()
+        except OSError: pass
+    main = re.sub(r"<script.*?</script>|<style.*?</style>|<svg.*?</svg>", "", h, flags=re.S)
+    plain = clean(main) if main else ""
+    k = plain.find("NATURE ")
+    info = plain[k:k + 1200] if k >= 0 else ""
+    tab = p.get("tab")
+    if re.search(r"prérogatives (?:dévolues|attribuées|des|d.une|de)\s*(?:aux|à une|des)?\s*commissions? d.enquête", plain, re.I):
+        ty, tl = "MISINFO", "Mission d'information (prérogatives d'enquête)"
+    elif tab == "FINC": ty, tl = "MISINFO", "Contrôle budgétaire"
+    elif title.lower().startswith("groupe de suivi"): ty, tl = "MISINFO", "Groupe de suivi"
+    elif tab == "OPES": ty, tl = "MISINFO", "Étude de l'Office parlementaire"
+    elif tab in ("DDRO", "ENTR", "OUTR", "AFEU") and not title.lower().startswith(("mission", "mi ")): ty, tl = "MISINFO", "Rapport d'information"
+    else: ty, tl = "MISINFO", "Mission d'information"
+    rap = [{"n": a["n"]} for a in p.get("act", []) if a["r"].lower().startswith("rapporteu")]
+    pres = [{"n": a["n"]} for a in p.get("act", []) if a["r"].lower().startswith("président")]
+    nm = sum(1 for a in p.get("act", []) if a["r"].lower().startswith("membre"))
+    if not nm and info:
+        m = re.search(r"Membres de la mission d'information (.*?)(?: À | Le | La | Les | Lors | En | Depuis | Face | Dans | Afin |$)", info)
+        if m: nm = len(re.findall(r"[A-ZÉ][\w'’-]+(?: (?:de |du |d'|La |Le )?[A-ZÉ][\w'’-]+)+", m.group(1)))
+    mo = {"id": pid, "ch": "SN", "ty": ty, "tl": tl, "t": cap(title[:400]), "par": p.get("struct"), "deb": None, "fin": None,
+          "pres": pres, "rap": rap, "nm": nm, "ev": [], "rp": [], "url": p.get("url")}
+    rdate = _frd(p.get("ech"))
+    for r in p.get("rp", []):
+        tm = re.search(r"r\d\d-(\d+)(?:-(\d+))?-notice", r["url"])
+        lab = (f"Rapport n° {int(tm.group(1))}" + (f", tome {tm.group(2)}" if tm.group(2) else "")) if tm else "Rapport"
+        if r.get("t"): lab += " · " + clean(r["t"])[:160]
+        mo["rp"].append({"d": rdate, "t": lab, "url": r["url"]})
+    if mo["rp"] and rdate: mo["fin"] = rdate
+    elif not mo["rp"]:
+        e = clean(p.get("ech") or "")
+        if e: mo["echl"] = e
+    for b, body in re.findall(r'<button[^>]*class="accordion-button[^"]*"[^>]*>(.*?)</button>(.*?)(?=<button[^>]*class="accordion-button|$)', h, re.S):
+        bt = clean(b)
+        d = _frd(bt)
+        if not d: continue
+        lab = re.sub(r"^\s*\w+\s+\d{1,2}(?:er)?\s+\w+\s+20\d\d\s*[-–:]\s*", "", bt).strip() or bt
+        kk = "audition" if re.search(r"audition|table ronde|entend", lab, re.I) else "reunion"
+        ev = {"d": d, "k": kk, "t": cap(lab[:300])}
+        cm = re.search(r'href="((?:https://www\.senat\.fr)?/compte-rendu-commissions/[^"]+)"', body)
+        if cm: ev["cr"] = cm.group(1) if cm.group(1).startswith("http") else "https://www.senat.fr" + cm.group(1)
+        if re.search(r"videos\.senat\.fr|vid[ée]o", body, re.I): ev["v"] = 1
+        mo["ev"].append(ev)
+    ctl_org[pid] = mo
 controle = []
 for mo in ctl_org.values():
     mo["ev"].sort(key=lambda e: e["d"])

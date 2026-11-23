@@ -732,7 +732,7 @@ const mWho=m=>[(m.pres||[]).length?`Présidence : ${m.pres.map(p=>p.n).join(", "
 function mRow(m){
   const nv=S.nv.items.some(o=>o.mi===m.id&&o.ts>(S.nv.seen||""));
   return `<div class="row"><div>${starM(m.id)}</div><a href="#mission-${esc(m.id)}"><div class="tt">${esc(m.t)}</div>
-  <div class="meta">${nv?`<span class="newdot">nouveau</span>`:""}<span class="pill out">${esc(CTLT[m.ty]||m.tl)}</span>${chPill(m.ch)}${mStPill(m)}${m.par?`<span>${esc(m.par)}</span>`:""}${thTags(m.th)}</div>
+  <div class="meta">${nv?`<span class="newdot">nouveau</span>`:""}<span class="pill out">${esc(m.ch==="SN"&&m.tl?m.tl:(CTLT[m.ty]||m.tl))}</span>${chPill(m.ch)}${mStPill(m)}${m.par?`<span>${esc(m.par)}</span>`:""}${thTags(m.th)}</div>
   ${mWho(m)?`<div class="sub" style="margin-top:4px">${esc(mWho(m))}</div>`:""}</a>
   <div style="text-align:right">${m.nx?`${countdown(m.nx)}<div class="sub" style="margin-top:4px">${m.ch==="SN"?"Réunion":"Prochaine réunion"}</div>`:`<span class="sub">${m.la?ds(m.la):""}</span>`}<div class="sub" style="margin-top:2px">${m.na?`${m.na} audition${m.na>1?"s":""}`:""}${m.ncr?`${m.na?" · ":""}${m.ncr} CR`:""}</div></div></div>`;
 }
@@ -748,13 +748,13 @@ async function vControle(){
   if(st.q){const W=nrm(st.q).split(/\s+/).filter(Boolean);L=L.filter(m=>{const x=nrm(m.t+" "+(m.court||"")+" "+(m.par||"")+" "+mWho(m));return W.every(w=>x.includes(w))})}
   if(st.st==="fini")L=L.slice().sort((a,b)=>(b.la||"").localeCompare(a.la||""));
   const up=C.items.filter(m=>mT(m.th)&&mCh(m.ch)&&m.nx&&m.nx.slice(0,10)<=iso(new Date(TODAY().getTime()+7*864e5))).length;
-  return `<div class="ph"><div><div class="eyebrow">Contrôle et évaluation</div><h1>Missions et enquêtes</h1><p>Missions d'information, commissions d'enquête, délégations et office parlementaire de l'Assemblée, commissions d'enquête et missions communes du Sénat : composition, auditions, comptes rendus et rapports. Suivez-en une avec ★ pour être prévenu des nouvelles auditions, des comptes rendus et du rapport.</p></div></div>
+  return `<div class="ph"><div><div class="eyebrow">Contrôle et évaluation</div><h1>Missions et enquêtes</h1><p>Missions d'information, commissions d'enquête, délégations et office parlementaire de l'Assemblée, commissions d'enquête, missions d'information, contrôle budgétaire, délégations et office du Sénat : composition, auditions, comptes rendus et rapports. Suivez-en une avec ★ pour être prévenu des nouvelles auditions, des comptes rendus et du rapport.</p></div></div>
   <div class="agbar"><div class="seg" role="group" aria-label="Statut">${[["cours","En cours"],["fini","Terminées"],["perm","Délégations et office"],["tout","Toutes"]].map(([k,l])=>`<button data-cst="${k}" aria-pressed="${st.st===k}">${l} <span class="sub">${cnt(k)}</span></button>`).join("")}</div>
     <button class="chip" data-cfol aria-pressed="${st.fol}">★ Suivies <span class="n">${S.folm.size}</span></button><span class="sub">${up} avec une réunion dans les 7 jours</span></div>
   <section class="card"><div class="filters"><input type="search" id="cq" placeholder="Intitulé, commission, président, rapporteur…" value="${esc(st.q)}"><select id="cty"><option value="">Tous les types</option>${types.map(t=>`<option value="${t}" ${st.ty===t?"selected":""}>${esc(CTLT[t]||t)}</option>`).join("")}</select><span class="sub" style="margin-left:auto">${L.length} résultat${L.length>1?"s":""}</span></div>
   <div class="bd"><div class="rows">${L.slice(0,st.lim).map(mRow).join("")||`<div class="empty">${st.fol?"Vous ne suivez encore aucune mission. Utilisez ★ pour en suivre une.":"Aucune mission pour ces filtres."}</div>`}</div>
   ${L.length>st.lim?`<button class="btn morebtn" data-act="cmore">Afficher plus</button>`:""}</div></section>
-  <p class="note">Assemblée : open data (organes, agenda des réunions, comptes rendus, rapports). Sénat : pages publiques des commissions d'enquête et des missions communes (composition, comptes rendus hebdomadaires, rapports) ; l'agenda détaillé des auditions du Sénat n'est pas publié en open data.</p>`;
+  <p class="note">Assemblée : open data (organes, agenda des réunions, comptes rendus, rapports). Sénat : programme de contrôle et pages publiques des travaux (composition, auditions, comptes rendus, rapports) ; l'agenda détaillé des auditions du Sénat n'est pas publié en open data.</p>`;
 }
 function mEvLine(e){
   const k=e.k==="cr"?{l:"Compte rendu",c:"var(--re)"}:kv(e.k);const fut=e.d.slice(0,10)>=S.core.aujourdhui;
@@ -771,22 +771,22 @@ async function vMission(id){
   const ppl=(L,lab)=>L&&L.length?`<span>${lab}${L.length>1&&!lab.endsWith("s")?"s":""} : ${L.map(p=>p.id?`<a href="#elu-${esc(p.id)}" style="text-decoration:underline">${esc(p.n)}</a>`:esc(p.n)).join(", ")}</span>`:"";
   const nvM=S.nv.items.filter(o=>o.mi===id);
   return `<a class="sub" href="#controle">← Missions et enquêtes</a>
-  <section class="card hero"><div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap"><div class="meta"><span class="pill out">${esc(CTLT[m.ty]||m.tl)}</span>${chPill(m.ch)}${mStPill(m)}${thTags(m.th,3)}</div>
+  <section class="card hero"><div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap"><div class="meta"><span class="pill out">${esc(m.ch==="SN"&&m.tl?m.tl:(CTLT[m.ty]||m.tl))}</span>${chPill(m.ch)}${mStPill(m)}${thTags(m.th,3)}</div>
     <div class="acts">${m.url?`<a class="btn" href="${esc(m.url)}" target="_blank" rel="noopener">${m.ch==="SN"?"Sénat":"Dossier AN"} ↗</a>`:""}<button class="btn" data-act="submi" data-id="${esc(id)}" title="Recevoir les nouveautés et l'agenda de ces travaux"><svg viewBox="0 0 24 24"><path d="M5 19h.01M5 12a7 7 0 0 1 7 7M5 5a14 14 0 0 1 14 14"/></svg>S'abonner</button>${alertBtn("mission",id)}${starM(id,1)}</div></div>
   <h1>${esc(m.t)}</h1>
-  <div class="meta sepd">${m.par?`<span>${esc(m.par)}</span>`:""}${ppl(m.pres,"Présidence")}${ppl(m.rap,"Rapporteur")}${m.nm?`<span>${m.nm} membre${m.nm>1?"s":""}</span>`:""}${m.deb?`<span>${m.st==="Permanente"?"Depuis":"Créée le"} ${ds(m.deb)}</span>`:""}${m.ech?`<span>Fin des travaux au plus tard le ${ds(m.ech)}</span>`:""}${m.fin&&m.st!=="Permanente"?`<span>Terminée le ${ds(m.fin)}</span>`:""}</div></section>
+  <div class="meta sepd">${m.par?`<span>${esc(m.par)}</span>`:""}${ppl(m.pres,"Présidence")}${ppl(m.rap,"Rapporteur")}${m.nm?`<span>${m.nm} membre${m.nm>1?"s":""}</span>`:""}${m.deb?`<span>${m.st==="Permanente"?"Depuis":"Créée le"} ${ds(m.deb)}</span>`:""}${m.ech?`<span>Fin des travaux au plus tard le ${ds(m.ech)}</span>`:""}${m.echl?`<span>Échéance : ${esc(m.echl)}</span>`:""}${m.fin&&m.st!=="Permanente"?`<span>Terminée le ${ds(m.fin)}</span>`:""}</div></section>
   <div class="stats">
     <div class="card stat"><span>Prochaine réunion</span><b style="font-size:22px">${m.nx?dshort(m.nx):"—"}</b><span>${m.nx?(hr(m.nx)||"")+" · "+countdown(m.nx):m.ch==="SN"?"agenda non publié en open data":"aucune annoncée"}</span></div>
-    ${m.ch==="SN"?`<div class="card stat"><span>Auditions</span><b>—</b><span>détail dans les comptes rendus</span></div>`:`<div class="card stat"><span>Auditions</span><b>${m.na||0}</b><span>${ev.filter(e=>!e.x&&e.k!=="cr").length} réunions au total</span></div>`}
+    ${m.ch==="SN"&&!m.na?`<div class="card stat"><span>Auditions</span><b>—</b><span>détail dans les comptes rendus</span></div>`:`<div class="card stat"><span>Auditions</span><b>${m.na||0}</b><span>${ev.filter(e=>!e.x&&e.k!=="cr").length} réunions au total</span></div>`}
     <div class="card stat"><span>Comptes rendus</span><b>${m.ncr||0}</b><span>publiés</span></div>
     <div class="card stat"><span>Rapport</span><b style="font-size:22px">${(m.rp||[]).length?"Publié":"—"}</b><span>${(m.rp||[]).length?ds(m.rp[m.rp.length-1].d):"pas encore déposé"}</span></div>
   </div>
   ${(m.rp||[]).length?`<section class="card" style="margin-bottom:18px"><div class="hd"><h2>Rapport${m.rp.length>1?"s":""}</h2></div><div class="bd"><div class="rows">${m.rp.map(r=>`<a class="row" href="${esc(r.url)}" target="_blank" rel="noopener"><div class="when"><small>${r.d?MOISC[pd(r.d).getMonth()]:""}</small><b>${r.d?pd(r.d).getDate():"—"}</b><small>${r.d?pd(r.d).getFullYear():""}</small></div><div><div class="tt">${esc(r.t)}</div><div class="meta">${chPill(m.ch)}<span>Document officiel ↗</span></div></div><div></div></a>`).join("")}</div></div></section>`:""}
   ${fut.length?`<section class="card" style="margin-bottom:18px"><div class="hd"><h2>Prochaines réunions</h2></div><div class="bd" style="padding:18px 22px"><div class="tl">${fut.map(mEvLine).join("")}</div></div></section>`:""}
-  <section class="card"><div class="hd"><h2>${m.ch==="SN"?"Comptes rendus":"Réunions passées"}</h2>${m.ch==="SN"?"":`<div class="chips">${[["","Toutes"],["aud","Auditions"],["cr","Avec compte rendu"]].map(([k,l])=>`<button class="chip" data-mf="${k}" aria-pressed="${st.f===k}">${l}</button>`).join("")}</div>`}</div>
+  <section class="card"><div class="hd"><h2>${m.ch==="SN"?(ev.some(e=>e.k!=="cr")?"Travaux de la mission":"Comptes rendus"):"Réunions passées"}</h2>${m.ch==="SN"?"":`<div class="chips">${[["","Toutes"],["aud","Auditions"],["cr","Avec compte rendu"]].map(([k,l])=>`<button class="chip" data-mf="${k}" aria-pressed="${st.f===k}">${l}</button>`).join("")}</div>`}</div>
   <div class="bd" style="padding:18px 22px"><div class="tl">${past.map(mEvLine).join("")||`<div class="empty">Aucune réunion pour ce filtre.</div>`}</div></div></section>
   ${nvM.length?`<section class="card" style="margin-top:18px"><div class="hd"><h2>Nouveautés récentes</h2></div><div class="bd">${nvM.slice(0,20).map(o=>nvRow(o,S.nv.seen)).join("")}</div></section>`:""}
-  <p class="note">${m.ch==="SN"?"Données lues sur la page publique du Sénat ; les comptes rendus sont regroupés par semaine.":"Réunions issues de l'agenda open data de l'Assemblée. Le compte rendu apparaît dès sa publication par l'Assemblée."}</p>`;
+  <p class="note">${m.ch==="SN"?(id.startsWith("SN-p-")?"Données lues sur le programme de contrôle et la page publique du Sénat ; l'agenda des prochaines auditions n'y est pas publié.":"Données lues sur la page publique du Sénat ; les comptes rendus sont regroupés par semaine."):"Réunions issues de l'agenda open data de l'Assemblée. Le compte rendu apparaît dès sa publication par l'Assemblée."}</p>`;
 }
 function openSubMi(id){
   const m=S.ctl&&S.ctl.by[id];if(!m)return;const hasEv=(m.ev||[]).some(e=>e.k!=="cr"&&!e.x);

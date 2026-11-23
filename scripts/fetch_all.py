@@ -92,3 +92,42 @@ for kind, u in pages:
     ctl_index.append({"kind": kind, "url": u, "slug": slug})
 json.dump(ctl_index, open(f"{CTL}/index.json", "w"), ensure_ascii=False)
 print("Sénat contrôle :", len(ctl_index), "structures", flush=True)
+
+# Programme de contrôle du Sénat (missions d'information des commissions, délégations, office) et pages de chaque mission
+import html as _H
+from urllib.parse import urljoin as _UJ
+prog = []
+for sess in (2025, 2026):
+    dest = f"{CTL}/programme_{sess}.html"
+    if not get(f"https://www.senat.fr/controle/{sess}/organismes.html", dest, force=True): continue
+    h = open(dest, encoding="utf-8", errors="replace").read()
+    parts = re.split(r'id="tab-([A-Z]+)"', h)
+    for k in range(1, len(parts), 2):
+        tab, body = parts[k], parts[k + 1]
+        if tab == "INIT": continue  # commissions d'enquête et missions communes : déjà suivies
+        hm = re.search(r"<caption[^>]*>(.*?)</caption>", body[:900], re.S)
+        struct = re.sub(r"\s+", " ", _H.unescape(re.sub(r"<[^>]+>", "", hm.group(1)))).strip() if hm else tab
+        for c1, c2, c3 in re.findall(r"<tr><td>(.*?)</td><td>(.*?)</td><td>(.*?)</td></tr>", body, re.S):
+            a = re.search(r'<a[^>]+href="([^"]+)"', c1)
+            url = a.group(1) if a else None
+            if url: url = _UJ(f"https://www.senat.fr/controle/{sess}/organismes.html", _H.unescape(url))
+            title = re.sub(r"\s+", " ", _H.unescape(re.sub(r"<[^>]+>", "", c1))).strip()
+            rap = [{"url": u if u.startswith("http") else "https://www.senat.fr" + u, "t": re.sub(r"\s+", " ", _H.unescape(re.sub(r"<[^>]+>", "", t))).strip()}
+                   for u, t in re.findall(r'<a[^>]+href="([^"]*notice-rapport[^"]*)"[^>]*>(.*?)</a>', c2, re.S)]
+            ech = re.sub(r"\s+", " ", _H.unescape(re.sub(r"<[^>]+>", " ", c2))).strip()
+            act = [{"n": n.strip(), "r": r.strip()} for n, r in re.findall(r'alt="([^"(]+)\(([^)]+)\)"', c3)]
+            if not title: continue
+            prog.append({"sess": sess, "tab": tab, "struct": struct, "t": title, "url": url, "rp": rap, "ech": ech, "act": act})
+seen_u = set(); n_p = 0
+for p in prog:
+    u = p["url"]
+    if not u or u in seen_u or "/structures-temporaires/" in u or "notice-rapport" in u: continue
+    seen_u.add(u)
+    slug = re.sub(r"[^a-z0-9]+", "-", u.split("senat.fr/", 1)[-1].replace(".html", "").lower())[-90:]
+    p["slug"] = slug
+    if get(u, f"{CTL}/p_{slug}.html", tries=1, force=not p["rp"]): n_p += 1
+for p in prog:
+    if p.get("url") and not p.get("slug") and p["url"] in seen_u:
+        p["slug"] = re.sub(r"[^a-z0-9]+", "-", p["url"].split("senat.fr/", 1)[-1].replace(".html", "").lower())[-90:]
+json.dump(prog, open(f"{CTL}/programme.json", "w"), ensure_ascii=False)
+print("Sénat programme de contrôle :", len(prog), "travaux,", n_p, "pages", flush=True)

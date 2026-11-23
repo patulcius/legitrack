@@ -239,6 +239,10 @@ def diff(prev, cur, core, dossiers, det, site, now_iso):
                 if h(e.get("d"), e.get("t")) not in pe and (e.get("d") or "")[:10] >= today:
                     lab = "Audition" if e.get("k") == "audition" else "Réunion"
                     out.append({**mb, "k": "agenda", "s": f"{lab}, {fr_date(e.get('d', ''))} : {e.get('t', '')}"[:400], "e": e.get("d")})
+                elif mid.startswith("SN-p-") and h(e.get("d"), e.get("t")) not in pe and not e.get("cr"):
+                    # Sénat (programme de contrôle) : les auditions n'apparaissent qu'après coup, avec leur résumé
+                    lab = "Audition" if e.get("k") == "audition" else "Réunion"
+                    out.append({**mb, "k": "cr", "s": f"{lab} du {fr_date(e.get('d', '')[:10])} : {e.get('t', '')}"[:400], "u": m.get("url"), "d": e.get("d")})
             for e in m.get("ev", []):
                 if e.get("cr") and e["cr"] not in pc:
                     what = e.get("t", "") if e.get("k") == "cr" else f"{'Audition' if e.get('k') == 'audition' else 'Réunion'} du {fr_date(e.get('d', '')[:10])} : {e.get('t', '')}"
