@@ -922,13 +922,15 @@ for p in prog:
     elif tab == "OPES": ty, tl = "MISINFO", "Étude de l'Office parlementaire"
     elif tab in ("DDRO", "ENTR", "OUTR", "AFEU") and not title.lower().startswith(("mission", "mi ")): ty, tl = "MISINFO", "Rapport d'information"
     else: ty, tl = "MISINFO", "Mission d'information"
+    m = re.search(r"Début des travaux le (\d{1,2}(?:er)? \w+ 20\d\d)", plain)
+    deb_ = _frd(m.group(1)) if m else None
     rap = [{"n": a["n"]} for a in p.get("act", []) if a["r"].lower().startswith("rapporteu")]
     pres = [{"n": a["n"]} for a in p.get("act", []) if a["r"].lower().startswith("président")]
     nm = sum(1 for a in p.get("act", []) if a["r"].lower().startswith("membre"))
     if not nm and info:
         m = re.search(r"Membres de la mission d'information (.*?)(?: À | Le | La | Les | Lors | En | Depuis | Face | Dans | Afin |$)", info)
         if m: nm = len(re.findall(r"[A-ZÉ][\w'’-]+(?: (?:de |du |d'|La |Le )?[A-ZÉ][\w'’-]+)+", m.group(1)))
-    mo = {"id": pid, "ch": "SN", "ty": ty, "tl": tl, "t": cap(title[:400]), "par": p.get("struct"), "deb": None, "fin": None,
+    mo = {"id": pid, "ch": "SN", "ty": ty, "tl": tl, "t": cap(title[:400]), "par": p.get("struct"), "deb": deb_, "fin": None,
           "pres": pres, "rap": rap, "nm": nm, "ev": [], "rp": [], "url": p.get("url")}
     rdate = _frd(p.get("ech"))
     for r in p.get("rp", []):
