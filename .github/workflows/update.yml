@@ -47,6 +47,10 @@ jobs:
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
           LETTRE_FROM: ${{ secrets.LETTRE_FROM }}
           LETTRE_DEST: ${{ secrets.LETTRE_DEST }}
+          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+          ALERTES_FROM: ${{ secrets.ALERTES_FROM }}
         run: bash scripts/update.sh "$MODE"
       - name: Sauvegarder les données
         uses: actions/cache/save@v6

@@ -61,6 +61,10 @@ cp -r "$ROOT/site/." "$OUT/"
 if [ -f "$ROOT/scripts/post_build.py" ]; then
   python3 -I "$ROOT/scripts/post_build.py" "$OUT" "$DATA/etat" || echo "Journal des nouveautés indisponible" >&2
 fi
+# Alertes e-mail personnalisées (comptes) : à chaque collecte ; ne fait rien sans les secrets
+if [ -f "$ROOT/scripts/alertes.py" ]; then
+  python3 -I "$ROOT/scripts/alertes.py" "$OUT" || echo "Alertes e-mail non envoyées" >&2
+fi
 # Lettre e-mail : une fois par jour, avec la collecte complète du matin
 if [ "$MODE" = "full" ] && [ "$(TZ=Europe/Paris date +%H)" -lt 12 ] && [ -f "$ROOT/scripts/lettre.py" ]; then
   python3 -I "$ROOT/scripts/lettre.py" "$OUT" "$DATA/etat" || true
