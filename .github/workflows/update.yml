@@ -15,6 +15,7 @@ on:
 
 permissions:
   contents: read
+  actions: write
   pages: write
   id-token: write
 
@@ -46,6 +47,11 @@ jobs:
         with:
           path: data
           key: data-${{ github.run_id }}
+      - name: Garder la planification active (GitHub la coupe après 60 jours sans commit)
+        if: github.event.schedule == '30 7 * * *'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X PUT "repos/${{ github.repository }}/actions/workflows/update.yml/enable" || true
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
