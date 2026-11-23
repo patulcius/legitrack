@@ -1,0 +1,868 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Veille parlementaire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f5f1;--panel:#ffffff;--panel2:#fbfaf7;--ink:#17171a;--ink2:#4a4a52;--mute:#7c7c86;--line:#e7e4dc;--line2:#d9d5ca;
+  --acc:#3d4ee0;--acc-soft:#eceefe;--an:#1f6feb;--an-soft:#e7f0fe;--sn:#b2275a;--sn-soft:#fbe9f0;--cc:#8a5a00;--cc-soft:#fbf1dd;
+  --ok:#147a4b;--ok-soft:#e3f4ea;--ko:#b4232c;--ko-soft:#fde9ea;--warn:#b45309;--warn-soft:#fdf0e1;--off:#6b6b74;--off-soft:#efeee9;
+  --dl:#d9480f;--dl-soft:#fff0e6;--se:#3d4ee0;--se-soft:#eceefe;--co:#0b7a75;--co-soft:#e1f4f2;--au:#7b3fc4;--au-soft:#f1e9fb;--re:#5b6470;--re-soft:#eef0f2;
+  --shadow:0 1px 2px rgba(20,20,30,.05),0 4px 14px rgba(20,20,30,.05);--r:14px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#111114;--panel:#18181c;--panel2:#1d1d22;--ink:#efeff2;--ink2:#c3c3cc;--mute:#8d8d98;--line:#2a2a31;--line2:#383841;
+  --acc:#8b96ff;--acc-soft:#23264a;--an:#6aa6ff;--an-soft:#16253d;--sn:#ff7aa8;--sn-soft:#3a1a27;--cc:#f0b54a;--cc-soft:#33270f;
+  --ok:#4fd18b;--ok-soft:#14301f;--ko:#ff7b82;--ko-soft:#3a1719;--warn:#ffb35c;--warn-soft:#3a2711;--off:#a0a0aa;--off-soft:#26262c;
+  --dl:#ff8f4f;--dl-soft:#3a2010;--se:#8b96ff;--se-soft:#23264a;--co:#45cfc6;--co-soft:#0f2e2c;--au:#c39bff;--au-soft:#2b1f40;--re:#a9b2bd;--re-soft:#23262b;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25)}}
+:root[data-theme="dark"]{
+  --bg:#111114;--panel:#18181c;--panel2:#1d1d22;--ink:#efeff2;--ink2:#c3c3cc;--mute:#8d8d98;--line:#2a2a31;--line2:#383841;
+  --acc:#8b96ff;--acc-soft:#23264a;--an:#6aa6ff;--an-soft:#16253d;--sn:#ff7aa8;--sn-soft:#3a1a27;--cc:#f0b54a;--cc-soft:#33270f;
+  --ok:#4fd18b;--ok-soft:#14301f;--ko:#ff7b82;--ko-soft:#3a1719;--warn:#ffb35c;--warn-soft:#3a2711;--off:#a0a0aa;--off-soft:#26262c;
+  --dl:#ff8f4f;--dl-soft:#3a2010;--se:#8b96ff;--se-soft:#23264a;--co:#45cfc6;--co-soft:#0f2e2c;--au:#c39bff;--au-soft:#2b1f40;--re:#a9b2bd;--re-soft:#23262b;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25)}
+*{box-sizing:border-box}[hidden]{display:none!important}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,system-ui,sans-serif;font-feature-settings:"tnum" 1,"cv11" 1;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}button{font:inherit;color:inherit;cursor:pointer}
+input,select{font:inherit;color:var(--ink)}
+.app{display:grid;grid-template-columns:232px 1fr;min-height:100vh}
+/* rail */
+.rail{position:sticky;top:0;height:100vh;padding:20px 14px;display:flex;flex-direction:column;gap:4px;border-right:1px solid var(--line);background:var(--panel2)}
+.brand{display:flex;align-items:center;gap:10px;padding:2px 8px 18px}
+.logo{width:32px;height:32px;border-radius:10px;background:conic-gradient(from 200deg,var(--an),var(--acc),var(--sn),var(--cc),var(--an));display:grid;place-items:center}
+.logo i{width:12px;height:12px;border-radius:50%;background:var(--panel2)}
+.brand b{font:600 17px/1.1 Fraunces,Georgia,serif;letter-spacing:-.01em}.brand small{display:block;color:var(--mute);font-size:11.5px}
+.nav a{display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:10px;color:var(--ink2);font-weight:500;font-size:14.5px}
+.nav a:hover{background:var(--line)}.nav a[aria-current="page"]{background:var(--panel);color:var(--ink);box-shadow:var(--shadow)}
+.nav svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.nav .cnt{margin-left:auto;font-size:12px;color:var(--mute);font-weight:500}
+.rail .sep{height:1px;background:var(--line);margin:10px 6px}
+.rail .foot{margin-top:auto;font-size:12px;color:var(--mute);padding:8px}
+.rail .foot a{text-decoration:underline}
+/* main */
+.main{min-width:0}
+.top{position:sticky;top:0;z-index:20;display:flex;gap:10px;align-items:center;padding:12px 28px;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.search{flex:1;max-width:520px;display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--line2);border-radius:12px;background:var(--panel);color:var(--mute);font-size:14px;text-align:left}
+.search kbd{margin-left:auto;font:500 11px Inter;border:1px solid var(--line2);border-radius:6px;padding:1px 6px}
+.seg{display:inline-flex;background:var(--line);border-radius:11px;padding:3px;gap:2px}
+.seg button{border:0;background:transparent;padding:5px 11px;border-radius:8px;font-size:13.5px;font-weight:500;color:var(--ink2);white-space:nowrap}
+.seg button[aria-pressed="true"]{background:var(--panel);color:var(--ink);box-shadow:var(--shadow)}
+.btn{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line2);background:var(--panel);padding:7px 12px;border-radius:10px;font-size:13.5px;font-weight:500;white-space:nowrap}
+.btn:hover{border-color:var(--mute)}.btn.pri{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+.btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.btn .dot{width:8px;height:8px;border-radius:50%;background:var(--acc)}
+.iconbtn{border:1px solid var(--line2);background:var(--panel);width:34px;height:34px;border-radius:10px;display:grid;place-items:center}
+.iconbtn svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8}
+.page{padding:26px 28px 80px;max-width:1360px}
+h1{font:600 30px/1.15 Fraunces,Georgia,serif;letter-spacing:-.015em;margin:0}
+h2{font-size:15px;font-weight:600;margin:0}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+.ph{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+.ph p{margin:6px 0 0;color:var(--ink2);max-width:72ch}
+.sub{color:var(--mute);font-size:13px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.card>.hd{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 18px;border-bottom:1px solid var(--line)}
+.card>.hd a{font-size:13px;color:var(--acc);font-weight:500}
+.card>.bd{padding:8px 18px 14px}
+.grid{display:grid;gap:18px}.g2{grid-template-columns:1.4fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line2);background:var(--panel);border-radius:999px;padding:4px 11px;font-size:13px;font-weight:500;color:var(--ink2)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+.chip .n{font-size:11.5px;opacity:.7}
+.pill{display:inline-flex;align-items:center;gap:5px;border-radius:7px;padding:1px 8px;font-size:12px;font-weight:600;white-space:nowrap;background:var(--off-soft);color:var(--off)}
+.pill.an{background:var(--an-soft);color:var(--an)}.pill.sn{background:var(--sn-soft);color:var(--sn)}.pill.cc{background:var(--cc-soft);color:var(--cc)}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}.pill.ko{background:var(--ko-soft);color:var(--ko)}.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.cmp,.pill.acc{background:var(--acc-soft);color:var(--acc)}.pill.tomb{background:var(--off-soft);color:var(--off);text-decoration:line-through;text-decoration-thickness:1px}
+.pill.out{background:transparent;border:1px solid var(--line2);color:var(--ink2)}
+.th{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--ink2)}
+.th::before{content:"";width:7px;height:7px;border-radius:2px;background:var(--c,#999)}
+.empty{padding:28px;text-align:center;color:var(--mute)}
+.muted{color:var(--mute)}.small{font-size:13px}
+/* KPI */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.kpi{padding:16px 18px}.kpi b{display:block;font:600 30px/1 Fraunces,Georgia,serif;margin:6px 0 4px}.kpi span{font-size:13px;color:var(--mute)}
+.kpi.hot{background:linear-gradient(135deg,var(--dl-soft),var(--panel) 70%)}
+/* listes */
+.rows{display:flex;flex-direction:column}
+.row{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:start;padding:12px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.row .tt{font-weight:600;line-height:1.35}.row .meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:5px;font-size:12.5px;color:var(--mute)}
+a.row:hover .tt{color:var(--acc)}
+.when{min-width:66px;text-align:center;border-radius:10px;padding:6px 4px;background:var(--panel2);border:1px solid var(--line)}
+.when b{display:block;font-size:17px;line-height:1.1}.when small{font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:.04em}
+.count{font-weight:600;font-size:12.5px;border-radius:8px;padding:3px 8px;white-space:nowrap}
+.count.urg{background:var(--dl);color:#fff}.count.soon{background:var(--dl-soft);color:var(--dl)}.count.far{background:var(--off-soft);color:var(--off)}
+.k{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--kc);white-space:nowrap}
+.k::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--kc)}
+/* agenda */
+.agbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.agbar .title{font:600 20px Fraunces,Georgia,serif;min-width:230px}
+.week{display:grid;gap:10px}
+.day{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);min-height:200px;display:flex;flex-direction:column;min-width:0}
+.day.today{border-color:var(--acc);box-shadow:0 0 0 3px var(--acc-soft)}
+.day.past{opacity:.72}
+.dh{padding:10px 12px 8px;border-bottom:1px solid var(--line);display:flex;align-items:baseline;gap:8px;position:sticky;top:60px;background:var(--panel);border-radius:var(--r) var(--r) 0 0;z-index:1}
+.dh b{font:600 22px/1 Fraunces,Georgia,serif}.dh span{font-size:12.5px;color:var(--mute);text-transform:capitalize;font-weight:500}
+.dh .nb{margin-left:auto;font-size:11.5px}
+.dcards{padding:8px;display:flex;flex-direction:column;gap:7px}
+.ev{display:block;border-radius:10px;padding:8px 10px 9px;background:var(--ks);border-left:3px solid var(--kc);font-size:13px;line-height:1.35}
+.ev:hover{filter:brightness(.97)}
+.ev .h{display:flex;justify-content:space-between;gap:6px;align-items:center;font-size:11.5px;font-weight:600;color:var(--kc);margin-bottom:3px}
+.ev .t{color:var(--ink);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;font-weight:500}
+.ev .o{color:var(--mute);font-size:11.5px;margin-top:4px;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+.ev.big{padding:12px 14px}.ev.big .t{-webkit-line-clamp:unset;font-size:14px}
+.strip{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;margin-bottom:22px}
+.dtile{display:flex;flex-direction:column;gap:3px;align-items:flex-start;text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px 12px 12px;min-height:118px}
+.dtile .dn{display:flex;align-items:baseline;gap:7px;font-size:12.5px;color:var(--mute);text-transform:capitalize;font-weight:500;margin-bottom:4px}
+.dtile .dn b{font:600 24px/1 Fraunces,Georgia,serif;color:var(--ink)}
+.dtile .ln{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink2);font-weight:500}.dtile .ln i{width:7px;height:7px;border-radius:50%;background:var(--kc)}
+.dtile:hover{border-color:var(--line2)}.dtile.sel{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.dtile.today .dn::after{content:"aujourd'hui";font-size:10.5px;font-weight:600;color:var(--acc);text-transform:none}
+.dtile.past{opacity:.6}
+.dayhead{display:flex;align-items:baseline;gap:12px;margin:0 0 12px}.dayhead h2{font:600 22px Fraunces,Georgia,serif}
+.ksec{margin-bottom:20px}.ksec h3{display:flex;gap:10px;align-items:center;font-size:14px;margin:0 0 8px}
+.ksec .dlc{display:flex;flex-direction:column;gap:8px}
+.ev.big{display:grid;grid-template-columns:62px 1fr;gap:12px}.ev.big .hr{font-weight:600;color:var(--kc);font-size:13px}
+.month{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.mh{font-size:12px;font-weight:600;color:var(--mute);text-transform:uppercase;padding:0 6px}
+.mc{min-width:0;overflow:hidden;background:var(--panel);border:1px solid var(--line);border-radius:12px;min-height:104px;padding:7px 8px;text-align:left;display:flex;flex-direction:column;gap:3px}
+.mc.out{opacity:.4}.mc.today{border-color:var(--acc);box-shadow:0 0 0 3px var(--acc-soft)}
+.mc .dn{font-weight:600;font-size:13px}
+.mc .ln{font-size:11.5px;display:flex;gap:5px;align-items:center;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mc .ln .tx{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.mc .ln i{width:6px;height:6px;border-radius:50%;background:var(--kc);flex:none}
+.mc .more{font-size:11.5px;color:var(--mute)}
+.daylist{display:flex;flex-direction:column;gap:18px}
+.daylist .dl{display:grid;grid-template-columns:110px 1fr;gap:16px}
+.daylist .dlh{position:sticky;top:76px;align-self:start}
+.daylist .dlh b{font:600 26px/1 Fraunces,Georgia,serif;display:block}.daylist .dlh span{color:var(--mute);font-size:13px;text-transform:capitalize}
+.daylist .dlc{display:flex;flex-direction:column;gap:8px}
+.daylist .ev .hr{font-weight:600;color:var(--kc);font-size:13px}
+/* tables */
+.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--mute);font-weight:600;text-align:left;padding:10px 10px;border-bottom:1px solid var(--line);background:var(--panel);white-space:nowrap}
+.tbl th button{border:0;background:none;padding:0;font:inherit;color:inherit;text-transform:inherit;letter-spacing:inherit}
+.tbl td{padding:11px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl tr:hover td{background:var(--panel2)}
+.tbl .tt{font-weight:600;line-height:1.35}.tbl a.tt:hover{color:var(--acc)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line)}
+.filters select{max-width:240px}
+.filters input[type=search],.filters select{border:1px solid var(--line2);background:var(--panel);border-radius:9px;padding:6px 10px;font-size:13.5px}
+.filters input[type=search]{min-width:220px;flex:1;max-width:340px}
+.filters label{display:inline-flex;gap:6px;align-items:center;font-size:13.5px;color:var(--ink2)}
+.star{border:0;background:none;padding:2px;color:var(--line2);font-size:18px;line-height:1}
+.star[aria-pressed="true"]{color:#f5a623}
+.morebtn{display:block;margin:14px auto 4px}
+/* fiche texte */
+.hero{padding:22px 24px;margin-bottom:18px}
+.hero h1{font-size:26px;margin:8px 0 10px;max-width:60ch}
+.sepd span+span::before{content:"·";margin-right:10px;color:var(--mute)}
+.hero .meta{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:13.5px;color:var(--ink2)}
+.stepper{display:flex;gap:0;margin:22px 0 4px;overflow-x:auto;padding-bottom:4px}
+.step{flex:1;min-width:120px;position:relative;padding-top:20px;font-size:12.5px;color:var(--mute)}
+.step::before{content:"";position:absolute;top:6px;left:0;right:0;height:3px;background:var(--line)}
+.step::after{content:"";position:absolute;top:1px;left:0;width:13px;height:13px;border-radius:50%;background:var(--panel);border:3px solid var(--line2)}
+.step.done{color:var(--ink2)}.step.done::before{background:var(--ok)}.step.done::after{background:var(--ok);border-color:var(--ok)}
+.step.cur{color:var(--ink);font-weight:600}.step.cur::before{background:linear-gradient(90deg,var(--acc) 40%,var(--line) 40%)}.step.cur::after{border-color:var(--acc);box-shadow:0 0 0 4px var(--acc-soft)}
+.step small{display:block;font-weight:400;color:var(--mute)}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin:0 0 16px;overflow-x:auto}
+.tabs button{border:0;background:none;padding:10px 14px;font-weight:500;color:var(--mute);border-bottom:2px solid transparent;white-space:nowrap;font-size:14.5px}
+.tabs button[aria-selected="true"]{color:var(--ink);border-color:var(--ink)}
+.tabs .n{font-size:12px;color:var(--mute);margin-left:4px}
+.tl{position:relative;margin-left:8px}
+.tl .it{position:relative;padding:0 0 16px 22px;border-left:2px solid var(--line)}
+.tl .it::before{content:"";position:absolute;left:-6px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--cc_,var(--mute));border:2px solid var(--panel)}
+.tl .it.an{--cc_:var(--an)}.tl .it.sn{--cc_:var(--sn)}.tl .it.cmp{--cc_:var(--acc)}.tl .it.fut{--cc_:var(--dl)}
+.tl .d{font-size:12.5px;color:var(--mute);font-weight:500}.tl .l{font-weight:500}
+.bar{display:flex;height:10px;border-radius:6px;overflow:hidden;background:var(--line)}
+.bar i{display:block;height:100%}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--ink2);margin-top:8px}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend span::before{content:"";width:9px;height:9px;border-radius:3px;background:var(--c)}
+.nextbox{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin-bottom:18px}
+.vbar{display:flex;height:6px;border-radius:4px;overflow:hidden;background:var(--line);width:120px}
+.gdots{display:flex;gap:3px;flex-wrap:wrap}
+.gdots span{font-size:10.5px;font-weight:700;padding:1px 5px;border-radius:5px;color:#fff}
+.gdots span.c1{opacity:1}.gdots span.p1{opacity:1}
+/* élus */
+.elus{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;padding:16px}
+.elu{display:flex;gap:12px;align-items:center;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+.elu:hover{border-color:var(--line2);box-shadow:var(--shadow)}
+.av{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:14px;color:#fff;flex:none;background:var(--gc,#888)}
+.av.lg{width:64px;height:64px;font-size:21px}
+.elu b{display:block;font-size:14px;line-height:1.25}.elu small{color:var(--mute);font-size:12.5px}
+.gtag{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600}
+.gtag::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--gc,#888)}
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin:18px 0}
+.stat{padding:14px 16px}.stat b{display:block;font:600 24px/1.1 Fraunces,Georgia,serif;margin-top:4px}.stat span{font-size:12.5px;color:var(--mute)}
+.pos{font-weight:700;font-size:12px;border-radius:6px;padding:2px 7px}
+.pos.p0{background:var(--ok-soft);color:var(--ok)}.pos.p1{background:var(--ko-soft);color:var(--ko)}.pos.p2{background:var(--warn-soft);color:var(--warn)}.pos.p3{background:var(--off-soft);color:var(--off)}
+/* palette, modal */
+.overlay{position:fixed;inset:0;background:rgba(10,10,15,.45);z-index:50;display:flex;align-items:flex-start;justify-content:center;padding:10vh 16px}
+.modal{width:min(680px,100%);background:var(--panel);border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.3);overflow:hidden;max-height:80vh;display:flex;flex-direction:column}
+.modal input{width:100%;border:0;border-bottom:1px solid var(--line);padding:16px 18px;font-size:16px;background:var(--panel);outline:none}
+.modal .res{overflow:auto;padding:6px}
+.modal .res a{display:flex;gap:10px;align-items:center;padding:9px 12px;border-radius:10px}
+.modal .res a.sel,.modal .res a:hover{background:var(--acc-soft)}
+.modal .res .grp{font-size:11.5px;font-weight:600;text-transform:uppercase;color:var(--mute);padding:10px 12px 4px;letter-spacing:.05em}
+.thgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;padding:16px 18px;overflow:auto}
+.thcard{display:flex;align-items:center;gap:10px;border:1px solid var(--line2);background:var(--panel);border-radius:12px;padding:10px 12px;text-align:left;font-size:14px;font-weight:500}
+.thcard i{width:12px;height:12px;border-radius:4px;background:var(--c);flex:none}
+.thcard[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink);background:var(--panel2)}
+.thcard .n{margin-left:auto;font-size:12px;color:var(--mute)}
+.mf{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 18px;border-top:1px solid var(--line)}
+.banner{display:flex;gap:14px;align-items:center;padding:14px 18px;margin-bottom:18px;background:linear-gradient(110deg,var(--acc-soft),var(--panel) 75%)}
+.banner p{margin:0;flex:1}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--panel);padding:9px 16px;border-radius:10px;font-size:14px;z-index:60}
+.loading{padding:40px;text-align:center;color:var(--mute)}
+.note{font-size:12.5px;color:var(--mute);margin-top:12px}
+.mob{display:none}
+tr.clk{cursor:pointer}
+.modal.wide{width:min(880px,100%);max-height:86vh}
+.amh{padding:18px 22px 14px;border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:flex-start;justify-content:space-between}
+.amh h2{font:600 21px Fraunces,Georgia,serif;margin:4px 0 6px}
+.amb{padding:18px 22px 22px;overflow:auto}
+.amb h3{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--mute);margin:18px 0 6px}.amb h3:first-child{margin-top:0}
+.amb p{margin:0 0 9px;line-height:1.6;max-width:78ch}
+.amb .disp{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14px}
+.amnav{display:flex;gap:6px;flex:none}
+.starp{border:1px solid var(--line2);background:var(--panel);border-radius:9px;padding:4px 9px;font-size:13px;color:var(--ink2);white-space:nowrap}
+.starp[aria-pressed="true"]{background:#fff6dc;border-color:#f5a623;color:#8a5a00}
+.elu{position:relative}.elu .starp{position:absolute;top:8px;right:8px;padding:1px 6px;border:0;background:none;font-size:16px;color:var(--line2)}
+.elu .starp[aria-pressed="true"]{color:#f5a623;background:none}
+.feedlist{display:flex;flex-direction:column;gap:2px;max-height:70vh;overflow:auto}
+.feedlist button{display:flex;justify-content:space-between;gap:8px;text-align:left;border:0;background:none;padding:6px 10px;border-radius:8px;font-size:13.5px;color:var(--ink2)}
+.feedlist button[aria-pressed="true"]{background:var(--acc-soft);color:var(--ink);font-weight:600}
+.feedlist .cat{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--mute);font-weight:600;padding:10px 10px 4px}
+.g-rss{grid-template-columns:270px 1fr}
+.libgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px}
+.libf{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;border:1px solid var(--line2);border-radius:12px;padding:10px 12px;background:var(--panel)}
+.libf.on{border-color:var(--acc);background:var(--acc-soft)}
+.libf label{display:flex;gap:10px;align-items:flex-start;cursor:pointer;flex:1;min-width:0}.libf input{margin-top:3px;accent-color:var(--acc)}
+.libf b{display:block;font-size:14px}.libf small{display:block;color:var(--mute);font-size:12px}
+.act .av{width:30px;height:30px;font-size:11px}
+@media (max-width:1100px){.g-rss{grid-template-columns:1fr}}
+@media (max-width:1100px){.g2,.g3{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:820px){
+  .search{flex:0 0 auto}.search .st{display:none}.strip{grid-template-columns:repeat(7,minmax(96px,1fr))!important}
+  .strip{grid-template-columns:repeat(7,minmax(74px,1fr));overflow-x:auto}.dtile{min-height:90px;padding:8px}.dtile .ln{font-size:11px}
+  .app{grid-template-columns:1fr}.rail{position:fixed;inset:auto 0 0 0;height:auto;flex-direction:row;padding:6px;z-index:30;border-right:0;border-top:1px solid var(--line);overflow-x:auto}
+  .rail .brand,.rail .foot,.rail .sep,.nav .cnt{display:none}.nav{display:flex;gap:2px}.nav a{flex-direction:column;gap:2px;font-size:11px;padding:6px 8px}
+  .top{padding:10px 16px;flex-wrap:wrap}.page{padding:18px 16px 90px}.search kbd{display:none}
+  .week{grid-template-columns:1fr!important}.day{min-height:0}.month{gap:3px}.mc{min-height:64px;padding:4px}.mc .ln{display:none}
+  .daylist .dl{grid-template-columns:1fr}.daylist .dlh{position:static}
+  .tbl .hm{display:none}.kpis{grid-template-columns:1fr 1fr}h1{font-size:24px}.mob{display:inline}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <nav class="rail" aria-label="Navigation">
+    <div class="brand"><div class="logo"><i></i></div><div><b>Veille</b><small>Parlement · Cour des comptes</small></div></div>
+    <div class="nav" id="nav">
+      <a href="#accueil" data-v="accueil"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-5h4v5"/></svg>Aujourd'hui</a>
+      <a href="#agenda" data-v="agenda"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Agenda<span class="cnt" id="cAg"></span></a>
+      <a href="#textes" data-v="textes"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M9 11h7M9 15h7M9 7h3"/></svg>Textes<span class="cnt" id="cTx"></span></a>
+      <a href="#suivis" data-v="suivis"><svg viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg>Mes suivis<span class="cnt" id="cSu"></span></a>
+      <a href="#questions" data-v="questions"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M9.6 9.3a2.5 2.5 0 1 1 3.4 2.4c-.7.3-1 .8-1 1.5v.6M12 16.8v.2"/></svg>Questions</a>
+      <a href="#rapports" data-v="rapports"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M21 20H3"/></svg>Rapports</a>
+      <a href="#flux" data-v="flux"><svg viewBox="0 0 24 24"><path d="M5 19h.01M5 12a7 7 0 0 1 7 7M5 5a14 14 0 0 1 14 14"/></svg>Flux RSS</a>
+      <a href="#elus" data-v="elus"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"/><circle cx="17" cy="9" r="2.6"/><path d="M17 14.5c2.4 0 4 1.4 4.5 4"/></svg>Élus</a>
+    </div>
+    <div class="sep"></div>
+    <div class="foot" id="foot"></div>
+  </nav>
+  <div class="main">
+    <header class="top">
+      <button class="search" id="openPal" aria-label="Rechercher"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><span class="st">Rechercher un texte, un élu, une page…</span><kbd>Ctrl K</kbd></button>
+      <div class="seg" id="chseg" role="group" aria-label="Chambre"><button data-ch="" aria-pressed="true">Tout</button><button data-ch="AN" aria-pressed="false">Assemblée</button><button data-ch="SN" aria-pressed="false">Sénat</button></div>
+      <button class="btn" id="openTh"><span class="dot"></span><span id="thLabel">Toutes les thématiques</span></button>
+      <button class="iconbtn" id="mode" aria-label="Changer de thème clair ou sombre"><svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button>
+    </header>
+    <main class="page" id="view"><div class="loading">Chargement des données…</div></main>
+  </div>
+</div>
+<div class="overlay" id="pal" hidden><div class="modal" role="dialog" aria-label="Recherche"><input id="palIn" placeholder="Titre d'un texte, nom d'un député ou d'un sénateur, page…" autocomplete="off"><div class="res" id="palRes"></div></div></div>
+<div class="overlay" id="amd" hidden><div class="modal wide" role="dialog" aria-label="Amendement" id="amdBox"></div></div>
+<div class="overlay" id="thm" hidden><div class="modal" role="dialog" aria-label="Mes thématiques">
+  <div style="padding:18px 18px 0"><div class="eyebrow">Personnaliser</div><h2 style="font:600 22px Fraunces,Georgia,serif;margin:4px 0">Mes thématiques</h2><p class="sub" style="margin:4px 0 0">Choisissez les sujets à suivre. Tout le site (agenda, textes, questions, rapports, votes) se filtre en conséquence. Ce choix est enregistré dans ce navigateur.</p></div>
+  <div class="thgrid" id="thGrid"></div>
+  <div class="mf"><button class="btn" id="thAll">Tout afficher</button><button class="btn pri" id="thOk">Valider</button></div>
+</div></div>
+<script>
+"use strict";
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const LS={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const AN="https://www.assemblee-nationale.fr";
+const TH_COL={securite:"#2f5bd3",justice:"#7b3fc4",defense:"#4b5d23",international:"#0e7c86",immigration:"#a8551f",sante:"#d0384d",social:"#e07a1f",travail:"#8c6d1f",economie:"#1d8a5b",finances:"#145c9e",collectivites:"#6a7d14",education:"#c2410c",environnement:"#2b9348",agriculture:"#8f7a17",transports:"#3f6fb5",logement:"#9b4d96",numerique:"#5a4fcf",culture:"#c03d7a",institutions:"#56606b",outremer:"#0089a8",societe:"#b0306b"};
+const KIND={dl_com:{l:"Délai amendements · commission",s:"Délai commission",c:"var(--dl)",b:"var(--dl-soft)"},dl_seance:{l:"Délai amendements · séance",s:"Délai séance",c:"var(--dl)",b:"var(--dl-soft)"},
+  seance:{l:"Séance publique",s:"Séance",c:"var(--se)",b:"var(--se-soft)"},commission:{l:"Examen en commission",s:"Commission",c:"var(--co)",b:"var(--co-soft)"},
+  audition:{l:"Audition",s:"Audition",c:"var(--au)",b:"var(--au-soft)"},reunion:{l:"Réunion",s:"Réunion",c:"var(--re)",b:"var(--re-soft)"}};
+const KGROUP={delais:["dl_com","dl_seance"],seance:["seance"],commission:["commission"],audition:["audition","reunion"]};
+const SORTC={"Adopté":"ok","Rejeté":"ko","Tombé":"tomb","Retiré":"out","Non soutenu":"out","Irrecevable":"warn","Irrecevable 40":"warn","En attente":"acc"};
+const S={core:null,ev:[],D:{},themes:new Set(LS.get("veille.themes",[])),ch:"",fol:new Set(LS.get("veille.suivis",[])),folp:new Set(LS.get("veille.elus",[])),rssf:new Set(LS.get("veille.rss",[])),cache:{},
+  ag:{mode:LS.get("veille.agmode","semaine"),ref:null,kinds:new Set(),onlyFol:false},tx:{q:"",ty:"",st:"",act:true,sort:"nx",lim:80}};
+const MOISC=["janv.","févr.","mars","avr.","mai","juin","juil.","août","sept.","oct.","nov.","déc."];
+const MOISL=["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];const cap=s=>s?s[0].toUpperCase()+s.slice(1):s;
+const JOURS=["dim.","lun.","mar.","mer.","jeu.","ven.","sam."];
+const JOURSL=["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"];
+const pd=s=>{if(!s)return null;const[y,m,d]=s.slice(0,10).split("-").map(Number);return new Date(y,m-1,d)};
+const iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+const ds=s=>{const d=pd(s);return d?`${d.getDate()} ${MOISC[d.getMonth()]} ${d.getFullYear()}`:"—"};
+const dshort=s=>{const d=pd(s);return d?`${JOURS[d.getDay()]} ${d.getDate()} ${MOISC[d.getMonth()]}`:""};
+const hr=s=>{if(!s||s.length<16)return"";const h=+s.slice(11,13),m=s.slice(14,16);return h===0&&m==="00"?"":`${h} h ${m==="00"?"":m}`.trim()};
+const TODAY=()=>pd(S.core.aujourdhui);
+const daysTo=s=>Math.round((pd(s)-TODAY())/864e5);
+function countdown(s){const n=daysTo(s);const c=n<=2?"urg":n<=7?"soon":"far";const l=n<0?"passé":n===0?"aujourd'hui":n===1?"demain":`J-${n}`;return `<span class="count ${c}">${l}</span>`}
+const kv=k=>KIND[k]||KIND.reunion;
+const chPill=c=>c==="SN"?`<span class="pill sn">Sénat</span>`:c==="AN+SN"?`<span class="pill an">AN</span><span class="pill sn">Sénat</span>`:c==="CC"?`<span class="pill cc">Cour des comptes</span>`:`<span class="pill an">AN</span>`;
+const thTags=(a,n=2)=>(a||[]).slice(0,n).map(t=>`<span class="th" style="--c:${TH_COL[t]}">${esc(thLab(t))}</span>`).join("");
+const thLab=t=>(S.core.themes.find(x=>x.id===t)||{}).l||t;
+const mT=a=>!S.themes.size||(a||[]).some(t=>S.themes.has(t));
+const mCh=c=>!S.ch||(c||"AN").includes(S.ch);
+const toast=m=>{const t=document.createElement("div");t.className="toast";t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),1800)};
+async function getJ(p){if(S.cache[p])return S.cache[p];const r=await fetch(p);if(!r.ok)throw new Error(p);const j=await r.json();S.cache[p]=j;return j}
+const dosById=id=>S.D[id];
+async function getGz(p){if(S.cache[p])return S.cache[p];const r=await fetch(p);if(!r.ok)throw new Error(p);let b=new Uint8Array(await r.arrayBuffer());let j;
+  if(b[0]!==0x1f&&b[0]!==0x7b&&b[0]!==0x5b){const s=atob(new TextDecoder().decode(b).trim());b=new Uint8Array(s.length);for(let i=0;i<s.length;i++)b[i]=s.charCodeAt(i)}
+  if(b[0]===0x1f&&b[1]===0x8b){const s=new Blob([b]).stream().pipeThrough(new DecompressionStream("gzip"));j=JSON.parse(await new Response(s).text())}else j=JSON.parse(new TextDecoder().decode(b));S.cache[p]=j;return j}
+const starP=(id,big)=>`<button class="starp" data-folp="${esc(id)}" aria-pressed="${S.folp.has(id)}" title="Suivre ce parlementaire">${big?(S.folp.has(id)?"★ Suivi":"☆ Suivre"):"★"}</button>`;
+const paras=t=>(t||"").split("\n").filter(Boolean).map(l=>`<p>${esc(l)}</p>`).join("");
+function star(id){return `<button class="star" data-fol="${esc(id)}" aria-pressed="${S.fol.has(id)}" aria-label="Suivre ce texte" title="Suivre ce texte">★</button>`}
+
+/* ---------- vue : aujourd'hui ---------- */
+function vAccueil(){
+  const t=S.core.aujourdhui, ev=S.ev.filter(e=>mT(e.th)&&mCh(e.ch));
+  const in14=iso(new Date(TODAY().getTime()+14*864e5));
+  const dls=ev.filter(e=>e.k.startsWith("dl_")&&e.d.slice(0,10)>=t&&e.d.slice(0,10)<=in14);
+  const fol=[...S.fol].map(dosById).filter(Boolean);
+  const D=S.core.dossiers.filter(d=>mT(d.th)&&mCh(d.ch));
+  const moving=D.filter(d=>d.ld&&d.ld>=iso(new Date(TODAY().getTime()-10*864e5))).sort((a,b)=>b.ld.localeCompare(a.ld)).slice(0,8);
+  const wk=ev.filter(e=>e.d.slice(0,10)>=t&&e.d.slice(0,10)<iso(new Date(TODAY().getTime()+7*864e5)));
+  const d0=TODAY();const hello=d0.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+  const firstVisit=!LS.get("veille.onb",false)&&!S.themes.size;
+  return `<div class="ph"><div><div class="eyebrow">${esc(hello)}</div><h1>Ce qui compte cette semaine</h1></div>
+    <div class="sub">Données du ${ds(S.core.genere)} · ${S.themes.size?`${S.themes.size} thématique${S.themes.size>1?"s":""} suivie${S.themes.size>1?"s":""}`:"toutes thématiques"}</div></div>
+  ${firstVisit?`<div class="card banner"><p><b>Suivi de l'ensemble du travail parlementaire.</b> Choisissez vos thématiques pour n'afficher que ce qui vous concerne : sécurité, justice, santé, collectivités…</p><button class="btn pri" data-act="themes">Choisir mes thématiques</button><button class="btn" data-act="onbok">Plus tard</button></div>`:""}
+  <div class="kpis">
+    <div class="card kpi hot"><span>Délais d'amendements, 14 jours</span><b>${dls.length}</b><span>${dls.filter(e=>daysTo(e.d)<=2).length} dans les 48 h</span></div>
+    <div class="card kpi"><span>Événements, 7 jours</span><b>${wk.length}</b><span>${wk.filter(e=>e.k==="seance").length} séances · ${wk.filter(e=>e.k==="audition").length} auditions</span></div>
+    <div class="card kpi"><span>Textes actifs</span><b>${D.filter(d=>d.ac).length.toLocaleString("fr-FR")}</b><span>sur ${D.length.toLocaleString("fr-FR")} textes</span></div>
+    <div class="card kpi"><span>Textes suivis</span><b>${fol.length}</b><span>${fol.filter(d=>d.nx).length} avec une échéance</span></div>
+  </div>
+  <div class="grid g2">
+    <section class="card"><div class="hd"><h2>Échéances des 14 prochains jours</h2><a href="#agenda">Ouvrir l'agenda →</a></div><div class="bd"><div class="rows">
+      ${dls.slice(0,12).map(evRow).join("")||`<div class="empty">Aucun délai d'amendement connu sur la période pour ces filtres.</div>`}
+    </div></div></section>
+    <section class="card"><div class="hd"><h2>Mes textes suivis</h2><a href="#suivis">Tout voir →</a></div><div class="bd"><div class="rows">
+      ${fol.slice(0,6).map(dosRow).join("")||`<div class="empty">Cliquez sur ★ à côté d'un texte pour le suivre ici.</div>`}
+    </div></div></section>
+  </div>
+  <div class="grid g2" style="margin-top:18px">
+    <section class="card"><div class="hd"><h2>Textes qui ont bougé ces 10 derniers jours</h2><a href="#textes">Tous les textes →</a></div><div class="bd"><div class="rows">${moving.map(dosRow).join("")||`<div class="empty">Rien de nouveau.</div>`}</div></div></section>
+    <section class="card"><div class="hd"><h2>Cette semaine</h2><a href="#agenda">Semaine →</a></div><div class="bd"><div class="rows">${wk.filter(e=>!e.k.startsWith("dl_")).slice(0,9).map(evRow).join("")||`<div class="empty">Pas d'événement.</div>`}</div></div></section>
+  </div>
+  <section class="card" style="margin-top:18px" id="lastPub"><div class="hd"><h2>Dernières publications</h2><a href="#rapports">Rapports →</a></div><div class="bd"><div class="loading">…</div></div></section>`;
+}
+function evRow(e){
+  const d=e.ds&&dosById(e.ds);const k=kv(e.k);const day=pd(e.d);
+  return `<a class="row" href="${d?"#texte-"+e.ds:"#agenda-"+e.d.slice(0,10)}"><div class="when"><small>${JOURS[day.getDay()]}</small><b>${day.getDate()}</b><small>${MOISC[day.getMonth()]}</small></div>
+  <div><div class="tt">${esc(d?d.t:e.t)}</div><div class="meta"><span class="k" style="--kc:${k.c}">${k.l}</span>${hr(e.d)?`<span>${hr(e.d)}</span>`:""}${chPill(e.ch)}${d?`<span>${esc(e.t).slice(0,90)}</span>`:`<span>${esc(e.org||"")}</span>`}${e.calc?`<span title="Délai calculé selon le Règlement, à confirmer">calculé</span>`:""}</div></div>
+  <div>${countdown(e.d)}</div></a>`;
+}
+function dosRow(d){
+  return `<div class="row"><div>${star(d.id)}</div><a href="#texte-${esc(d.id)}"><div class="tt">${esc(d.t)}</div><div class="meta"><span class="pill out">${esc(d.ty)}</span>${chPill(d.ch)}<span class="pill ${d.sc}">${esc(d.st)}</span>${d.na?`<span>${d.na.toLocaleString("fr-FR")} amdts${d.nr?` · +${d.nr} cette semaine`:""}</span>`:""}${thTags(d.th)}</div></a>
+  <div>${d.nx?`<div style="text-align:right">${countdown(d.nx.d)}<div class="sub" style="margin-top:4px">${kv(d.nx.k).s}</div></div>`:`<span class="sub">${d.ld?ds(d.ld):""}</span>`}</div></div>`;
+}
+async function fillLastPub(){
+  const el=$("#lastPub .bd");if(!el)return;
+  try{const R=(await getJ("rapports.json")).filter(r=>mT(r.th)&&(!S.ch||r.src===S.ch)).slice(0,6);
+    el.innerHTML=`<div class="rows">${R.map(rapRow).join("")||`<div class="empty">Aucune publication pour ces filtres.</div>`}</div>`}catch(e){el.innerHTML=`<div class="empty">Impossible de charger les rapports.</div>`}
+}
+
+/* ---------- vue : agenda ---------- */
+function agEvents(){const A=S.ag;return S.ev.filter(e=>mT(e.th)&&mCh(e.ch)&&(!A.kinds.size||[...A.kinds].some(g=>KGROUP[g].includes(e.k)))&&(!A.onlyFol||(e.ds&&S.fol.has(e.ds))))}
+function monday(d){const x=new Date(d);const w=(x.getDay()+6)%7;x.setDate(x.getDate()-w);return x}
+function vAgenda(arg){
+  const A=S.ag;if(!arg)A.arg=null;if(arg&&A.arg!==arg){A.arg=arg;A.ref=pd(arg);A.sel=arg;A.mode="semaine"}
+  if(!A.ref)A.ref=TODAY();
+  const E=agEvents();
+  const cnt=g=>S.ev.filter(e=>mT(e.th)&&mCh(e.ch)&&KGROUP[g].includes(e.k)).length;
+  let title="",body="";
+  if(A.mode==="semaine"){
+    const m=monday(A.ref);const days=[...Array(7)].map((_,i)=>{const x=new Date(m);x.setDate(m.getDate()+i);return x});
+    const by={};E.forEach(e=>{(by[e.d.slice(0,10)]=by[e.d.slice(0,10)]||[]).push(e)});
+    const keys=days.map(iso);
+    if(!A.sel||!keys.includes(A.sel))A.sel=keys.includes(S.core.aujourdhui)?S.core.aujourdhui:(keys.find(k=>(by[k]||[]).length)||keys[0]);
+    const e1=days[6];title=`Semaine du ${m.getDate()} ${MOISC[m.getMonth()]} au ${e1.getDate()} ${MOISC[e1.getMonth()]} ${e1.getFullYear()}`;
+    const G=[["delais","Délais d'amendements","dl_seance"],["seance","Séances publiques","seance"],["commission","Commissions","commission"],["audition","Auditions et réunions","audition"]];
+    const strip=`<div class="strip">${days.map(x=>{const k=iso(x),L=by[k]||[];return `<button class="dtile ${k===A.sel?"sel":""} ${k===S.core.aujourdhui?"today":""} ${k<S.core.aujourdhui?"past":""}" data-sel="${k}"><span class="dn"><b>${x.getDate()}</b>${JOURSL[x.getDay()]}</span>
+      ${G.map(([g,l,kk])=>{const n=L.filter(e=>KGROUP[g].includes(e.k)).length;return n?`<span class="ln" style="--kc:${kv(kk).c}"><i></i>${n} ${g==="delais"?(n>1?"délais":"délai"):g==="seance"?(n>1?"séances":"séance"):g==="commission"?(n>1?"commissions":"commission"):(n>1?"auditions":"audition")}</span>`:""}).join("")||`<span class="ln muted">—</span>`}</button>`}).join("")}</div>`;
+    const L=(by[A.sel]||[]).slice().sort((a,b)=>a.d.localeCompare(b.d));const sx=pd(A.sel);
+    body=strip+`<div class="dayhead"><h2>${cap(JOURSL[sx.getDay()])} ${sx.getDate()} ${MOISL[sx.getMonth()]} ${sx.getFullYear()}</h2><span class="sub">${L.length} événement${L.length>1?"s":""}${A.sel===S.core.aujourdhui?" · aujourd'hui":""}</span></div>
+    ${G.map(([g,l,kk])=>{const X=L.filter(e=>KGROUP[g].includes(e.k));return X.length?`<section class="ksec"><h3 style="--kc:${kv(kk).c}"><span class="k" style="--kc:${kv(kk).c}">${l}</span><span class="sub">${X.length}</span></h3><div class="dlc">${X.map(e=>evCard(e,true)).join("")}</div></section>`:""}).join("")||`<div class="card empty">Rien de prévu ce jour pour ces filtres.</div>`}`;
+  }else if(A.mode==="liste"){
+    const from=iso(monday(A.ref));const L=E.filter(e=>e.d.slice(0,10)>=from).slice(0,400);
+    const by=[];L.forEach(e=>{const k=e.d.slice(0,10);if(!by.length||by[by.length-1].k!==k)by.push({k,L:[]});by[by.length-1].L.push(e)});
+    title=`À partir du ${ds(from)}`;
+    body=`<div class="daylist">${by.map(g=>{const x=pd(g.k);return `<div class="dl"><div class="dlh"><b>${x.getDate()} ${MOISC[x.getMonth()]}</b><span>${JOURSL[x.getDay()]}${g.k===S.core.aujourdhui?" · aujourd'hui":""}</span></div><div class="dlc">${g.L.map(e=>evCard(e,true)).join("")}</div></div>`}).join("")||`<div class="empty">Aucun événement.</div>`}</div>`;
+  }else{
+    const f=new Date(A.ref.getFullYear(),A.ref.getMonth(),1);const st=monday(f);title=cap(f.toLocaleDateString("fr-FR",{month:"long",year:"numeric"}));
+    const by={};E.forEach(e=>{(by[e.d.slice(0,10)]=by[e.d.slice(0,10)]||[]).push(e)});
+    let cells="";for(let i=0;i<42;i++){const x=new Date(st);x.setDate(st.getDate()+i);const k=iso(x),L=(by[k]||[]).sort((a,b)=>(a.k.startsWith("dl_")?0:1)-(b.k.startsWith("dl_")?0:1));
+      if(i===35&&x.getMonth()!==f.getMonth())break;
+      cells+=`<button class="mc ${x.getMonth()!==f.getMonth()?"out":""} ${k===S.core.aujourdhui?"today":""}" data-day="${k}"><span class="dn">${x.getDate()}</span>${L.slice(0,3).map(e=>`<span class="ln" style="--kc:${kv(e.k).c}"><i></i><span class="tx">${esc(e.ds&&dosById(e.ds)?dosById(e.ds).t:e.t)}</span></span>`).join("")}${L.length>3?`<span class="more">+${L.length-3} autres</span>`:""}</button>`}
+    body=`<div class="month">${["Lun","Mar","Mer","Jeu","Ven","Sam","Dim"].map(x=>`<div class="mh">${x}</div>`).join("")}${cells}</div><p class="note">Cliquez sur un jour pour ouvrir sa semaine.</p>`;
+  }
+  return `<div class="ph"><div><div class="eyebrow">Agenda parlementaire</div><h1>Agenda</h1><p>Séances, commissions, auditions et délais de dépôt des amendements à l'Assemblée et au Sénat. Les délais marqués « calculé » suivent le Règlement de l'Assemblée (17 h, 3e jour ouvrable avant l'examen) et sont à confirmer.</p></div></div>
+  <div class="agbar"><div class="seg" role="group" aria-label="Affichage">${["semaine","liste","mois"].map(m=>`<button data-agmode="${m}" aria-pressed="${A.mode===m}">${m[0].toUpperCase()+m.slice(1)}</button>`).join("")}</div>
+    <button class="iconbtn" data-agnav="-1" aria-label="Précédent"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><button class="btn" data-agnav="0">Aujourd'hui</button><button class="iconbtn" data-agnav="1" aria-label="Suivant"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+    <span class="title">${esc(title)}</span></div>
+  <div class="agbar"><div class="chips">${[["delais","Délais d'amendements","dl_seance"],["seance","Séances","seance"],["commission","Commissions","commission"],["audition","Auditions et réunions","audition"]].map(([g,l,k])=>`<button class="chip" data-agk="${g}" aria-pressed="${A.kinds.has(g)}"><span class="k" style="--kc:${kv(k).c}"></span>${l}<span class="n">${cnt(g)}</span></button>`).join("")}
+    <button class="chip" data-agfol aria-pressed="${A.onlyFol}">★ Mes textes suivis</button></div></div>
+  ${body}`;
+}
+function evCard(e,big){
+  const d=e.ds&&dosById(e.ds),k=kv(e.k);
+  const titre=d?d.t:e.t, sub=d?(e.k.startsWith("dl_")?(e.org||""):e.t):(e.org||"");
+  const href=d?`#texte-${e.ds}`:`#agenda-${e.d.slice(0,10)}`;
+  if(big)return `<a class="ev big" href="${href}" style="--kc:${k.c};--ks:${k.b}"><span class="hr">${hr(e.d)||"—"}</span><div><div class="h" style="justify-content:flex-start;gap:10px"><span>${k.l}</span>${chPill(e.ch)}${e.calc?`<span class="sub">calculé</span>`:""}${e.d.slice(0,10)>=S.core.aujourdhui&&e.k.startsWith("dl_")?countdown(e.d):""}</div><div class="t">${esc(titre)}</div><div class="o">${esc(sub)}${e.lieu?` · ${esc(e.lieu)}`:""}</div></div></a>`;
+  return `<a class="ev" href="${href}" style="--kc:${k.c};--ks:${k.b}" title="${esc(titre)}"><div class="h"><span>${hr(e.d)||k.s}${hr(e.d)?` · ${k.s}`:""}</span>${e.ch==="SN"?`<span class="pill sn">Sénat</span>`:`<span class="pill an">AN</span>`}</div><div class="t">${esc(titre)}</div><div class="o">${esc(sub)}</div></a>`;
+}
+
+/* ---------- vue : textes ---------- */
+function vTextes(onlyFol){
+  const T=S.tx;
+  let D=S.core.dossiers.filter(d=>mT(d.th)&&mCh(d.ch));
+  if(onlyFol)D=D.filter(d=>S.fol.has(d.id));
+  const types=[...new Set(D.map(d=>d.ty))].sort((a,b)=>D.filter(x=>x.ty===b).length-D.filter(x=>x.ty===a).length);
+  if(!onlyFol){
+    if(T.act)D=D.filter(d=>d.ac);
+    if(T.ty)D=D.filter(d=>d.ty===T.ty);
+    if(T.st)D=D.filter(d=>T.st==="seance"?/séance/i.test(d.st):T.st==="com"?/commission|rapporteur/i.test(d.st):T.st==="sn"?d.sc==="sn":T.st==="prom"?d.st==="Promulgué":T.st==="dep"?/^Déposé/.test(d.st):true);
+    if(T.q){const q=T.q.toLowerCase();D=D.filter(d=>(d.t+" "+(d.au||[]).join(" ")+" "+(d.num||"")).toLowerCase().includes(q))}
+  }
+  const sorters={nx:(a,b)=>((a.nx||{}).d||"9999").localeCompare((b.nx||{}).d||"9999")||(b.ld||"").localeCompare(a.ld||""),ld:(a,b)=>(b.ld||"").localeCompare(a.ld||""),na:(a,b)=>b.na-a.na,dep:(a,b)=>(b.dep||"").localeCompare(a.dep||"")};
+  D=D.slice().sort(sorters[T.sort]||sorters.nx);
+  const shown=onlyFol?D:D.slice(0,T.lim);
+  return `<div class="ph"><div><div class="eyebrow">${onlyFol?"Ma sélection":"Travail législatif"}</div><h1>${onlyFol?"Mes textes suivis":"Textes"} <span class="muted" style="font-size:20px">${D.length.toLocaleString("fr-FR")}</span></h1>
+  <p>${onlyFol?"Les textes marqués d'une étoile. Leurs échéances apparaissent en tête de la page d'accueil et dans l'agenda (filtre ★).":"Projets et propositions de loi, résolutions, missions et commissions d'enquête de la XVIIe législature, et textes déposés au Sénat depuis octobre 2024."}</p></div></div>
+  <section class="card">${onlyFol?"":`<div class="filters"><input type="search" id="txq" placeholder="Filtrer par titre, auteur, numéro…" value="${esc(T.q)}">
+    <select id="txty"><option value="">Tous les types</option>${types.map(t=>`<option ${T.ty===t?"selected":""}>${esc(t)}</option>`).join("")}</select>
+    <select id="txst"><option value="">Toutes les étapes</option>${[["dep","Déposé"],["com","En commission"],["seance","En séance"],["sn","Au Sénat"],["prom","Promulgué"]].map(([v,l])=>`<option value="${v}" ${T.st===v?"selected":""}>${l}</option>`).join("")}</select>
+    <select id="txsort">${[["nx","Prochaine échéance"],["ld","Dernière étape"],["na","Nombre d'amendements"],["dep","Date de dépôt"]].map(([v,l])=>`<option value="${v}" ${T.sort===v?"selected":""}>Tri : ${l}</option>`).join("")}</select>
+    <label><input type="checkbox" id="txact" ${T.act?"checked":""}> Actifs seulement</label></div>`}
+  <div style="overflow-x:auto"><table class="tbl"><thead><tr><th style="width:28px"></th><th>Texte</th><th class="hm">Étape</th><th class="hm">Amendements</th><th>Prochaine échéance</th></tr></thead><tbody>
+  ${shown.map(d=>`<tr><td>${star(d.id)}</td><td><a class="tt" href="#texte-${esc(d.id)}">${esc(d.t)}</a><div class="meta" style="display:flex;gap:7px;flex-wrap:wrap;margin-top:5px;font-size:12.5px;color:var(--mute);align-items:center"><span class="pill out">${esc(d.ty)}${d.num?" n° "+esc(d.num):""}</span>${chPill(d.ch)}${thTags(d.th)}<span>${esc((d.au||[]).join(", "))}</span><span class="mob pill ${d.sc}">${esc(d.st)}</span></div></td>
+  <td class="hm"><span class="pill ${d.sc}">${esc(d.st)}</span><div class="sub" style="margin-top:4px">${d.ld?ds(d.ld):""}</div></td>
+  <td class="hm">${d.na?`<b>${d.na.toLocaleString("fr-FR")}</b>${d.nr?`<div class="sub">+${d.nr} en 7 j</div>`:""}`:`<span class="sub">—</span>`}</td>
+  <td>${d.nx?`${countdown(d.nx.d)}<div class="sub" style="margin-top:4px">${kv(d.nx.k).s} · ${dshort(d.nx.d)}</div>`:`<span class="sub">—</span>`}</td></tr>`).join("")}
+  </tbody></table></div>
+  ${!shown.length?`<div class="empty">${onlyFol?"Aucun texte suivi pour l'instant. Utilisez ★ dans la liste des textes.":"Aucun texte pour ces filtres."}</div>`:""}
+  ${!onlyFol&&D.length>shown.length?`<button class="btn morebtn" data-act="txmore">Afficher plus (${(D.length-shown.length).toLocaleString("fr-FR")} restants)</button>`:""}</section>`;
+}
+
+/* ---------- vue : fiche texte ---------- */
+const PH=[["AN1","Assemblée · 1re lecture","an"],["SN1","Sénat · 1re lecture","sn"],["AN2","Assemblée · 2e lecture","an"],["SN2","Sénat · 2e lecture","sn"],["CMP","Commission mixte paritaire","cmp"],["ANNLEC","Assemblée · nouvelle lecture","an"],["SNNLEC","Sénat · nouvelle lecture","sn"],["ANLDEF","Assemblée · lecture définitive","an"],["CC","Conseil constitutionnel","cmp"],["PROM","Promulgation","ok"]];
+function steps(d,x){
+  const codes=(x.timeline||[]).map(t=>t.c);const seen=[];
+  codes.forEach(c=>{const p=PH.find(p=>c.startsWith(p[0]));if(p&&!seen.includes(p))seen.push(p)});
+  if(d.ch==="SN"&&!seen.length)seen.push(PH[1]);
+  const law=/^(PJL|PPL|Loi|PLF|PLFSS|PLFR|Traité|PJL\/PPL)/.test(d.ty);
+  if(!law)return "";
+  const done=seen.some(p=>p[0]==="PROM");
+  const fut=[];if(!done){const first=seen[0]||PH[0];const other=first[0].startsWith("AN")?PH[1]:PH[0];if(!seen.includes(other))fut.push(other);fut.push(PH[9])}
+  const sub=p=>{const c=codes.filter(c=>c.startsWith(p[0]));return c.some(c=>/DEBATS-DEC|DEC$/.test(c))?"adopté":c.some(c=>/DEBATS/.test(c))?"en séance":c.some(c=>/COM-FOND-(RAPPORT|REUNION)/.test(c))?"en commission":c.length?"déposé":""};
+  return `<div class="stepper">${seen.map((p,i)=>`<div class="step ${i<seen.length-1||done?"done":"cur"}">${p[1]}<small>${p[0]==="PROM"?"":sub(p)}</small></div>`).join("")}${fut.map(p=>`<div class="step">${p[1]}<small>à venir</small></div>`).join("")}</div>`;
+}
+async function vTexte(id){
+  const d=dosById(id);if(!d)return `<div class="empty">Texte introuvable.</div>`;
+  let x;try{x=(await getJ(`dos/${d.f}.json`))[id]}catch(e){return `<div class="empty">Impossible de charger le détail.</div>`}
+  S.cur={d,x,tab:S.cur&&S.cur.d.id===id?S.cur.tab:"chrono"};
+  const fut=(x.ech||[]).map(i=>S.evById[i]).filter(e=>e&&e.d.slice(0,10)>=S.core.aujourdhui);
+  const links=[x.url&&d.ch!=="SN"?`<a class="btn" href="${x.url}" target="_blank" rel="noopener">Assemblée nationale ↗</a>`:"",x.senat?`<a class="btn" href="${x.senat}" target="_blank" rel="noopener">Sénat ↗</a>`:""].join("");
+  return `<a class="sub" href="#textes">← Textes</a>
+  <section class="card hero"><div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap"><div class="meta"><span class="pill out">${esc(d.ty)}${d.num?" n° "+esc(d.num):""}</span>${chPill(d.ch)}<span class="pill ${d.sc}">${esc(d.st)}</span>${thTags(d.th,3)}</div><div style="display:flex;gap:8px">${links}<button class="btn" data-fol="${esc(id)}" aria-pressed="${S.fol.has(id)}">${S.fol.has(id)?"★ Suivi":"☆ Suivre"}</button></div></div>
+  <h1>${esc(d.t)}</h1>
+  <div class="meta sepd">${(d.au||[]).length?`<span>Auteur${d.au.length>1?"s":""} : ${(x.auteurs||[]).slice(0,6).map((a,i)=>x.auteurs_id&&x.auteurs_id[i]?`<a href="#elu-${x.auteurs_id[i]}" style="text-decoration:underline">${esc(a)}</a>`:esc(a)).join(", ")}${(x.auteurs||[]).length>6?` et ${(x.auteurs.length-6)} autres`:""}</span>`:""}${x.commission?`<span>${esc(x.commission)}</span>`:""}${x.rapporteurs&&x.rapporteurs.length?`<span>Rapporteur${x.rapporteurs.length>1?"s":""} : ${esc(x.rapporteurs.join(", "))}</span>`:""}${d.dep?`<span>Déposé le ${ds(d.dep)}</span>`:""}</div>
+  ${steps(d,x)}</section>
+  ${fut.length?`<div class="nextbox">${fut.slice(0,6).map(e=>`<div class="card" style="padding:14px 16px;border-left:4px solid ${kv(e.k).c}"><div style="display:flex;justify-content:space-between;align-items:center"><span class="k" style="--kc:${kv(e.k).c}">${kv(e.k).l}</span>${countdown(e.d)}</div><div style="font:600 18px Fraunces,Georgia,serif;margin:6px 0 2px">${dshort(e.d)}${hr(e.d)?" · "+hr(e.d):""}</div><div class="sub">${esc(e.t).slice(0,140)}${e.calc?" · calculé selon le Règlement":""}</div></div>`).join("")}</div>`:""}
+  <div class="tabs" role="tablist">${[["chrono","Chronologie",(x.timeline||[]).length],["amdt","Amendements",d.na],["votes","Scrutins",d.ns],["docs","Documents",(x.documents||[]).length]].map(([k,l,n])=>`<button role="tab" data-tab="${k}" aria-selected="${S.cur.tab===k}">${l}<span class="n">${n||""}</span></button>`).join("")}</div>
+  <div id="tabBody"></div>`;
+}
+async function renderTab(){
+  const el=$("#tabBody");if(!el||!S.cur)return;const{d,x,tab}=S.cur;
+  if(tab==="chrono"){
+    const fut=(x.ech||[]).map(i=>S.evById[i]).filter(e=>e&&e.d.slice(0,10)>=S.core.aujourdhui);
+    const items=[...(x.timeline||[]).map(t=>({d:t.d,l:t.l,o:t.o,ch:t.ch,rap:t.rap})),...fut.map(e=>({d:e.d,l:kv(e.k).l+" : "+e.t,o:e.org,fut:1,ch:e.ch==="SN"?"Sénat":"Assemblée"}))].sort((a,b)=>b.d.localeCompare(a.d));
+    el.innerHTML=`<section class="card"><div class="bd" style="padding:18px 22px"><div class="tl">${items.map(t=>`<div class="it ${t.fut?"fut":t.ch==="Sénat"?"sn":t.ch==="CMP"?"cmp":"an"}"><div class="d">${ds(t.d)}${hr(t.d)?" · "+hr(t.d):""}${t.fut?" · à venir":""}</div><div class="l">${esc(t.l)}</div><div class="sub">${esc(t.o||"")}${t.rap?" · "+esc(t.rap.join(", ")):""}</div></div>`).join("")||`<div class="empty">Pas d'étape.</div>`}</div></div></section>`;
+  }else if(tab==="docs"){
+    el.innerHTML=`<section class="card"><div class="bd"><div class="rows">${(x.documents||[]).slice().reverse().map(o=>`<a class="row" href="${o.url}" target="_blank" rel="noopener"><div>${o.ch==="Sénat"?`<span class="pill sn">Sénat</span>`:`<span class="pill an">AN</span>`}</div><div><div class="tt">${esc(o.n)}${o.num?" n° "+esc(o.num):""}</div><div class="meta">${esc(o.t)}</div></div><div class="sub">${ds(o.d)}</div></a>`).join("")||`<div class="empty">Pas de document référencé.${x.senat?" Voir la page du Sénat.":""}</div>`}</div></div></section>`;
+  }else if(tab==="amdt"){await amdPanel(el,d,x)}
+  else if(tab==="votes"){await votesPanel(el,d,x)}
+}
+async function amdPanel(el,d,x){
+  if(!d.na){el.innerHTML=`<div class="card empty">Aucun amendement publié pour ce texte.</div>`;return}
+  el.innerHTML=`<div class="loading">Chargement des ${d.na.toLocaleString("fr-FR")} amendements…</div>`;
+  let A;try{A=(await getJ(`amdt/${x.amdt.f}.json`))[d.id]||[]}catch(e){el.innerHTML=`<div class="empty">Impossible de charger les amendements.</div>`;return}
+  const st=S.amf||(S.amf={i:"",s:"",g:"",q:"",sub:false,lim:150});
+  if(st.id!==d.id){Object.assign(st,{id:d.id,i:"",s:"",g:"",q:"",sub:false,lim:150})}
+  const inst=[...new Set(A.map(a=>a.i))],grps=[...new Set(A.map(a=>a.g).filter(Boolean))].sort();
+  const SO=["Adopté","Rejeté","Tombé","Retiré","Non soutenu","Irrecevable","En attente"];
+  const sortOf=a=>a.s&&/^Irrecevable/.test(a.s)?"Irrecevable":(a.s||"En attente");
+  const tot={};A.forEach(a=>{const s=sortOf(a);tot[s]=(tot[s]||0)+1});
+  const col={"Adopté":"var(--ok)","Rejeté":"var(--ko)","Tombé":"var(--mute)","Retiré":"var(--line2)","Non soutenu":"var(--off-soft)","Irrecevable":"var(--warn)","En attente":"var(--acc)"};
+  const fixed=A.filter(a=>a.sb).length;
+  const pg={};A.forEach(a=>{if(!a.g)return;pg[a.g]=pg[a.g]||[0,0];pg[a.g][0]++;if(a.s==="Adopté")pg[a.g][1]++});
+  const draw=()=>{
+    let L=A.filter(a=>(!st.i||a.i===st.i)&&(!st.s||sortOf(a)===st.s)&&(!st.g||a.g===st.g)&&(!st.sub||a.p));
+    if(st.q){const q=st.q.toLowerCase();L=L.filter(a=>(a.n+" "+a.au+" "+a.a+" "+(a.x||"")).toLowerCase().includes(q))}
+    const show=L.slice().reverse().slice(0,st.lim);S.amCtx={d,x,A,L:L.slice().reverse()};
+    $("#amList").innerHTML=`<table class="tbl"><thead><tr><th>N°</th><th>Article</th><th>Auteur</th><th>Objet</th><th>Sort</th></tr></thead><tbody>${show.map(a=>{const url=a.U||(a.sn?x.senat:`${AN}/dyn/17/amendements/${a.u}`);const so=sortOf(a);
+      return `<tr class="clk" data-am="${A.indexOf(a)}" title="Voir l'amendement en entier"><td style="white-space:nowrap"><a class="tt" href="${url}" target="_blank" rel="noopener">${esc(a.n)}</a><div class="sub">${esc(a.i.replace("AN ","").replace("Sénat ","Sénat · "))}</div></td><td class="small">${esc(a.a)}</td><td class="small">${esc(a.au)}${a.g?` <span class="gtag" style="--gc:${S.core.groupes[a.g]||"#888"}">${esc(a.g)}</span>`:""}${a.c?`<div class="sub">+${a.c} cosignataires</div>`:""}</td>
+      <td class="small" style="max-width:520px">${a.p?`<span class="pill out" style="margin-bottom:4px">Sous-amendement au n° ${esc(a.p)}</span><br>`:""}${esc(a.x||"")}</td>
+      <td><span class="pill ${SORTC[so]||"out"}" ${a.sb?`title="Sous-amendement à l'amendement n° ${esc(a.p)}, qui n'a pas été adopté : il tombe. Sort enregistré dans l'open data : ${esc(a.sb)}."`:""}>${esc(so)}</span>${a.sb?`<div class="sub" style="margin-top:3px">parent non adopté</div>`:""}<div class="sub">${a.d?ds(a.d):""}</div></td></tr>`}).join("")}</tbody></table>
+      ${!show.length?`<div class="empty">Aucun amendement pour ces filtres.</div>`:""}${L.length>show.length?`<button class="btn morebtn" id="amMore">Afficher plus (${(L.length-show.length).toLocaleString("fr-FR")})</button>`:""}`;
+    $("#amCount").textContent=`${L.length.toLocaleString("fr-FR")} amendement${L.length>1?"s":""}`;
+    const mb=$("#amMore");if(mb)mb.onclick=()=>{st.lim+=300;draw()};
+  };
+  el.innerHTML=`<div class="grid g2" style="margin-bottom:18px;align-items:start"><section class="card"><div class="bd" style="padding:16px 18px"><h2>Sort des ${A.length.toLocaleString("fr-FR")} amendements</h2>
+    <div class="bar" style="margin-top:12px;height:14px">${SO.filter(s=>tot[s]).map(s=>`<i style="width:${100*tot[s]/A.length}%;background:${col[s]}" title="${s} : ${tot[s]}"></i>`).join("")}</div>
+    <div class="legend">${SO.filter(s=>tot[s]).map(s=>`<span style="--c:${col[s]}">${s} <b>${tot[s].toLocaleString("fr-FR")}</b></span>`).join("")}</div>
+    ${fixed?`<p class="note">${fixed} sous-amendement${fixed>1?"s":""} adopté${fixed>1?"s":""} ou non examiné${fixed>1?"s":""} alors que l'amendement parent n'a pas été adopté : affiché${fixed>1?"s":""} « Tombé ».</p>`:""}</div></section>
+    <section class="card"><div class="bd" style="padding:16px 18px"><h2>Adoption par groupe</h2>${Object.keys(pg).length?`<div style="display:grid;grid-template-columns:auto 1fr auto;gap:6px 10px;align-items:center;margin-top:10px;font-size:13px">${Object.entries(pg).sort((a,b)=>b[1][0]-a[1][0]).slice(0,12).map(([g,[n,ad]])=>`<span class="gtag" style="--gc:${S.core.groupes[g]||"#888"}">${esc(g)}</span><div class="bar" style="height:8px"><i style="width:${100*ad/n}%;background:${S.core.groupes[g]||"#888"}"></i></div><span class="sub">${ad}/${n}</span>`).join("")}</div>`:`<p class="sub">Disponible pour les amendements de l'Assemblée.</p>`}</div></section></div>
+  <section class="card"><div class="filters"><input type="search" id="amq" placeholder="Numéro, auteur, article, mot de l'objet…" value="${esc(st.q)}">
+    <select id="ami"><option value="">Toutes les étapes</option>${inst.map(i=>`<option ${st.i===i?"selected":""}>${esc(i)}</option>`).join("")}</select>
+    <select id="ams"><option value="">Tous les sorts</option>${SO.filter(s=>tot[s]).map(s=>`<option ${st.s===s?"selected":""}>${s}</option>`).join("")}</select>
+    ${grps.length?`<select id="amg"><option value="">Tous les groupes</option>${grps.map(g=>`<option ${st.g===g?"selected":""}>${esc(g)}</option>`).join("")}</select>`:""}
+    <label><input type="checkbox" id="amsub" ${st.sub?"checked":""}> Sous-amendements</label><span class="sub" id="amCount" style="margin-left:auto"></span></div><p class="sub" style="margin:10px 16px 0">Cliquez sur une ligne pour lire l'objet et le dispositif en entier.</p><div id="amList" style="overflow-x:auto"></div></section>`;
+  const on=(id,k,ev="change")=>{const n=$(id);if(n)n.addEventListener(ev,()=>{st[k]=n.type==="checkbox"?n.checked:n.value;st.lim=150;draw()})};
+  on("#amq","q","input");on("#ami","i");on("#ams","s");on("#amg","g");on("#amsub","sub");draw();
+}
+async function votesPanel(el,d,x){
+  if(!d.ns){el.innerHTML=`<div class="card empty">Aucun scrutin public rattaché à ce texte à l'Assemblée.</div>`;return}
+  el.innerHTML=`<div class="loading">Chargement des scrutins…</div>`;
+  const SC=await getJ("scrutins.json");const L=(x.scr||[]).map(i=>SC[i]).reverse();
+  el.innerHTML=`<section class="card"><div class="bd"><div class="rows">${L.slice(0,300).map(scRow).join("")}</div></div></section>`;
+}
+function scRow(s,pos){
+  const tot=s.p+s.c+s.a||1;const G=S.core.groupes;
+  return `<div class="row"><div class="when"><small>n° ${s.n}</small><b>${pd(s.d).getDate()}</b><small>${MOISC[pd(s.d).getMonth()]}</small></div>
+  <div><div class="tt" style="font-weight:500">${esc(s.t)}</div><div class="meta"><span class="pill ${s.r?"ok":"ko"}">${s.r?"Adopté":"Rejeté"}</span><span>${s.p} pour · ${s.c} contre · ${s.a} abst.</span>
+  <div class="vbar"><i style="width:${100*s.p/tot}%;background:var(--ok)"></i><i style="width:${100*s.c/tot}%;background:var(--ko)"></i><i style="width:${100*s.a/tot}%;background:var(--warn)"></i></div>
+  <span class="gdots">${Object.entries(s.g).filter(([g,p])=>p<3).map(([g,p])=>`<span title="${esc(g)} : ${["pour","contre","abstention"][p]}" style="background:${G[g]||"#888"};${p===1?"outline:2px solid var(--ko);outline-offset:-2px;":p===2?"opacity:.55;":""}">${esc(g)}${p===0?" +":p===1?" −":" ="}</span>`).join("")}</span>
+  ${s.ds&&dosById(s.ds)&&!S.cur?.d?.id?.includes(s.ds)?`<a href="#texte-${s.ds}" style="text-decoration:underline">${esc(dosById(s.ds).t.slice(0,70))}</a>`:""}</div></div>
+  <div>${pos!==undefined?`<span class="pos p${pos}">${["Pour","Contre","Abst.","Non-votant"][pos]}</span>`:""}</div></div>`;
+}
+
+async function openAmd(idx){
+  const c=S.amCtx;if(!c)return;const{d,x,A}=c;const a=A[idx];if(!a)return;S.amIdx=idx;
+  const so=a.s&&/^Irrecevable/.test(a.s)?"Irrecevable":(a.s||"En attente");const url=a.U||(a.sn?x.senat:`${AN}/dyn/17/amendements/${a.u}`);
+  const pos=c.L.indexOf(a);
+  $("#amdBox").innerHTML=`<div class="amh"><div><div class="meta" style="display:flex;gap:7px;flex-wrap:wrap;align-items:center;font-size:12.5px;color:var(--mute)">${a.sn?`<span class="pill sn">Sénat</span>`:`<span class="pill an">AN</span>`}<span>${esc(a.i)}</span>${a.a?`<span>· ${esc(a.a)}</span>`:""}<span>· ${a.d?ds(a.d):""}</span></div>
+    <h2>Amendement n° ${esc(a.n)}</h2><div class="meta" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:13.5px">${esc(a.au)}${a.g?` <span class="gtag" style="--gc:${S.core.groupes[a.g]||"#888"}">${esc(a.g)}</span>`:""}${a.c?`<span class="sub">et ${a.c} cosignataires</span>`:""}<span class="pill ${SORTC[so]||"out"}">${esc(so)}</span>${a.p?`<span class="pill out">Sous-amendement au n° ${esc(a.p)}</span>`:""}</div>
+    ${a.sb?`<p class="note" style="margin-top:8px">L'amendement parent n° ${esc(a.p)} n'a pas été adopté : ce sous-amendement tombe (sort enregistré dans l'open data : ${esc(a.sb)}).</p>`:""}</div>
+    <div class="amnav"><button class="iconbtn" data-amgo="-1" ${pos<=0?"disabled":""} aria-label="Précédent"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><button class="iconbtn" data-amgo="1" ${pos>=c.L.length-1?"disabled":""} aria-label="Suivant"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button><button class="iconbtn" data-amclose aria-label="Fermer"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div></div>
+    <div class="amb" id="amdTxt"><div class="loading">Chargement du texte…</div></div>
+    <div class="mf"><span class="sub">${esc(d.t).slice(0,90)}</span><a class="btn" href="${url}" target="_blank" rel="noopener">Voir sur le site ${a.sn?"du Sénat":"de l'Assemblée"} ↗</a></div>`;
+  $("#amd").hidden=false;
+  try{const f=x.amdt.f;let t;
+    if(f[0]==="x"){const arr=await getGz(`amtx/${f}_${Math.floor(idx/2000)}.txt`);t=arr[idx%2000]}else{t=((await getGz(`amtx/${f}.txt`))[d.id]||[])[idx]}
+    if(S.amIdx!==idx)return;
+    const[disp,expo]=t||["",""];
+    $("#amdTxt").innerHTML=`<h3>Objet (exposé sommaire)</h3>${paras(expo)||`<p class="sub">Pas d'exposé publié.</p>`}<h3>Dispositif</h3><div class="disp">${paras(disp)||`<p class="sub">Dispositif non publié.</p>`}</div>`;
+  }catch(e){$("#amdTxt").innerHTML=`<div class="empty">Texte indisponible (${esc(e.message)}).</div>`}
+}
+/* ---------- vue : questions ---------- */
+async function vQuestions(){
+  let Q;try{Q=await getJ("questions.json")}catch(e){return `<div class="empty">Impossible de charger les questions.</div>`}
+  const st=S.qf||(S.qf={ty:"",st:"",q:"",lim:100});
+  let L=Q.filter(q=>mT(q.th)&&mCh(q.ch)&&(!st.ty||q.ty===st.ty)&&(!st.st||q.st===st.st));
+  if(st.q){const s=st.q.toLowerCase();L=L.filter(q=>(q.an+" "+q.rub+" "+q.au+" "+(q.m||"")+" "+q.n).toLowerCase().includes(s))}
+  const sh=L.slice(0,st.lim);
+  return `<div class="ph"><div><div class="eyebrow">Contrôle du Gouvernement</div><h1>Questions <span class="muted" style="font-size:20px">${L.length.toLocaleString("fr-FR")}</span></h1><p>Questions écrites, orales sans débat et au Gouvernement : toute la législature à l'Assemblée, les douze derniers mois au Sénat.</p></div></div>
+  <section class="card"><div class="filters"><input type="search" id="qq" placeholder="Mot-clé, rubrique, auteur, ministère…" value="${esc(st.q)}">
+  <select id="qty"><option value="">Tous les types</option>${[["QE","Questions écrites"],["QOSD","Orales sans débat"],["QG","Au Gouvernement"]].map(([v,l])=>`<option value="${v}" ${st.ty===v?"selected":""}>${l}</option>`).join("")}</select>
+  <select id="qst"><option value="">Tous les statuts</option>${[["a","En attente de réponse"],["r","Réponse publiée"],["c","Close sans réponse"]].map(([v,l])=>`<option value="${v}" ${st.st===v?"selected":""}>${l}</option>`).join("")}</select></div>
+  <div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Question</th><th class="hm">Auteur</th><th class="hm">Ministère</th><th>Statut</th></tr></thead><tbody>
+  ${sh.map(q=>`<tr><td><a class="tt" href="${q.url||AN+"/dyn/17/questions/"+q.id}" target="_blank" rel="noopener">${esc(q.an||q.rub)}</a><div class="meta" style="display:flex;gap:7px;flex-wrap:wrap;margin-top:5px;font-size:12.5px;color:var(--mute);align-items:center">${chPill(q.ch)}<span class="pill out">${q.ty} n° ${esc(q.n)}</span>${q.rub&&q.an?`<span>${esc(q.rub)}</span>`:""}${thTags(q.th,1)}<span>${ds(q.d)}</span></div></td>
+  <td class="hm small">${q.ai?`<a href="#elu-${q.ai}" style="text-decoration:underline">${esc(q.au)}</a>`:esc(q.au)}${q.g?` <span class="gtag" style="--gc:${S.core.groupes[q.g]||"#888"}">${esc(q.g)}</span>`:""}</td><td class="hm small">${esc(q.m||"")}</td>
+  <td>${q.st==="r"?`<span class="pill ok">Répondue</span><div class="sub">${ds(q.r)}</div>`:q.st==="c"?`<span class="pill out">Close</span><div class="sub">${esc(q.stl||"")}</div>`:`<span class="pill warn">En attente</span>${q.d?`<div class="sub">${Math.max(0,-daysTo(q.d))} j</div>`:""}`}</td></tr>`).join("")}</tbody></table></div>
+  ${!sh.length?`<div class="empty">Aucune question pour ces filtres.</div>`:""}${L.length>sh.length?`<button class="btn morebtn" data-act="qmore">Afficher plus (${(L.length-sh.length).toLocaleString("fr-FR")})</button>`:""}</section>`;
+}
+
+/* ---------- vue : rapports ---------- */
+function rapRow(r){
+  const src=r.src==="CC"?`<span class="pill cc">${esc(r.jur||"Cour des comptes")}</span>`:chPill(r.src);
+  return `<a class="row" href="${r.url}" target="_blank" rel="noopener"><div class="when"><small>${MOISC[pd(r.d).getMonth()]}</small><b>${pd(r.d).getDate()}</b><small>${pd(r.d).getFullYear()}</small></div>
+  <div><div class="tt">${esc(r.t)}</div><div class="meta">${src}<span>${esc(r.ty||"")}${r.n?" n° "+esc(r.n):""}</span>${thTags(r.th)}${r.au?`<span>${esc(r.au.slice(0,90))}</span>`:""}</div>
+  ${r.res?`<div class="sub" style="margin-top:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${esc(r.res)}</div>`:""}</div><div></div></a>`;
+}
+async function vRapports(){
+  let R;try{R=await getJ("rapports.json")}catch(e){return `<div class="empty">Impossible de charger les rapports.</div>`}
+  const st=S.rf||(S.rf={src:"",q:"",ty:"",lim:60});
+  let L=R.filter(r=>mT(r.th)&&(!S.ch||r.src===S.ch||(st.src==="CC"&&r.src==="CC"))&&(!st.src||r.src===st.src));
+  const types=[...new Set(L.map(r=>r.ty))].filter(Boolean).sort();
+  if(st.ty)L=L.filter(r=>r.ty===st.ty);
+  if(st.q){const s=st.q.toLowerCase();L=L.filter(r=>(r.t+" "+(r.au||"")+" "+(r.res||"")+" "+(r.jur||"")).toLowerCase().includes(s))}
+  const n=k=>R.filter(r=>mT(r.th)&&(!k||r.src===k)).length;
+  return `<div class="ph"><div><div class="eyebrow">Contrôle et évaluation</div><h1>Rapports et publications</h1><p>Rapports d'information de l'Assemblée, rapports du Sénat et publications de la Cour des comptes et des chambres régionales, depuis octobre 2024.</p></div></div>
+  <div class="agbar"><div class="seg" role="group">${[["","Tout"],["AN","Assemblée"],["SN","Sénat"],["CC","Cour des comptes"]].map(([k,l])=>`<button data-rsrc="${k}" aria-pressed="${st.src===k}">${l} <span class="sub">${n(k)}</span></button>`).join("")}</div></div>
+  <section class="card"><div class="filters"><input type="search" id="rq" placeholder="Titre, auteur, juridiction…" value="${esc(st.q)}"><select id="rty"><option value="">Tous les types</option>${types.map(t=>`<option ${st.ty===t?"selected":""}>${esc(t)}</option>`).join("")}</select><span class="sub" style="margin-left:auto">${L.length.toLocaleString("fr-FR")} résultats</span></div>
+  <div class="bd"><div class="rows">${L.slice(0,st.lim).map(rapRow).join("")||`<div class="empty">Aucun rapport pour ces filtres.</div>`}</div>
+  ${L.length>st.lim?`<button class="btn morebtn" data-act="rmore">Afficher plus</button>`:""}</div></section>`;
+}
+
+/* ---------- vue : élus ---------- */
+const ini=n=>n.split(/[\s-]+/).filter(Boolean).map(x=>x[0]).slice(0,2).join("").toUpperCase();
+async function vElus(){
+  let E;try{E=await getJ("elus.json")}catch(e){return `<div class="empty">Impossible de charger les élus.</div>`}
+  const st=S.ef||(S.ef={ch:"AN",q:"",g:"",sort:"nom"});
+  const isAN=st.ch==="AN";
+  let L=(isAN?E.deputes.filter(d=>d.act):E.senateurs);
+  const groups=[...new Set(L.map(d=>d.g))].filter(Boolean).sort();
+  if(st.g)L=L.filter(d=>d.g===st.g);
+  if(st.q){const q=st.q.toLowerCase();L=L.filter(d=>(d.nom+" "+(d.dep||"")+" "+(d.com||"")).toLowerCase().includes(q))}
+  const so={nom:(a,b)=>0,pa:(a,b)=>(b.pa||0)-(a.pa||0),am:(a,b)=>b.am-a.am,q:(a,b)=>b.q-a.q,lo:(a,b)=>(a.lo??101)-(b.lo??101)};
+  L=L.slice().sort(so[st.sort]||so.nom);
+  const gc=g=>(E.groupes||{})[g]||"#7f8c8d";
+  return `<div class="ph"><div><div class="eyebrow">Fiches élus</div><h1>${isAN?"Députés":"Sénateurs"} <span class="muted" style="font-size:20px">${L.length}</span></h1><p>${isAN?"Participation et cohésion de vote calculées sur les scrutins publics de la XVIIe législature, amendements déposés et adoptés, questions, textes déposés.":"Sénateurs en exercice : groupe, commission, questions des douze derniers mois et amendements déposés sur les textes suivis. Les votes nominatifs du Sénat ne sont pas encore intégrés."}</p></div></div>
+  <div class="agbar"><div class="seg" role="group"><button data-ech="AN" aria-pressed="${isAN}">Assemblée</button><button data-ech="SN" aria-pressed="${!isAN}">Sénat</button></div></div>
+  <section class="card"><div class="filters"><input type="search" id="eq" placeholder="Nom, département, commission…" value="${esc(st.q)}">
+  <select id="eg"><option value="">Tous les groupes</option>${groups.map(g=>`<option ${st.g===g?"selected":""}>${esc(g)}</option>`).join("")}</select>
+  <select id="es">${(isAN?[["nom","Ordre alphabétique"],["pa","Participation"],["lo","Votes contre son groupe"],["am","Amendements"],["q","Questions"]]:[["nom","Ordre alphabétique"],["am","Amendements"],["q","Questions"]]).map(([v,l])=>`<option value="${v}" ${st.sort===v?"selected":""}>Tri : ${l}</option>`).join("")}</select></div>
+  <div class="elus">${L.slice(0,700).map(d=>`<a class="elu" href="${isAN?"#elu-"+d.id:"#sen-"+d.id}">${starP(d.id)}<div class="av" style="--gc:${gc(d.g)}">${ini(d.nom)}</div><div style="min-width:0"><b>${esc(d.nom)}</b><small><span class="gtag" style="--gc:${gc(d.g)}">${esc(d.g)}</span> · ${esc(d.dep||"")}${d.ci?` (${d.ci}${d.ci==="1"?"re":"e"})`:""}</small>
+  <div class="sub" style="font-size:12px">${isAN?`${d.pa??"—"} % participation · ${d.am} amdts · ${d.q} questions`:`${d.am} amdts · ${d.q} questions`}</div></div></a>`).join("")||`<div class="empty">Aucun élu.</div>`}</div></section>`;
+}
+async function vElu(id){
+  const E=await getJ("elus.json");const p=E.deputes.find(d=>d.id===id);if(!p)return `<div class="empty">Député introuvable.</div>`;
+  const gc=(E.groupes||{})[p.g]||"#7f8c8d";
+  let V=[],AM=[];try{const VV=(await getJ(`votes/${p.vf}.json`))[id]||{};V=VV.v||[];AM=VV.am||[]}catch(e){}
+  const SC=await getJ("scrutins.json");
+  const st=S.vf&&S.vf.id===id?S.vf:(S.vf={id,f:"",lim:60});
+  const age=p.nais?Math.floor((TODAY()-pd(p.nais))/31557600000):null;
+  const textes=S.core.dossiers.filter(d=>(d.ai||[]).includes(id));
+  const div=V.filter(([i,pos])=>pos<3&&SC[i].g[p.g]!==undefined&&SC[i].g[p.g]<3&&SC[i].g[p.g]!==pos).length;
+  S.cur=null;
+  return `<a class="sub" href="#elus">← Élus</a>
+  <section class="card hero" style="display:flex;gap:18px;align-items:center;flex-wrap:wrap"><div class="av lg" style="--gc:${gc}">${ini(p.nom)}</div><div style="flex:1;min-width:240px"><div class="meta"><span class="gtag" style="--gc:${gc}">${esc(p.gl)}</span></div><h1 style="margin:6px 0">${esc(p.civ||"")} ${esc(p.nom)}</h1>
+  <div class="meta sepd">${p.dep?`<span>${esc(p.dep)}, ${p.ci}${p.ci==="1"?"re":"e"} circonscription</span>`:""}${p.com?`<span>${esc(p.com)}</span>`:""}${p.prof?`<span>${esc(p.prof)}</span>`:""}${age?`<span>${age} ans</span>`:""}</div>
+  ${p.ro&&p.ro.length?`<div class="chips" style="margin-top:10px">${p.ro.map(r=>`<span class="pill out">${esc(r)}</span>`).join("")}</div>`:""}</div>
+  <div style="display:flex;gap:8px">${starP(id,1)}<a class="btn" href="${AN}/dyn/deputes/${id}" target="_blank" rel="noopener">Fiche AN ↗</a></div></section>
+  <div class="stats">
+    <div class="card stat"><span>Participation aux scrutins</span><b>${p.pa??"—"} %</b><span>${p.nv.toLocaleString("fr-FR")} votes exprimés</span></div>
+    <div class="card stat"><span>Vote avec son groupe</span><b>${p.lo??"—"} %</b><span>${div} votes divergents</span></div>
+    <div class="card stat"><span>Amendements déposés</span><b>${p.am.toLocaleString("fr-FR")}</b><span>${p.ad} adoptés${p.am?` (${Math.round(100*p.ad/p.am)} %)`:""}</span></div>
+    <div class="card stat"><span>Questions</span><b>${p.q}</b><span>écrites, orales, au Gouvernement</span></div>
+    <div class="card stat"><span>Textes déposés</span><b>${textes.length}</b><span>comme premier signataire</span></div>
+  </div>
+  <div class="tabs" role="tablist"><button data-vf="" aria-selected="${!st.f}">Tous les votes<span class="n">${V.length}</span></button><button data-vf="div" aria-selected="${st.f==="div"}">Contre son groupe<span class="n">${div}</span></button><button data-vf="th" aria-selected="${st.f==="th"}">Sur mes thématiques</button><button data-vf="am" aria-selected="${st.f==="am"}">Amendements récents<span class="n">${AM.length}</span></button><button data-vf="q" aria-selected="${st.f==="q"}">Questions<span class="n">${p.q}</span></button><button data-vf="tx" aria-selected="${st.f==="tx"}">Textes déposés<span class="n">${textes.length}</span></button></div>
+  <div id="eluBody">${st.f==="am"?amRows(AM):st.f==="q"?await qRows(q=>q.ai===id):st.f==="tx"?`<section class="card"><div class="bd"><div class="rows">${textes.map(dosRow).join("")||`<div class="empty">Aucun texte.</div>`}</div></div></section>`:(()=>{
+    let L=V.slice().reverse();
+    if(st.f==="div")L=L.filter(([i,pos])=>pos<3&&SC[i].g[p.g]!==undefined&&SC[i].g[p.g]<3&&SC[i].g[p.g]!==pos);
+    if(st.f==="th")L=L.filter(([i])=>SC[i].ds&&dosById(SC[i].ds)&&mT(dosById(SC[i].ds).th));
+    return `<section class="card"><div class="bd"><div class="rows">${L.slice(0,st.lim).map(([i,pos])=>scRow(SC[i],pos)).join("")||`<div class="empty">Aucun vote.</div>`}</div>${L.length>st.lim?`<button class="btn morebtn" data-act="vmore">Afficher plus (${L.length-st.lim})</button>`:""}</div></section>`})()}</div>
+  <p class="note">Participation : votes exprimés (pour, contre, abstention) rapportés au nombre de scrutins publics depuis le début du mandat. Beaucoup de scrutins ont lieu avec peu de députés présents, d'où des taux souvent bas.</p>`;
+}
+
+function amRows(AM){
+  return `<section class="card"><div class="bd"><div class="rows">${AM.map(([dd,did,n,s,art,x])=>{const D=dosById(did);const so=s&&/^Irrecevable/.test(s)?"Irrecevable":(s||"En attente");
+    return `<a class="row" href="#texte-${esc(did)}"><div class="when"><small>${dd?MOISC[pd(dd).getMonth()]:""}</small><b>${dd?pd(dd).getDate():"—"}</b><small>${dd?pd(dd).getFullYear():""}</small></div><div><div class="tt">${esc(D?D.t:did)}</div><div class="meta"><span>Amendement n° ${esc(n)}</span>${art?`<span>${esc(art)}</span>`:""}<span class="pill ${SORTC[so]||"out"}">${esc(so)}</span></div>${x?`<div class="sub" style="margin-top:5px">${esc(x)}</div>`:""}</div><div></div></a>`}).join("")||`<div class="empty">Aucun amendement récent.</div>`}</div><p class="note">Les 60 derniers amendements déposés comme premier signataire. Ouvrez le texte puis l'onglet Amendements pour lire le texte intégral.</p></div></section>`;
+}
+async function qRows(f){
+  const Q=(await getJ("questions.json")).filter(f).slice(0,150);
+  return `<section class="card"><div class="bd"><div class="rows">${Q.map(q=>`<a class="row" href="${q.url||AN+"/dyn/17/questions/"+q.id}" target="_blank" rel="noopener"><div class="when"><small>${q.d?MOISC[pd(q.d).getMonth()]:""}</small><b>${q.d?pd(q.d).getDate():"—"}</b><small>${q.d?pd(q.d).getFullYear():""}</small></div><div><div class="tt">${esc(q.an||q.rub)}</div><div class="meta"><span class="pill out">${q.ty} n° ${esc(q.n)}</span><span>${esc(q.m||"")}</span>${q.st==="r"?`<span class="pill ok">Répondue</span>`:q.st==="c"?`<span class="pill out">Close</span>`:`<span class="pill warn">En attente</span>`}</div></div><div></div></a>`).join("")||`<div class="empty">Aucune question.</div>`}</div></div></section>`;
+}
+const qName=s=>(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z]/g,"");
+async function vSen(id){
+  const E=await getJ("elus.json");const p=E.senateurs.find(d=>d.id===id);if(!p)return `<div class="empty">Sénateur introuvable.</div>`;
+  let AM=[];try{AM=(await getJ("senam.json"))[p.cle]||[]}catch(e){}
+  const st=S.sf&&S.sf.id===id?S.sf:(S.sf={id,f:"am"});const nk=qName(p.nom);
+  S.cur=null;
+  return `<a class="sub" href="#elus">← Élus</a>
+  <section class="card hero" style="display:flex;gap:18px;align-items:center;flex-wrap:wrap"><div class="av lg" style="--gc:var(--sn)">${ini(p.nom)}</div><div style="flex:1;min-width:240px"><div class="meta"><span class="pill sn">Sénat</span><span>${esc(p.gl)}</span></div><h1 style="margin:6px 0">${esc(p.civ||"")} ${esc(p.nom)}</h1>
+  <div class="meta sepd">${p.dep?`<span>${esc(p.dep)}</span>`:""}${p.com?`<span>${esc(p.com)}</span>`:""}${p.prof?`<span>${esc(p.prof)}</span>`:""}</div></div>
+  <div style="display:flex;gap:8px">${starP(id,1)}<a class="btn" href="${p.url}" target="_blank" rel="noopener">Fiche Sénat ↗</a></div></section>
+  <div class="stats"><div class="card stat"><span>Amendements déposés</span><b>${p.am}</b><span>${p.ad} adoptés · textes depuis oct. 2024</span></div><div class="card stat"><span>Questions</span><b>${p.q}</b><span>sur les douze derniers mois</span></div></div>
+  <div class="tabs" role="tablist"><button data-sf="am" aria-selected="${st.f==="am"}">Amendements récents<span class="n">${AM.length}</span></button><button data-sf="q" aria-selected="${st.f==="q"}">Questions<span class="n">${p.q}</span></button></div>
+  ${st.f==="q"?await qRows(q=>q.ch==="SN"&&qName(q.au)===nk):amRows(AM)}
+  <p class="note">Les votes nominatifs du Sénat ne sont pas encore intégrés. Les amendements sont rattachés par le nom de l'auteur.</p>`;
+}
+/* ---------- vue : suivis ---------- */
+async function vSuivis(){
+  const E=S.folp.size?await getJ("elus.json"):{deputes:[],senateurs:[]};
+  const P=[...S.folp].map(id=>E.deputes.find(d=>d.id===id)||Object.assign({sen:1},E.senateurs.find(d=>d.id===id))).filter(x=>x&&x.nom);
+  const gc=g=>(E.groupes||{})[g]||"#7f8c8d";
+  let feed=[];
+  if(P.length){
+    const SC=await getJ("scrutins.json").catch(()=>[]);const Q=await getJ("questions.json").catch(()=>[]);let SA={};try{SA=await getJ("senam.json")}catch(e){}
+    for(const p of P){
+      if(p.sen){(SA[p.cle]||[]).slice(0,15).forEach(a=>feed.push({d:a[0],p,k:"Amendement",t:`n° ${a[2]} · ${(dosById(a[1])||{}).t||""}`,h:"#texte-"+a[1],s:a[3]}));
+        const nk=qName(p.nom);Q.filter(q=>q.ch==="SN"&&qName(q.au)===nk).slice(0,10).forEach(q=>feed.push({d:q.d,p,k:q.ty,t:q.an,h:q.url,ext:1,s:q.st==="r"?"Répondue":"En attente"}));continue}
+      let VV={};try{VV=(await getJ(`votes/${p.vf}.json`))[p.id]||{}}catch(e){}
+      (VV.am||[]).slice(0,15).forEach(a=>feed.push({d:a[0],p,k:"Amendement",t:`n° ${a[2]} · ${(dosById(a[1])||{}).t||""}`,h:"#texte-"+a[1],s:a[3]}));
+      (VV.v||[]).slice(-15).forEach(([i,pos])=>{const s=SC[i];if(s)feed.push({d:s.d,p,k:"Vote "+["pour","contre","abstention","non-votant"][pos],t:s.t,h:s.ds?"#texte-"+s.ds:"#elu-"+p.id,s:s.r?"Adopté":"Rejeté"})});
+      Q.filter(q=>q.ai===p.id).slice(0,10).forEach(q=>feed.push({d:q.d,p,k:q.ty,t:q.an,h:q.url||AN+"/dyn/17/questions/"+q.id,ext:1,s:q.st==="r"?"Répondue":"En attente"}));
+    }
+    feed=feed.filter(x=>x.d).sort((a,b)=>b.d.localeCompare(a.d)).slice(0,80);
+  }
+  return `<div class="ph"><div><div class="eyebrow">Ma sélection</div><h1>Mes suivis</h1><p>Les parlementaires et les textes que vous suivez. Utilisez ★ sur une fiche élu ou sur un texte. Votre sélection est enregistrée dans ce navigateur.</p></div></div>
+  <div class="grid g2" style="align-items:start">
+    <section class="card"><div class="hd"><h2>Activité de mes parlementaires</h2></div><div class="bd"><div class="rows act">${feed.map(f=>`<a class="row" href="${f.h}" ${f.ext?'target="_blank" rel="noopener"':""}><div class="av" style="--gc:${f.p.sen?"var(--sn)":gc(f.p.g)}">${ini(f.p.nom)}</div><div><div class="meta" style="margin:0 0 3px"><b style="color:var(--ink)">${esc(f.p.nom)}</b><span>${esc(f.k)}</span><span>${ds(f.d)}</span>${f.s?`<span class="pill ${SORTC[f.s]||(f.s==="Répondue"?"ok":f.s==="Rejeté"?"ko":"out")}">${esc(f.s)}</span>`:""}</div><div class="tt" style="font-weight:500">${esc((f.t||"").slice(0,220))}</div></div><div></div></a>`).join("")||`<div class="empty">Suivez des députés ou des sénateurs depuis la page Élus pour voir ici leurs derniers votes, amendements et questions.</div>`}</div></div></section>
+    <section class="card"><div class="hd"><h2>Parlementaires suivis</h2><a href="#elus">Élus →</a></div><div class="bd"><div class="rows">${P.map(p=>`<div class="row"><div class="av" style="--gc:${p.sen?"var(--sn)":gc(p.g)}">${ini(p.nom)}</div><a href="${p.sen?"#sen-":"#elu-"}${esc(p.id)}"><div class="tt">${esc(p.nom)}</div><div class="meta">${p.sen?`<span class="pill sn">Sénat</span>`:`<span class="pill an">AN</span>`}<span>${esc(p.g)}</span><span>${esc(p.dep||"")}</span></div></a>${starP(p.id)}</div>`).join("")||`<div class="empty">Aucun parlementaire suivi.</div>`}</div></div></section>
+  </div>
+  <div style="margin-top:18px">${vTextes(true).replace(/<div class="ph">[\s\S]*?<\/div><\/div>/,"")}</div>`;
+}
+/* ---------- vue : flux RSS ---------- */
+function rssLast(R,f){const it=R.items.find(i=>i.f.includes(f.id));return it?it.d:null}
+async function vFlux(){
+  let R;try{R=await getJ("rss.json")}catch(e){return `<div class="empty">Impossible de charger les flux.</div>`}
+  const st=S.rs||(S.rs={tab:"mes",src:"",feed:null,q:"",lim:80});
+  const F=R.feeds, SRC={AN:"Assemblée nationale",SN:"Sénat",CC:"Cour des comptes"};
+  const fol=F.filter(f=>S.rssf.has(f.url));
+  const tabs=`<div class="tabs" role="tablist"><button data-rtab="mes" aria-selected="${st.tab==="mes"}">Mes flux<span class="n">${fol.length}</span></button><button data-rtab="lib" aria-selected="${st.tab==="lib"}">Bibliothèque<span class="n">${F.length}</span></button></div>`;
+  const head=`<div class="ph"><div><div class="eyebrow">Fils d'actualité officiels</div><h1>Flux RSS</h1><p>Choisissez dans la bibliothèque les flux à suivre : seuls ceux-là s'affichent dans « Mes flux ». Votre sélection est enregistrée dans ce navigateur. Flux mis à jour le ${ds(R.genere)} à ${hr(R.genere)}.</p></div></div>${tabs}`;
+  if(st.tab==="lib"){
+    const cats=[];F.filter(f=>!st.src||f.src===st.src).filter(f=>!st.q||f.nom.toLowerCase().includes(st.q.toLowerCase())).forEach(f=>{const k=f.src+"|"+f.cat;let c=cats.find(c=>c.k===k);if(!c)cats.push(c={k,src:f.src,cat:f.cat,L:[]});c.L.push(f)});
+    const sugg=S.themes.size?F.filter(f=>f.th.some(t=>S.themes.has(t))&&!S.rssf.has(f.url)):[];
+    return head+`<div class="agbar"><div class="seg" role="group">${[["","Toutes les sources"],["AN","Assemblée"],["SN","Sénat"],["CC","Cour des comptes"]].map(([k,l])=>`<button data-rss="${k}" aria-pressed="${st.src===k}">${l}</button>`).join("")}</div>
+      ${sugg.length?`<button class="btn" data-act="rsssugg">+ Suivre les ${sugg.length} flux liés à mes thématiques</button>`:""}${fol.length?`<button class="btn" data-act="rssnone">Ne plus suivre aucun flux</button>`:""}</div>
+      <section class="card"><div class="filters"><input type="search" id="rsq" placeholder="Rechercher un flux…" value="${esc(st.q)}"><span class="sub" style="margin-left:auto">${fol.length} flux suivi${fol.length>1?"s":""}</span></div>
+      <div class="bd">${cats.map(c=>`<h3 class="eyebrow" style="margin:16px 0 8px">${SRC[c.src]} · ${esc(c.cat)}</h3><div class="libgrid">${c.L.map(f=>{const on=S.rssf.has(f.url),last=rssLast(R,f);
+        return `<div class="libf ${on?"on":""}"><label><input type="checkbox" data-rsub="${esc(f.url)}" ${on?"checked":""}><span><b>${esc(f.nom)}</b><small>${f.n} article${f.n>1?"s":""} récent${f.n>1?"s":""}${last?` · dernier le ${ds(last)}`:""}</small>${f.th.length?`<span class="chips" style="margin-top:5px">${thTags(f.th,3)}</span>`:""}</span></label><a class="sub" href="${esc(f.url)}" target="_blank" rel="noopener" title="Adresse du flux, à copier dans un lecteur RSS">RSS ↗</a></div>`}).join("")}</div>`).join("")||`<div class="empty">Aucun flux.</div>`}</div></section>`;
+  }
+  if(!fol.length)return head+`<div class="card empty" style="padding:40px"><p style="margin:0 0 14px">Vous ne suivez encore aucun flux.</p><button class="btn pri" data-rtab="lib">Ouvrir la bibliothèque</button>${S.themes.size?` <button class="btn" data-act="rsssugg">Suivre les flux de mes thématiques</button>`:""}</div>`;
+  const ids=new Set(fol.map(f=>f.id));
+  let L=R.items.filter(i=>i.f.some(k=>ids.has(k))&&(st.feed===null||i.f.includes(st.feed)));
+  if(st.q){const q=st.q.toLowerCase();L=L.filter(i=>(i.t+" "+i.s).toLowerCase().includes(q))}
+  return head+`<div class="grid g-rss" style="align-items:start">
+    <section class="card"><div class="bd" style="padding:8px"><div class="feedlist"><button data-rfeed="" aria-pressed="${st.feed===null}">Tous mes flux <span class="sub">${R.items.filter(i=>i.f.some(k=>ids.has(k))).length}</span></button>
+      ${["AN","SN","CC"].map(s=>{const X=fol.filter(f=>f.src===s);return X.length?`<div class="cat">${SRC[s]}</div>${X.map(f=>`<button data-rfeed="${f.id}" aria-pressed="${st.feed===f.id}"><span>${esc(f.nom)}</span><span class="sub">${f.n}</span></button>`).join("")}`:""}).join("")}
+      <button data-rtab="lib" style="margin-top:8px;color:var(--acc)">+ Gérer mes flux</button></div></div></section>
+    <section class="card"><div class="filters"><input type="search" id="rsq" placeholder="Rechercher dans mes flux…" value="${esc(st.q)}">${st.feed!==null?`<a class="btn" href="${F[st.feed].url}" target="_blank" rel="noopener">Adresse du flux ↗</a>`:""}<span class="sub" style="margin-left:auto">${L.length} articles</span></div>
+      <div class="bd"><div class="rows">${L.slice(0,st.lim).map(i=>{const f=F[i.f.find(k=>ids.has(k))];return `<a class="row" href="${esc(i.l)}" target="_blank" rel="noopener"><div class="when"><small>${i.d?MOISC[pd(i.d).getMonth()]:""}</small><b>${i.d?pd(i.d).getDate():"—"}</b><small>${i.d?hr(i.d)||pd(i.d).getFullYear():""}</small></div><div><div class="tt">${esc(i.t)}</div><div class="meta">${chPill(f.src)}${[...new Set(i.f.filter(k=>ids.has(k)).map(k=>F[k].nom))].slice(0,3).map(n=>`<span>${esc(n)}</span>`).join("")}</div>${i.s?`<div class="sub" style="margin-top:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${esc(i.s)}</div>`:""}</div><div></div></a>`}).join("")||`<div class="empty">Aucun article dans vos flux.</div>`}</div>
+      ${L.length>st.lim?`<button class="btn morebtn" data-act="rsmore">Afficher plus</button>`:""}</div></section>
+  </div>`;
+}
+/* ---------- routeur ---------- */
+const VIEWS={accueil:vAccueil,agenda:vAgenda,textes:()=>vTextes(false),suivis:vSuivis,flux:vFlux,questions:vQuestions,rapports:vRapports,elus:vElus};
+let rid=0;
+async function render(keepScroll){
+  const h=decodeURIComponent(location.hash.slice(1))||"accueil";const my=++rid;
+  let v=h,arg=null;
+  const m=h.match(/^(texte|elu|sen|agenda)-(.+)$/);if(m){v=m[1];arg=m[2]}
+  document.querySelectorAll("#nav a").forEach(a=>a.setAttribute("aria-current",a.dataset.v===(v==="texte"?"textes":(v==="elu"||v==="sen")?"elus":v)?"page":"false"));
+  const sy=window.scrollY;
+  let html;
+  try{
+    if(v==="texte")html=await vTexte(arg);else if(v==="elu")html=await vElu(arg);else if(v==="sen")html=await vSen(arg);else if(v==="agenda")html=vAgenda(arg);
+    else{const f=VIEWS[v]||vAccueil;if(f===vQuestions||f===vRapports||f===vElus||f===vSuivis||f===vFlux)$("#view").innerHTML=`<div class="loading">Chargement…</div>`;html=await f()}
+  }catch(e){console.error(e);html=`<div class="empty">Erreur de chargement : ${esc(e.message)}</div>`}
+  if(my!==rid)return;
+  $("#view").innerHTML=html;
+  if(v!=="texte")S.cur=null;
+  if(v==="texte")renderTab();
+  if(v==="accueil")fillLastPub();
+  bindInputs();
+  window.scrollTo(0,keepScroll?sy:0);
+  $("#cSu").textContent=(S.fol.size+S.folp.size)||"";
+}
+function bindInputs(){
+  const deb=(fn)=>{let t;return e=>{clearTimeout(t);t=setTimeout(()=>fn(e),220)}};
+  const bind=(sel,obj,key,isText)=>{const n=$(sel);if(!n)return;n.addEventListener(isText?"input":"change",(isText?deb:(f=>f))(()=>{obj[key]=n.type==="checkbox"?n.checked:n.value;if("lim"in obj)obj.lim=obj===S.tx?80:obj===S.rf?60:100;render(true).then(()=>{if(isText){const m=$(sel);if(m){m.focus();m.setSelectionRange(m.value.length,m.value.length)}}})}))};
+  bind("#txq",S.tx,"q",1);bind("#txty",S.tx,"ty");bind("#txst",S.tx,"st");bind("#txsort",S.tx,"sort");bind("#txact",S.tx,"act");
+  if(S.qf){bind("#qq",S.qf,"q",1);bind("#qty",S.qf,"ty");bind("#qst",S.qf,"st")}
+  if(S.rf){bind("#rq",S.rf,"q",1);bind("#rty",S.rf,"ty")}
+  if(S.rs){bind("#rsq",S.rs,"q",1)}
+  if(S.ef){bind("#eq",S.ef,"q",1);bind("#eg",S.ef,"g");bind("#es",S.ef,"sort")}
+}
+document.addEventListener("click",ev=>{
+  if(ev.target.closest("#amd")){const g=ev.target.closest("[data-amgo]");if(g){const c=S.amCtx,a=c.A[S.amIdx],i=c.L.indexOf(a)+(+g.dataset.amgo);if(c.L[i])openAmd(c.A.indexOf(c.L[i]));return}
+    if(ev.target.id==="amd"||ev.target.closest("[data-amclose]")){$("#amd").hidden=true;return}return}
+  const tr=ev.target.closest("tr[data-am]");if(tr&&!ev.target.closest("a")){openAmd(+tr.dataset.am);return}
+  const b=ev.target.closest("[data-rsub],[data-rtab],[data-folp],[data-sf],[data-rss],[data-rssth],[data-rfeed],[data-fol],[data-ch],[data-agmode],[data-agnav],[data-agk],[data-agfol],[data-day],[data-sel],[data-tab],[data-act],[data-rsrc],[data-ech],[data-vf]");if(!b)return;
+  const d=b.dataset;
+  if(d.folp!==undefined){ev.preventDefault();const id=d.folp;S.folp.has(id)?S.folp.delete(id):S.folp.add(id);LS.set("veille.elus",[...S.folp]);toast(S.folp.has(id)?"Parlementaire ajouté à vos suivis":"Parlementaire retiré de vos suivis");render(true);return}
+  if(d.rsub!==undefined){const u=d.rsub;S.rssf.has(u)?S.rssf.delete(u):S.rssf.add(u);LS.set("veille.rss",[...S.rssf]);render(true);return}
+  if(d.rtab){S.rs.tab=d.rtab;S.rs.feed=null;S.rs.q="";S.rs.lim=80;render(false);return}
+  if(d.sf){S.sf.f=d.sf;render(true);return}
+  if(d.rss!==undefined){S.rs.src=d.rss;S.rs.feed=null;S.rs.lim=80;render(true);return}
+  if(d.rssth!==undefined){S.rs.th=!S.rs.th;render(true);return}
+  if(d.rfeed!==undefined){S.rs.feed=d.rfeed===""?null:+d.rfeed;S.rs.lim=80;render(true);return}
+  if(d.fol!==undefined){ev.preventDefault();const id=d.fol;S.fol.has(id)?S.fol.delete(id):S.fol.add(id);LS.set("veille.suivis",[...S.fol]);toast(S.fol.has(id)?"Texte ajouté à vos suivis":"Texte retiré de vos suivis");render(true);return}
+  if(d.ch!==undefined){S.ch=d.ch;document.querySelectorAll("#chseg button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.ch===S.ch));render(true);return}
+  if(d.agmode){S.ag.mode=d.agmode;LS.set("veille.agmode",d.agmode);render(true);return}
+  if(d.agnav!==undefined){const n=+d.agnav,r=S.ag.ref||TODAY();S.ag.sel=null;if(n===0)S.ag.ref=TODAY();else if(S.ag.mode==="mois")S.ag.ref=new Date(r.getFullYear(),r.getMonth()+n,1);else S.ag.ref=new Date(r.getTime()+n*7*864e5);if(location.hash.startsWith("#agenda-"))location.hash="#agenda";else render(true);return}
+  if(d.agk){S.ag.kinds.has(d.agk)?S.ag.kinds.delete(d.agk):S.ag.kinds.add(d.agk);render(true);return}
+  if(d.agfol!==undefined){S.ag.onlyFol=!S.ag.onlyFol;render(true);return}
+  if(d.day){S.ag.mode="semaine";S.ag.ref=pd(d.day);S.ag.sel=d.day;render(true);return}
+  if(d.sel){S.ag.sel=d.sel;render(true);return}
+  if(d.tab){S.cur.tab=d.tab;document.querySelectorAll("[data-tab]").forEach(x=>x.setAttribute("aria-selected",x.dataset.tab===d.tab));renderTab();return}
+  if(d.rsrc!==undefined){S.rf.src=d.rsrc;S.rf.ty="";S.rf.lim=60;render(true);return}
+  if(d.ech){S.ef.ch=d.ech;S.ef.g="";S.ef.sort="nom";render(true);return}
+  if(d.vf!==undefined){S.vf.f=d.vf;S.vf.lim=60;render(true);return}
+  if(d.act){const a=d.act;
+    if(a==="themes")openThemes();if(a==="onbok"){LS.set("veille.onb",true);render(true)}
+    if(a==="txmore"){S.tx.lim+=150;render(true)}if(a==="qmore"){S.qf.lim+=200;render(true)}if(a==="rmore"){S.rf.lim+=100;render(true)}if(a==="vmore"){S.vf.lim+=150;render(true)}if(a==="rsmore"){S.rs.lim+=150;render(true)}
+    if(a==="rsssugg"){const R=S.cache["rss.json"];R.feeds.filter(f=>f.th.some(t=>S.themes.has(t))).forEach(f=>S.rssf.add(f.url));LS.set("veille.rss",[...S.rssf]);toast("Flux de vos thématiques ajoutés");render(true)}
+    if(a==="rssnone"){S.rssf.clear();LS.set("veille.rss",[]);render(true)}}
+});
+window.addEventListener("hashchange",()=>render(false));
+
+/* ---------- thématiques ---------- */
+let thDraft=null;
+function openThemes(){
+  thDraft=new Set(S.themes);const cnt={};S.core.dossiers.forEach(d=>d.th.forEach(t=>cnt[t]=(cnt[t]||0)+1));
+  const draw=()=>{$("#thGrid").innerHTML=S.core.themes.map(t=>`<button class="thcard" data-thx="${t.id}" aria-pressed="${thDraft.has(t.id)}" style="--c:${TH_COL[t.id]}"><i></i>${esc(t.l)}<span class="n">${cnt[t.id]||0}</span></button>`).join("")};
+  draw();$("#thm").hidden=false;
+  $("#thGrid").onclick=e=>{const b=e.target.closest("[data-thx]");if(!b)return;const k=b.dataset.thx;thDraft.has(k)?thDraft.delete(k):thDraft.add(k);draw()};
+}
+function applyThemes(){S.themes=thDraft;LS.set("veille.themes",[...S.themes]);LS.set("veille.onb",true);$("#thm").hidden=true;thLabel();render(true)}
+function thLabel(){const n=S.themes.size;$("#thLabel").textContent=!n?"Toutes les thématiques":n===1?thLab([...S.themes][0]):`${n} thématiques`}
+$("#openTh").onclick=openThemes;$("#thOk").onclick=applyThemes;$("#thAll").onclick=()=>{thDraft=new Set();applyThemes()};
+$("#thm").addEventListener("click",e=>{if(e.target.id==="thm")$("#thm").hidden=true});
+
+/* ---------- palette ---------- */
+let palSel=0;
+async function openPal(){$("#pal").hidden=false;$("#palIn").value="";$("#palIn").focus();palDraw();try{await getJ("elus.json");palDraw()}catch(e){}}
+function palDraw(){
+  const q=$("#palIn").value.trim().toLowerCase();
+  const pages=[["accueil","Aujourd'hui"],["agenda","Agenda"],["textes","Textes"],["suivis","Mes suivis"],["questions","Questions"],["rapports","Rapports et Cour des comptes"],["flux","Flux RSS"],["elus","Élus"]].filter(p=>!q||p[1].toLowerCase().includes(q));
+  const T=q.length>1?S.core.dossiers.filter(d=>d.t.toLowerCase().includes(q)||(d.num||"").includes(q)).sort((a,b)=>b.ac-a.ac).slice(0,8):[];
+  const E=S.cache["elus.json"];const P=q.length>1&&E?E.deputes.filter(d=>d.nom.toLowerCase().includes(q)).slice(0,6):[];
+  const SN=q.length>1&&E?E.senateurs.filter(d=>d.nom.toLowerCase().includes(q)).slice(0,4):[];
+  let i=0;const it=(href,html,ext)=>`<a href="${href}" ${ext?'target="_blank" rel="noopener"':""} class="${i++===palSel?"sel":""}">${html}</a>`;
+  $("#palRes").innerHTML=(T.length?`<div class="grp">Textes</div>`+T.map(d=>it("#texte-"+d.id,`<span class="pill out">${esc(d.ty)}</span><span>${esc(d.t)}</span>`)).join(""):"")+
+    (P.length?`<div class="grp">Députés</div>`+P.map(d=>it("#elu-"+d.id,`<span class="av" style="--gc:${E.groupes[d.g]||"#888"};width:26px;height:26px;font-size:11px">${ini(d.nom)}</span><span>${esc(d.nom)} <span class="sub">${esc(d.g)} · ${esc(d.dep||"")}</span></span>`)).join(""):"")+
+    (SN.length?`<div class="grp">Sénateurs</div>`+SN.map(d=>it("#sen-"+d.id,`<span class="pill sn">Sénat</span><span>${esc(d.nom)} <span class="sub">${esc(d.g)}</span></span>`)).join(""):"")+
+    (pages.length?`<div class="grp">Pages</div>`+pages.map(p=>it("#"+p[0],esc(p[1]))).join(""):"")||`<div class="empty">Aucun résultat.</div>`;
+}
+$("#openPal").onclick=openPal;
+$("#palIn").addEventListener("input",()=>{palSel=0;palDraw()});
+$("#palIn").addEventListener("keydown",e=>{const L=[...document.querySelectorAll("#palRes a")];if(e.key==="ArrowDown"){palSel=Math.min(L.length-1,palSel+1);palDraw();e.preventDefault()}else if(e.key==="ArrowUp"){palSel=Math.max(0,palSel-1);palDraw();e.preventDefault()}else if(e.key==="Enter"&&L[palSel]){L[palSel].click();$("#pal").hidden=true}else if(e.key==="Escape")$("#pal").hidden=true});
+$("#pal").addEventListener("click",e=>{if(e.target.id==="pal"||e.target.closest("#palRes a"))$("#pal").hidden=true});
+document.addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){e.preventDefault();openPal()}if(e.key==="Escape"){$("#pal").hidden=true;$("#thm").hidden=true;$("#amd").hidden=true}if(!$("#amd").hidden&&(e.key==="ArrowRight"||e.key==="ArrowLeft")){const b=document.querySelector(`[data-amgo="${e.key==="ArrowRight"?1:-1}"]`);if(b&&!b.disabled)b.click()}});
+$("#mode").onclick=()=>{const r=document.documentElement;const dark=r.dataset.theme?r.dataset.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches;r.dataset.theme=dark?"light":"dark";LS.set("veille.mode",r.dataset.theme)};
+{const m=LS.get("veille.mode",null);if(m)document.documentElement.dataset.theme=m}
+
+/* ---------- démarrage ---------- */
+(async()=>{
+  try{
+    const [core,ev]=await Promise.all([getJ("core.json"),getJ("agenda.json")]);
+    S.core=core;S.ev=ev;S.evById={};ev.forEach(e=>S.evById[e.id]=e);core.dossiers.forEach(d=>S.D[d.id]=d);
+    S.themes=new Set([...S.themes].filter(t=>core.themes.some(x=>x.id===t)));
+    const c=core.counts;
+    $("#cTx").textContent=c.actifs.toLocaleString("fr-FR");$("#cAg").textContent=ev.filter(e=>e.d.slice(0,10)>=core.aujourdhui).length;
+    $("#foot").innerHTML=`Mis à jour le ${ds(core.genere)}<br>${c.dossiers.toLocaleString("fr-FR")} textes · ${c.amendements.toLocaleString("fr-FR")} amendements · ${c.scrutins.toLocaleString("fr-FR")} scrutins · ${c.questions.toLocaleString("fr-FR")} questions · ${c.cc.toLocaleString("fr-FR")} publications des juridictions financières<br>Sources : ${core.sources.map(s=>`<a href="${s.url}" target="_blank" rel="noopener">${esc(s.nom.split(" (")[0])}</a>`).join(", ")}`;
+    thLabel();render(false);
+  }catch(e){$("#view").innerHTML=`<div class="empty">Impossible de charger les données (${esc(e.message)}).</div>`}
+})();
+</script>
+</body>
+</html>
