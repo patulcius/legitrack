@@ -2,7 +2,7 @@ name: Mise à jour de la veille
 
 on:
   schedule:
-    - cron: "15 2 * * *"        # chaque nuit (3 h 15 à Paris en hiver) : collecte complète
+    - cron: "30 7 * * *"        # chaque matin (8 h 30 à Paris en hiver), après les mises à jour AN (2 h-8 h 30) et Sénat (3 h-5 h) : collecte complète
     - cron: "5 6-20 * * 1-5"    # toutes les heures en semaine (7 h - 21 h à Paris) : agenda, ordre du jour, flux RSS
   workflow_dispatch:
     inputs:
@@ -38,7 +38,7 @@ jobs:
           restore-keys: data-
       - name: Collecter et construire
         env:
-          MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.mode || (github.event.schedule == '15 2 * * *' && 'full' || 'light') }}
+          MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.mode || (github.event.schedule == '30 7 * * *' && 'full' || 'light') }}
         run: bash scripts/update.sh "$MODE"
       - name: Sauvegarder les données
         uses: actions/cache/save@v4
