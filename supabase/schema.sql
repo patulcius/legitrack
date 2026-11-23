@@ -126,6 +126,8 @@ alter table public.alertes enable row level security;
 alter table public.envois enable row level security;
 
 revoke all on public.admins_autorises, public.profils, public.alertes, public.envois from anon, authenticated;
+-- le script d'alertes (GitHub Actions) utilise la clé secrète, rôle service_role
+grant select, insert, update, delete on public.profils, public.alertes, public.envois, public.admins_autorises to service_role;
 grant select on public.profils to authenticated;
 grant update (nom, prefs) on public.profils to authenticated;
 grant select, insert, update, delete on public.alertes to authenticated;
