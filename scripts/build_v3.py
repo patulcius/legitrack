@@ -603,6 +603,7 @@ dump(scrutins, f"{OUT}/scrutins.json")
 # ---------------------------------------------------------------- questions
 questions = []
 q_by_aut = Counter()
+qe_files = {}
 for folder in ("qe", "qosd", "qag"):
     for f in glob.glob(f"{RAW}/{folder}/json/*.json"):
         q = load(f)["question"]
@@ -617,6 +618,16 @@ for folder in ("qe", "qosd", "qag"):
         aref = ((q.get("auteur") or {}).get("identite") or {}).get("acteurRef")
         q_by_aut[aref] += 1
         st = "r" if date_r else ("c" if cl.get("libelleCloture") else "a")
+        if folder == "qe":
+            # Fichier par question écrite, lu par l'outil Athéna (widget Grist) : NE PAS renommer les champs ni déplacer les fichiers
+            mi = q.get("minInt") or {}
+            tq0 = tqs[0] if tqs else {}
+            qe_files[str(q["identifiant"]["numero"])] = {
+                "numero": int(q["identifiant"]["numero"]), "titre": cap(ana or idx.get("teteAnalyse") or ""),
+                "texte": re.sub(r"[ \t]+", " ", txt(tq0.get("texte")) or "").strip(),
+                "depute": acteurs.get(aref, ""), "groupe": ((q.get("auteur") or {}).get("groupe") or {}).get("abrege"),
+                "ministere": mi.get("developpe"), "ministere_court": mi.get("abrege"), "date_jo": (date_q or "")[:10] or None,
+                "url": f"{AN}/dyn/{q['identifiant'].get('legislature') or '17'}/questions/{q['uid']}"}
         questions.append({"id": q["uid"], "ty": q.get("type"), "n": q["identifiant"]["numero"], "rub": cap(rub), "an": cap(ana or idx.get("teteAnalyse") or ""),
                           "au": acteurs.get(aref, ""), "ai": aref, "g": ((q.get("auteur") or {}).get("groupe") or {}).get("abrege"),
                           "m": (q.get("minInt") or {}).get("abrege"), "d": date_q, "r": date_r, "st": st, "stl": cl.get("libelleCloture"),
@@ -633,6 +644,10 @@ for r in read_csv(f"{SEN}/questions-depuis-un-an.csv"):
                       "ch": "SN", "url": norm_url(r.get("URL Question"))})
 questions.sort(key=lambda x: x.get("d") or "", reverse=True)
 dump(questions, f"{OUT}/questions.json")
+os.makedirs(f"{OUT}/qe/an", exist_ok=True)
+for num, obj in qe_files.items():
+    with open(f"{OUT}/qe/an/{num}.json", "w", encoding="utf-8") as fh: json.dump(obj, fh, ensure_ascii=False)
+print("questions écrites AN (fichiers qe/an) :", len(qe_files))
 
 # ---------------------------------------------------------------- rapports
 rapports = []
