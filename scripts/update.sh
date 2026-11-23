@@ -56,6 +56,14 @@ fi
 
 python3 -I "$ROOT/scripts/build_v3.py" "$RAW" "$DATA/senat" "$DATA/ccomptes" "$OUT"
 python3 -I "$ROOT/scripts/fetch_rss.py" "$OUT/rss.json" || echo "Flux RSS indisponibles" >&2
-cp "$ROOT/site/index.html" "$OUT/index.html"
+cp -r "$ROOT/site/." "$OUT/"
+# Journal des nouveautés, flux RSS par thématique, calendriers .ics (état conservé dans le cache)
+if [ -f "$ROOT/scripts/post_build.py" ]; then
+  python3 -I "$ROOT/scripts/post_build.py" "$OUT" "$DATA/etat" || echo "Journal des nouveautés indisponible" >&2
+fi
+# Lettre e-mail : une fois par jour, avec la collecte complète du matin
+if [ "$MODE" = "full" ] && [ "$(TZ=Europe/Paris date +%H)" -lt 12 ] && [ -f "$ROOT/scripts/lettre.py" ]; then
+  python3 -I "$ROOT/scripts/lettre.py" "$OUT" "$DATA/etat" || true
+fi
 touch "$OUT/.nojekyll"
 echo "Site construit ($MODE) : $(du -sh "$OUT" | cut -f1)"

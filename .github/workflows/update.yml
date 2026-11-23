@@ -41,6 +41,12 @@ jobs:
       - name: Collecter et construire
         env:
           MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.mode || ((github.event.schedule == '30 7 * * *' || github.event.schedule == '0 13 * * *') && 'full' || 'light') }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          LETTRE_FROM: ${{ secrets.LETTRE_FROM }}
+          LETTRE_DEST: ${{ secrets.LETTRE_DEST }}
         run: bash scripts/update.sh "$MODE"
       - name: Sauvegarder les données
         uses: actions/cache/save@v4
