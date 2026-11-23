@@ -307,6 +307,47 @@ tr.clk{cursor:pointer}
   .daylist .dl{grid-template-columns:1fr}.daylist .dlh{position:static}
   .tbl .hm{display:none}.kpis{grid-template-columns:1fr 1fr}h1{font-size:24px}.mob{display:inline}
 }
+/* comptes et alertes */
+#accBtn.on{background:var(--ink);color:var(--panel);border-color:var(--ink);font-weight:700;font-size:12.5px;position:relative}
+#accBtn{position:relative}.accdot{position:absolute;top:-3px;right:-3px;width:10px;height:10px;border-radius:50%;background:var(--dl);border:2px solid var(--bg,var(--panel))}
+.accgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;margin-bottom:18px}
+.form{display:flex;flex-direction:column;gap:13px;padding:16px 18px 18px}
+.field{display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:600;color:var(--ink2)}
+.field small{font-weight:400;color:var(--mute)}
+.field input{border:1px solid var(--line2);background:var(--panel);color:var(--ink);border-radius:10px;padding:9px 11px;font:400 14.5px inherit;font-family:inherit;width:100%;min-width:0}
+.field input:focus{outline:3px solid var(--acc-soft);border-color:var(--acc)}.field input:disabled{opacity:.65}
+.chk{display:flex;gap:9px;align-items:flex-start;font-size:13.5px;color:var(--ink2);line-height:1.45;cursor:pointer}
+.chk input{margin-top:3px;flex:none;accent-color:var(--acc)}
+.chklist{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:9px 16px}
+.formerr,.formok{border-radius:10px;padding:9px 12px;font-size:13.5px;line-height:1.45;margin-bottom:12px}.form .formerr,.form .formok{margin:0}
+.formerr{background:var(--ko-soft);color:var(--ko)}.formok{background:var(--ok-soft);color:var(--ok)}
+.btn.big{justify-content:center;padding:10px 14px;font-size:14.5px}.btn:disabled{opacity:.55;cursor:default}
+.btn.danger{color:var(--ko)}.btn.danger:hover{border-color:var(--ko)}
+.btn[aria-pressed="true"]{border-color:var(--acc);color:var(--acc);background:var(--acc-soft)}
+.modal .chk input{width:auto;border:0;padding:0;margin:3px 0 0;background:none}.form>.btn:not(.big){align-self:flex-start}.hint a,.perks a{color:var(--acc)}
+.linkbtn{border:0;background:none;padding:0;color:var(--acc);font-size:13px;font-weight:500;cursor:pointer;align-self:flex-start}
+.perks ul{list-style:none;margin:0;padding:8px 18px 8px;display:flex;flex-direction:column;gap:14px}
+.perks li{display:flex;gap:12px;align-items:flex-start;font-size:13.5px;color:var(--ink2);line-height:1.45}
+.perks li b{display:block;color:var(--ink);font-size:14px;margin-bottom:1px}
+.perks svg{flex:none;width:34px;height:34px;padding:7px;border-radius:10px;background:var(--acc-soft);fill:none;stroke:var(--acc);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.wait{display:flex;gap:16px;align-items:flex-start;padding:20px 22px}.wait p{margin:0 0 8px;color:var(--ink2);max-width:62ch}
+.waitic{width:44px;height:44px;border-radius:12px;background:var(--warn-soft);display:grid;place-items:center;font-size:20px;flex:none}
+.wait .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.alrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px 14px;padding:14px 0;border-bottom:1px solid var(--line);align-items:center}
+.alrow:last-child{border-bottom:0}.alrow .tt{display:block;font-weight:600;line-height:1.35;overflow-wrap:anywhere}.alrow a.tt:hover{color:var(--acc)}
+.alrow .ctl{display:flex;gap:8px;align-items:center}.alrow .types{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px}
+.seg.sm button{padding:4px 9px;font-size:12.5px}.iconbtn.sm{width:30px;height:30px;border-radius:9px}.iconbtn.sm svg{width:15px;height:15px}
+.chip.sm{padding:3px 10px;font-size:12.5px;cursor:pointer}
+.addgrp{padding:10px 0 12px}.addgrp+.addgrp{border-top:1px dashed var(--line)}.addgrp .eyebrow{margin-bottom:8px}
+.addgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px}
+.addit{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--line);border-radius:12px;padding:7px 8px 7px 12px;min-width:0}
+.addit .nm{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13.5px;font-weight:500}
+.admcta{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:14px 18px;margin-bottom:18px;background:linear-gradient(135deg,var(--acc-soft),var(--panel) 70%)}
+.adrow{display:flex;align-items:center;justify-content:space-between;gap:10px 14px;flex-wrap:wrap;padding:12px 0;border-bottom:1px solid var(--line)}
+.adrow:last-child{border-bottom:0}.adrow .who{min-width:0;flex:1 1 240px}.adrow .who b,.adrow .who .sub{display:block;overflow-wrap:anywhere}
+.prose h3{font-size:15px;margin:20px 0 6px}.prose p,.prose li{font-size:14px;line-height:1.6;color:var(--ink2);max-width:75ch}.prose ul{padding-left:20px;margin:0}.prose a{color:var(--acc)}
+.hd .sub{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media (max-width:820px){.accgrid{grid-template-columns:1fr}.alrow{grid-template-columns:1fr}.alrow .ctl{justify-content:space-between}.addgrid{grid-template-columns:1fr}.hd .sub{display:none}}
 </style>
 </head>
 <body>
@@ -334,6 +375,7 @@ tr.clk{cursor:pointer}
       <div class="seg" id="chseg" role="group" aria-label="Chambre"><button data-ch="" aria-pressed="true">Tout</button><button data-ch="AN" aria-pressed="false">Assemblée</button><button data-ch="SN" aria-pressed="false">Sénat</button></div>
       <button class="btn" id="openTh"><span class="dot"></span><span id="thLabel">Toutes les thématiques</span></button>
       <button class="iconbtn" id="openSet" aria-label="Partage et abonnements" title="Partage et abonnements"><svg viewBox="0 0 24 24"><circle cx="18" cy="5.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="M8.2 10.8l7.6-4.1M8.2 13.2l7.6 4.1"/></svg></button>
+      <a class="iconbtn" id="accBtn" href="#compte" aria-label="Se connecter" title="Se connecter"><svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c.8-4 3.8-6 7.5-6s6.7 2 7.5 6"/></svg></a>
       <button class="iconbtn" id="mode" aria-label="Changer de thème clair ou sombre"><svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button>
     </header>
     <main class="page" id="view"><div class="loading">Chargement des données…</div></main>
@@ -543,7 +585,7 @@ async function vTexte(id){
   const fut=(x.ech||[]).map(i=>S.evById[i]).filter(e=>e&&e.d.slice(0,10)>=S.core.aujourdhui);
   const links=[x.url&&d.ch!=="SN"?`<a class="btn" href="${x.url}" target="_blank" rel="noopener">Assemblée nationale ↗</a>`:"",x.senat?`<a class="btn" href="${x.senat}" target="_blank" rel="noopener">Sénat ↗</a>`:""].join("");
   return `<a class="sub" href="#textes">← Textes</a>
-  <section class="card hero"><div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap"><div class="meta"><span class="pill out">${esc(d.ty)}${d.num?" n° "+esc(d.num):""}</span>${chPill(d.ch)}<span class="pill ${d.sc}">${esc(d.st)}</span>${thTags(d.th,3)}</div><div class="acts">${S.ctl?S.ctl.items.filter(m=>m.ds===id).map(m=>`<a class="btn" href="#mission-${esc(m.id)}">Auditions et rapport →</a>`).join(""):""}${links}<button class="btn" data-act="subtx" data-id="${esc(id)}" title="Recevoir les nouveautés et l'agenda de ce texte"><svg viewBox="0 0 24 24"><path d="M5 19h.01M5 12a7 7 0 0 1 7 7M5 5a14 14 0 0 1 14 14"/></svg>S'abonner</button><button class="btn" data-fol="${esc(id)}" aria-pressed="${S.fol.has(id)}">${S.fol.has(id)?"★ Suivi":"☆ Suivre"}</button></div></div>
+  <section class="card hero"><div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap"><div class="meta"><span class="pill out">${esc(d.ty)}${d.num?" n° "+esc(d.num):""}</span>${chPill(d.ch)}<span class="pill ${d.sc}">${esc(d.st)}</span>${thTags(d.th,3)}</div><div class="acts">${S.ctl?S.ctl.items.filter(m=>m.ds===id).map(m=>`<a class="btn" href="#mission-${esc(m.id)}">Auditions et rapport →</a>`).join(""):""}${links}<button class="btn" data-act="subtx" data-id="${esc(id)}" title="Recevoir les nouveautés et l'agenda de ce texte"><svg viewBox="0 0 24 24"><path d="M5 19h.01M5 12a7 7 0 0 1 7 7M5 5a14 14 0 0 1 14 14"/></svg>S'abonner</button>${alertBtn("texte",id)}<button class="btn" data-fol="${esc(id)}" aria-pressed="${S.fol.has(id)}">${S.fol.has(id)?"★ Suivi":"☆ Suivre"}</button></div></div>
   <h1>${esc(d.t)}</h1>
   <div class="meta sepd">${(d.au||[]).length?`<span>Auteur${d.au.length>1?"s":""} : ${(x.auteurs||[]).slice(0,6).map((a,i)=>x.auteurs_id&&x.auteurs_id[i]?`<a href="#elu-${x.auteurs_id[i]}" style="text-decoration:underline">${esc(a)}</a>`:esc(a)).join(", ")}${(x.auteurs||[]).length>6?` et ${(x.auteurs.length-6)} autres`:""}</span>`:""}${x.commission?`<span>${esc(x.commission)}</span>`:""}${x.rapporteurs&&x.rapporteurs.length?`<span>Rapporteur${x.rapporteurs.length>1?"s":""} : ${esc(x.rapporteurs.join(", "))}</span>`:""}${d.dep?`<span>Déposé le ${ds(d.dep)}</span>`:""}</div>
   ${steps(d,x)}</section>
@@ -730,7 +772,7 @@ async function vMission(id){
   const nvM=S.nv.items.filter(o=>o.mi===id);
   return `<a class="sub" href="#controle">← Missions et enquêtes</a>
   <section class="card hero"><div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap"><div class="meta"><span class="pill out">${esc(CTLT[m.ty]||m.tl)}</span>${chPill(m.ch)}${mStPill(m)}${thTags(m.th,3)}</div>
-    <div class="acts">${m.url?`<a class="btn" href="${esc(m.url)}" target="_blank" rel="noopener">${m.ch==="SN"?"Sénat":"Dossier AN"} ↗</a>`:""}<button class="btn" data-act="submi" data-id="${esc(id)}" title="Recevoir les nouveautés et l'agenda de ces travaux"><svg viewBox="0 0 24 24"><path d="M5 19h.01M5 12a7 7 0 0 1 7 7M5 5a14 14 0 0 1 14 14"/></svg>S'abonner</button>${starM(id,1)}</div></div>
+    <div class="acts">${m.url?`<a class="btn" href="${esc(m.url)}" target="_blank" rel="noopener">${m.ch==="SN"?"Sénat":"Dossier AN"} ↗</a>`:""}<button class="btn" data-act="submi" data-id="${esc(id)}" title="Recevoir les nouveautés et l'agenda de ces travaux"><svg viewBox="0 0 24 24"><path d="M5 19h.01M5 12a7 7 0 0 1 7 7M5 5a14 14 0 0 1 14 14"/></svg>S'abonner</button>${alertBtn("mission",id)}${starM(id,1)}</div></div>
   <h1>${esc(m.t)}</h1>
   <div class="meta sepd">${m.par?`<span>${esc(m.par)}</span>`:""}${ppl(m.pres,"Présidence")}${ppl(m.rap,"Rapporteur")}${m.nm?`<span>${m.nm} membre${m.nm>1?"s":""}</span>`:""}${m.deb?`<span>${m.st==="Permanente"?"Depuis":"Créée le"} ${ds(m.deb)}</span>`:""}${m.ech?`<span>Fin des travaux au plus tard le ${ds(m.ech)}</span>`:""}${m.fin&&m.st!=="Permanente"?`<span>Terminée le ${ds(m.fin)}</span>`:""}</div></section>
   <div class="stats">
@@ -1177,13 +1219,328 @@ $("#mode").onclick=()=>{const r=document.documentElement;const dark=r.dataset.th
     S.themes=new Set([...S.themes].filter(t=>core.themes.some(x=>x.id===t)));
     const c=core.counts;
     $("#cTx").textContent=c.actifs.toLocaleString("fr-FR");$("#cAg").textContent=ev.filter(e=>e.d.slice(0,10)>=core.aujourdhui).length;
-    $("#foot").innerHTML=`Mis à jour le ${ds(core.genere)}<br>${c.dossiers.toLocaleString("fr-FR")} textes · ${c.amendements.toLocaleString("fr-FR")} amendements · ${c.scrutins.toLocaleString("fr-FR")} scrutins · ${c.questions.toLocaleString("fr-FR")} questions · ${c.cc.toLocaleString("fr-FR")} publications des juridictions financières<br>Sources : ${core.sources.map(s=>`<a href="${s.url}" target="_blank" rel="noopener">${esc(s.nom.split(" (")[0])}</a>`).join(", ")}`;
+    $("#foot").innerHTML=`Mis à jour le ${ds(core.genere)}<br>${c.dossiers.toLocaleString("fr-FR")} textes · ${c.amendements.toLocaleString("fr-FR")} amendements · ${c.scrutins.toLocaleString("fr-FR")} scrutins · ${c.questions.toLocaleString("fr-FR")} questions · ${c.cc.toLocaleString("fr-FR")} publications des juridictions financières<br>Sources : ${core.sources.map(s=>`<a href="${s.url}" target="_blank" rel="noopener">${esc(s.nom.split(" (")[0])}</a>`).join(", ")}<br><a href="#confidentialite">Données personnelles</a>`;
     const fresh=["veille.themes","veille.suivis","veille.elus","veille.missions","veille.rss","veille.onb"].every(k=>{try{return localStorage.getItem(k)===null}catch(e){return false}});
     try{const r=await fetch("equipe.json",{cache:"no-cache"});if(r.ok){S.team=await r.json();if(fresh){applySel(cleanSel(S.team),"replace");toast(`Profil d'équipe${S.team.nom?" « "+S.team.nom+" »":""} appliqué`)}}}catch(e){}
     thLabel();render(false);
     ctlLoad().then(C=>{$("#cCt").textContent=C.items.filter(m=>m.st==="En cours").length||""}).catch(()=>{});
     nvLoad().then(()=>{const v=(location.hash.slice(1)||"accueil").split("-")[0];if(S.nv.ok&&["accueil","textes","suivis","texte","controle","mission"].includes(v))render(true)});
   }catch(e){$("#view").innerHTML=`<div class="empty">Impossible de charger les données (${esc(e.message)}).</div>`}
+})();
+</script>
+<script>
+"use strict";
+/* ---------- comptes, préférences et alertes e-mail (Supabase) ---------- */
+// Clé publiable : faite pour le navigateur, les droits sont limités par les règles RLS de la base.
+const SB_URL="https://ihkcwhzamieintzhqpki.supabase.co",SB_KEY="sb_publishable_cM49RaXuNhA9hwwdFSxorA_oU2gVAOJ";
+const SB_JS="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.js";
+const SB_LS="sb-ihkcwhzamieintzhqpki-auth-token";
+const A={sb:null,loading:null,user:null,p:null,al:null,mode:"login",msg:null,err:null,recovery:false,busy:false,adm:null,del:null,pulled:null};
+const AL_TYPES={
+  mission:[["agenda","Nouvelle audition ou réunion"],["cr","Compte rendu publié"],["rapport","Rapport publié"]],
+  texte:[["etape","Nouvelle étape"],["delai","Délai d'amendement"],["agenda","Inscription à l'agenda"],["doc","Nouveau document"],["amdt","Amendements déposés"],["sort","Amendements examinés"]],
+  theme:[["etape","Étapes des textes"],["delai","Délais d'amendement"],["agenda","Agenda"],["doc","Documents"],["amdt","Amendements déposés"],["sort","Amendements examinés"],["mission","Nouvelles missions"],["cr","Comptes rendus"],["rapport","Rapports et publications"],["question","Questions écrites et orales"],["reponse","Réponses du Gouvernement"]]};
+AL_TYPES.tout=AL_TYPES.theme;
+const CIBLE_L={mission:"Mission ou commission",texte:"Texte",theme:"Thématique",tout:"Toutes les nouveautés"};
+const FREQ_L={immediate:"Dès la collecte",quotidienne:"Une fois par jour"};
+const PREF_KEYS=["veille.themes","veille.suivis","veille.elus","veille.missions","veille.rss"];
+const SVG_USER=`<svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c.8-4 3.8-6 7.5-6s6.7 2 7.5 6"/></svg>`;
+const SVG_BELL=`<svg viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg>`;
+const valide=()=>!!(A.user&&A.p&&A.p.statut==="valide");
+const baseUrl=()=>location.origin+location.pathname;
+
+function sbLoad(){
+  if(A.sb)return Promise.resolve(A.sb);if(A.loading)return A.loading;
+  A.loading=new Promise((ok,ko)=>{const s=document.createElement("script");s.src=SB_JS;s.onload=ok;s.onerror=()=>ko(new Error("service de connexion injoignable"));document.head.appendChild(s)})
+  .then(async()=>{
+    A.sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{flowType:"pkce",persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+    A.sb.auth.onAuthStateChange((ev,sess)=>{
+      if(ev==="PASSWORD_RECOVERY")A.recovery=true;
+      const u=sess?sess.user:null,changed=(u&&u.id)!==(A.user&&A.user.id);A.user=u;
+      if(changed){A.p=null;A.al=null;A.adm=null;A.pulled=null;setTimeout(()=>u?accRefresh():accChanged(),0)}
+    });
+    const {data}=await A.sb.auth.getSession();A.user=data.session?data.session.user:null;
+    if(A.user)await accRefresh();else accBtn();
+    return A.sb;
+  }).catch(e=>{A.loading=null;throw e});
+  return A.loading;
+}
+let accRf=null;
+function accRefresh(){
+  if(accRf)return accRf;
+  accRf=(async()=>{try{
+    if(!A.user){A.p=null;A.al=null;return}
+    const {data:p,error}=await A.sb.from("profils").select("*").eq("id",A.user.id).maybeSingle();if(error)throw error;
+    A.p=p;A.err=null;
+    if(p&&p.statut==="valide"){const r=await A.sb.from("alertes").select("*").order("cree_le");if(r.error)throw r.error;A.al=r.data||[];await prefsPull()}else A.al=[];
+    if(p&&p.admin&&p.statut==="valide")await admLoad();
+  }catch(e){console.error(e);A.err="Lecture du compte impossible : "+(e.message||e)}finally{accRf=null;accChanged()}})();
+  return accRf;
+}
+function accChanged(){accBtn();const v=(location.hash.slice(1)||"accueil").split("-")[0];if(S.core&&["compte","admin","mission","texte","confidentialite"].includes(v))render(true)}
+function accBtn(){
+  const b=$("#accBtn");if(!b)return;const u=A.user;
+  const nom=(A.p&&A.p.nom)||(u&&u.email)||"";const ini=nom.replace(/[^\p{L}\s]/gu," ").trim().split(/\s+/).slice(0,2).map(w=>w[0]).join("").toUpperCase()||"?";
+  b.classList.toggle("on",!!u);b.innerHTML=u?`<span>${esc(ini)}</span>`:SVG_USER;
+  const pend=A.adm?A.adm.filter(p=>p.statut==="en_attente").length:0;
+  if(pend)b.insertAdjacentHTML("beforeend",`<i class="accdot" aria-hidden="true"></i>`);
+  b.title=u?(pend?`Mon compte · ${pend} demande${pend>1?"s":""} à valider`:"Mon compte"):"Se connecter";b.setAttribute("aria-label",b.title);
+}
+
+/* préférences enregistrées dans le compte : le compte fait foi, ce poste suit */
+const waitCore=()=>S.core?Promise.resolve():new Promise(r=>{const t=setInterval(()=>{if(S.core){clearInterval(t);r()}},120)});
+async function prefsPull(){
+  if(A.pulled===A.user.id)return;A.pulled=A.user.id;await waitCore();
+  const pr=A.p.prefs||{};
+  if(pr.v){const before=JSON.stringify(selObj());applySel(cleanSel(pr),"replace");if(JSON.stringify(selObj())!==before){toast("Préférences de votre compte appliquées");if(S.core)render(true)}}
+  else prefsPush();
+}
+let prefT=null;
+function prefsPush(){clearTimeout(prefT);prefT=setTimeout(async()=>{if(!valide())return;const o={...selObj(),maj:new Date().toISOString()};
+  const {error}=await A.sb.from("profils").update({prefs:o}).eq("id",A.user.id);if(!error)A.p.prefs=o;else console.error(error)},1200)}
+{const set0=LS.set;LS.set=(k,v)=>{set0.call(LS,k,v);if(PREF_KEYS.includes(k)&&valide()&&A.pulled===A.user.id)prefsPush()}}
+
+/* ---------- écrans ---------- */
+const pageHd=(eye,t,p)=>`<div class="ph"><div><div class="eyebrow">${esc(eye)}</div><h1>${esc(t)}</h1>${p?`<p>${p}</p>`:""}</div></div>`;
+const note=()=>(A.err?`<div class="formerr">${esc(A.err)}</div>`:"")+(A.msg?`<div class="formok">${esc(A.msg)}</div>`:"");
+async function vCompte(){
+  try{await sbLoad()}catch(e){return pageHd("Espace personnel","Mon compte")+`<div class="card empty">Le service de connexion est injoignable pour le moment. Le reste du site fonctionne sans compte.</div>`}
+  if(A.user&&!A.p&&!A.err)await accRefresh();
+  if(A.user&&A.recovery)return vRecovery();
+  if(!A.user)return vLogin();
+  const p=A.p;
+  if(!p)return pageHd("Espace personnel","Mon compte")+note()+`<div class="card empty">Votre profil est introuvable. <button class="linkbtn" data-acc="logout">Se déconnecter</button></div>`;
+  if(p.statut!=="valide"){
+    const T={en_attente:["Demande envoyée","Votre compte doit être validé par l'administrateur de Legitrack. Vous recevrez un e-mail dès qu'il l'aura fait. En attendant, le site reste entièrement consultable."],
+      refuse:["Demande non acceptée","L'administrateur n'a pas validé cette demande. Le site reste consultable sans compte."],
+      suspendu:["Compte suspendu","L'administrateur a suspendu ce compte : vos alertes ne sont plus envoyées. Le site reste consultable sans compte."]}[p.statut]||["Compte","" ];
+    return pageHd("Espace personnel",T[0])+note()+`<section class="card wait"><div class="waitic">${p.statut==="en_attente"?"⏳":"✕"}</div><div style="min-width:0"><p>${esc(T[1])}</p><p class="sub">Compte : ${esc(p.email)}</p>
+      <div class="acts"><button class="btn" data-acc="logout">Se déconnecter</button><button class="btn danger" data-acc="delete">${A.del==="me"?"Confirmer la suppression":"Supprimer ma demande"}</button></div></div></section>`;
+  }
+  return pageHd("Espace personnel",p.nom?`Bonjour ${p.nom}`:"Mon compte","Vos alertes e-mail et vos préférences, retrouvées sur tous les postes où vous vous connectez.")+note()+vAdmCta()+vAlertes()+vAjout()+vMonCompte();
+}
+function vLogin(){
+  const m=A.mode;
+  const tabs=`<div class="seg" role="tablist"><button data-accmode="login" aria-pressed="${m==="login"}">Se connecter</button><button data-accmode="signup" aria-pressed="${m==="signup"}">Créer un compte</button></div>`;
+  let f;
+  if(m==="signup")f=`<form class="form" data-accf="signup" novalidate>
+      <label class="field">Nom et prénom <small>facultatif, visible de l'administrateur</small><input name="nom" autocomplete="name" maxlength="80"></label>
+      <label class="field">Adresse e-mail<input name="email" type="email" autocomplete="email" required></label>
+      <label class="field">Mot de passe <small>10 caractères au moins</small><input name="mdp" type="password" autocomplete="new-password" minlength="10" required></label>
+      <label class="chk"><input type="checkbox" name="rgpd" required><span>J'accepte que mon adresse e-mail et mes préférences soient conservées pour gérer mon compte et m'envoyer les alertes que je choisis (<a href="#confidentialite">données personnelles</a>).</span></label>
+      ${note()}<button class="btn pri big" ${A.busy?"disabled":""}>Demander un compte</button>
+      <p class="hint" style="margin:0">Chaque compte est validé par l'administrateur. Vous recevrez d'abord un e-mail pour confirmer votre adresse, puis un second quand le compte sera validé.</p></form>`;
+  else if(m==="reset")f=`<form class="form" data-accf="reset" novalidate>
+      <p class="small" style="margin:0;color:var(--ink2)">Indiquez votre adresse : vous recevrez un lien pour choisir un nouveau mot de passe.</p>
+      <label class="field">Adresse e-mail<input name="email" type="email" autocomplete="email" required></label>
+      ${note()}<button class="btn pri big" ${A.busy?"disabled":""}>Recevoir le lien</button><button type="button" class="linkbtn" data-accmode="login">← Retour à la connexion</button></form>`;
+  else f=`<form class="form" data-accf="login" novalidate>
+      <label class="field">Adresse e-mail<input name="email" type="email" autocomplete="email" required></label>
+      <label class="field">Mot de passe<input name="mdp" type="password" autocomplete="current-password" required></label>
+      ${note()}<button class="btn pri big" ${A.busy?"disabled":""}>Se connecter</button><button type="button" class="linkbtn" data-accmode="reset">Mot de passe oublié ?</button></form>`;
+  return pageHd("Espace personnel","Mon compte","La consultation de Legitrack reste libre et sans compte. Un compte, validé par l'administrateur, ajoute les alertes e-mail et la synchronisation de vos préférences.")+
+  `<div class="accgrid"><section class="card"><div class="hd">${tabs}</div>${f}</section>
+   <section class="card perks"><div class="hd"><b>Avec un compte</b></div><ul>
+    <li>${SVG_BELL}<span><b>Alertes e-mail sur mesure</b>Une mission d'information : nouvelle audition, compte rendu publié, rapport en ligne. Un texte : étape, délai d'amendement, amendements. Une thématique entière.</span></li>
+    <li><svg viewBox="0 0 24 24"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="8.5"/></svg><span><b>Au rythme choisi</b>Dès la collecte (toutes les heures en semaine) ou dans un récapitulatif quotidien.</span></li>
+    <li><svg viewBox="0 0 24 24"><rect x="3" y="4.5" width="13" height="10" rx="1.5"/><rect x="11" y="9.5" width="10" height="10" rx="1.5"/></svg><span><b>Vos préférences partout</b>Thématiques, textes, missions et élus suivis retrouvés sur chaque poste.</span></li>
+   </ul><p class="hint" style="padding:0 18px 16px;margin:0"><a href="#confidentialite">Données personnelles et confidentialité</a></p></section></div>`;
+}
+function vRecovery(){
+  return pageHd("Espace personnel","Nouveau mot de passe")+`<div class="accgrid"><section class="card"><form class="form" data-accf="newpwd" novalidate>
+    <label class="field">Nouveau mot de passe <small>10 caractères au moins</small><input name="mdp" type="password" autocomplete="new-password" minlength="10" required></label>
+    ${note()}<button class="btn pri big" ${A.busy?"disabled":""}>Enregistrer</button></form></section></div>`;
+}
+function alLabel(a){return a.libelle||(a.cible==="theme"?thLab(a.cible_id):CIBLE_L[a.cible])}
+function alHref(a){return a.cible==="mission"?"#mission-"+a.cible_id:a.cible==="texte"?"#texte-"+a.cible_id:a.cible==="theme"?"#nouveautes":"#nouveautes"}
+function typeChips(a){const T=AL_TYPES[a.cible]||[],on=a.types&&a.types.length?new Set(a.types):null;
+  return T.map(([k,l])=>`<button class="chip sm" data-alt="${esc(a.id)}" data-k="${k}" aria-pressed="${!on||on.has(k)}">${esc(l)}</button>`).join("")}
+function vAlertes(){
+  const L=A.al||[];
+  const rows=L.map(a=>`<div class="alrow"><div style="min-width:0"><div class="eyebrow" style="font-size:11px">${esc(CIBLE_L[a.cible])}</div><a class="tt" href="${esc(alHref(a))}">${esc(alLabel(a))}</a></div>
+    <div class="ctl"><div class="seg sm">${Object.entries(FREQ_L).map(([k,l])=>`<button data-alf="${esc(a.id)}" data-k="${k}" aria-pressed="${a.frequence===k}">${l}</button>`).join("")}</div>
+    <button class="iconbtn sm" data-aldel="${esc(a.id)}" title="Supprimer cette alerte" aria-label="Supprimer cette alerte"><svg viewBox="0 0 24 24"><path d="M5 7h14M10 7V4.5h4V7M7 7l1 13h8l1-13"/></svg></button></div>
+    <div class="types">${typeChips(a)}</div></div>`).join("");
+  return `<section class="card" style="margin-bottom:18px"><div class="hd"><b>Mes alertes e-mail <span class="muted" style="font-weight:400">${L.length||""}</span></b><span class="sub">envoyées à ${esc(A.p.email)}</span></div>
+  <div class="bd">${L.length?rows:`<div class="empty" style="padding:18px 0">Aucune alerte pour l'instant. Ajoutez-en une ci-dessous, ou avec le bouton « Alerte e-mail » d'une fiche mission ou texte.</div>`}</div></section>`;
+}
+function vAjout(){
+  const has=(c,i)=>(A.al||[]).some(a=>a.cible===c&&a.cible_id===(i||""));
+  const it=(c,i,l)=>`<div class="addit"><span class="nm" title="${esc(l)}">${esc(l)}</span>${has(c,i)?`<span class="pill ok">Active</span>`:`<button class="btn sm" data-aladd="${c}" data-id="${esc(i||"")}" data-l="${esc(l)}">+ Alerte</button>`}</div>`;
+  const mis=[...S.folm].map(id=>{const m=S.ctl&&S.ctl.by?S.ctl.by[id]:null;return [id,m?(m.court||m.t):id]});
+  const tx=[...S.fol].map(id=>[id,(dosById(id)||{}).t||id]);
+  const thAll=(S.core?S.core.themes:[]).slice().sort((a,b)=>a.l.localeCompare(b.l,"fr"));
+  const mine=thAll.filter(t=>S.themes.has(t.id)||has("theme",t.id)),th=A.allth||!mine.length?thAll:mine;
+  const thMore=mine.length&&mine.length<thAll.length?`<button type="button" class="linkbtn" style="margin-top:10px" data-accth>${A.allth?"Seulement mes thématiques":`Voir les ${thAll.length} thématiques`}</button>`:"";
+  const grp=(t,inner,empty)=>`<div class="addgrp"><div class="eyebrow">${t}</div>${inner?`<div class="addgrid">${inner}</div>`:`<p class="sub" style="margin:4px 0 0">${empty}</p>`}</div>`;
+  return `<section class="card" style="margin-bottom:18px"><div class="hd"><b>Ajouter une alerte</b><span class="sub">les types d'événements se règlent ensuite</span></div><div class="bd">
+    ${grp("Mes missions et enquêtes suivies",mis.map(([i,l])=>it("mission",i,l)).join(""),`Suivez une mission (☆ Suivre) depuis <a href="#controle">Missions et enquêtes</a>, elle apparaîtra ici.`)}
+    ${grp("Mes textes suivis",tx.map(([i,l])=>it("texte",i,l)).join(""),`Suivez un texte (☆) depuis la page <a href="#textes">Textes</a>.`)}
+    ${grp(th===thAll?"Thématiques":"Mes thématiques",th.map(t=>it("theme",t.id,t.l)).join(""),"")}${thMore}
+    ${grp("Tout",it("tout","","Toutes les nouveautés du site"),"")}
+  </div></section>`;
+}
+function vAdmCta(){if(!A.p.admin)return "";const n=(A.adm||[]).filter(x=>x.statut==="en_attente").length;
+  return `<section class="card admcta"><div><b>Administration</b><p class="sub" style="margin:2px 0 0">${n?`${n} demande${n>1?"s":""} de compte en attente de validation`:"Aucune demande en attente"}</p></div><a class="btn ${n?"pri":""}" href="#admin">Gérer les comptes</a></section>`}
+function vMonCompte(){
+  const p=A.p,pr=p.prefs||{};
+  return `<div class="accgrid">
+  <section class="card"><div class="hd"><b>Mon profil</b></div><form class="form" data-accf="profil" novalidate>
+    <label class="field">Nom et prénom<input name="nom" value="${esc(p.nom||"")}" maxlength="80" autocomplete="name"></label>
+    <label class="field">Adresse e-mail<input value="${esc(p.email)}" disabled></label>
+    <button class="btn" ${A.busy?"disabled":""}>Enregistrer</button></form>
+    <form class="form" data-accf="pwd" novalidate style="border-top:1px solid var(--line)">
+    <label class="field">Nouveau mot de passe <small>10 caractères au moins</small><input name="mdp" type="password" autocomplete="new-password" minlength="10"></label>
+    <button class="btn" ${A.busy?"disabled":""}>Changer le mot de passe</button></form></section>
+  <section class="card"><div class="hd"><b>Préférences synchronisées</b></div><div class="bd">
+    <p class="small" style="color:var(--ink2)">Vos thématiques, textes, missions, parlementaires et flux suivis sont enregistrés dans votre compte et appliqués sur chaque poste où vous vous connectez.</p>
+    <div class="sumchips">${selSum(selObj())}</div>${pr.maj?`<p class="hint">Dernier enregistrement : ${esc(new Date(pr.maj).toLocaleString("fr-FR",{dateStyle:"long",timeStyle:"short"}))}</p>`:""}
+    <div class="acts" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px"><button class="btn" data-acc="logout">Se déconnecter</button><button class="btn danger" data-acc="delete">${A.del==="me"?"Confirmer : tout supprimer":"Supprimer mon compte"}</button></div>
+    ${A.del==="me"?`<p class="hint">La suppression efface définitivement votre compte, vos préférences enregistrées, vos alertes et l'historique d'envoi.</p>`:""}
+    <p class="hint"><a href="#confidentialite">Données personnelles et confidentialité</a></p></div></section></div>`;
+}
+
+/* administration */
+async function admLoad(){const {data,error}=await A.sb.from("profils").select("id,email,nom,statut,admin,cree_le,valide_le").order("cree_le",{ascending:false});if(error)throw error;A.adm=data||[]}
+async function vAdmin(){
+  try{await sbLoad()}catch(e){return `<div class="card empty">Le service de connexion est injoignable.</div>`}
+  if(A.user&&!A.p&&!A.err)await accRefresh();
+  if(!A.user||!A.p||!A.p.admin||A.p.statut!=="valide")return pageHd("Administration","Comptes")+`<div class="card empty">Cette page est réservée aux administrateurs. <a href="#compte" style="color:var(--acc)">Mon compte</a></div>`;
+  if(!A.adm)await admLoad();
+  const L=A.adm,by=s=>L.filter(p=>p.statut===s);
+  const when=s=>s?new Date(s).toLocaleDateString("fr-FR",{day:"numeric",month:"short",year:"numeric"}):"";
+  const row=(p,btns)=>`<div class="adrow"><div class="who"><b>${esc(p.nom||"Sans nom")}${p.admin?` <span class="pill acc">Administrateur</span>`:""}</b><span class="sub">${esc(p.email)} · demandé le ${when(p.cree_le)}</span></div><div class="acts" style="display:flex;gap:6px;flex-wrap:wrap">${p.id===A.user.id?`<span class="sub">vous</span>`:btns(p)}</div></div>`;
+  const del=p=>`<button class="btn sm danger" data-adm="del" data-id="${p.id}">${A.del===p.id?"Confirmer la suppression":"Supprimer"}</button>`;
+  const sec=(t,arr,btns,empty)=>`<section class="card" style="margin-bottom:18px"><div class="hd"><b>${t} <span class="muted" style="font-weight:400">${arr.length||""}</span></b></div><div class="bd">${arr.length?arr.map(p=>row(p,btns)).join(""):`<div class="empty" style="padding:14px 0">${empty}</div>`}</div></section>`;
+  return pageHd("Administration","Comptes","Chaque demande doit être validée avant de donner accès aux alertes e-mail et à la synchronisation. La personne est prévenue par e-mail à la collecte suivante.")+note()+
+    sec("Demandes en attente",by("en_attente"),p=>`<button class="btn sm pri" data-adm="valide" data-id="${p.id}">Valider</button><button class="btn sm" data-adm="refuse" data-id="${p.id}">Refuser</button>`,"Aucune demande en attente.")+
+    sec("Comptes actifs",by("valide"),p=>`<button class="btn sm" data-adm="${p.admin?"unadmin":"admin"}" data-id="${p.id}">${p.admin?"Retirer l'administration":"Rendre administrateur"}</button><button class="btn sm" data-adm="suspendu" data-id="${p.id}">Suspendre</button>${del(p)}`,"Aucun compte actif.")+
+    sec("Refusés et suspendus",[...by("refuse"),...by("suspendu")],p=>`<span class="pill ${p.statut==="refuse"?"ko":"warn"}">${p.statut==="refuse"?"Refusé":"Suspendu"}</span><button class="btn sm" data-adm="valide" data-id="${p.id}">Valider</button>${del(p)}`,"Aucun.");
+}
+function vConfidentialite(){
+  return pageHd("Legitrack","Données personnelles")+`<section class="card prose"><div class="bd" style="padding:18px 22px">
+  <p>La consultation de Legitrack est libre, sans compte ni cookie de suivi. Les choix d'affichage (thématiques, éléments suivis, thème clair ou sombre) restent dans votre navigateur tant que vous n'avez pas de compte.</p>
+  <h3>Données conservées pour les comptes</h3><ul>
+   <li>Adresse e-mail et, si vous le renseignez, nom et prénom.</li>
+   <li>Mot de passe, conservé uniquement sous forme chiffrée (hachage) par le service d'authentification.</li>
+   <li>Préférences (thématiques, textes, missions, parlementaires et flux suivis) et alertes configurées.</li>
+   <li>Historique des alertes envoyées, effacé au bout de 30 jours, pour ne jamais envoyer deux fois la même information.</li></ul>
+  <h3>Finalités et base légale</h3><p>Ces données servent uniquement à gérer votre compte, à synchroniser vos préférences et à vous envoyer les alertes que vous avez choisies. Leur traitement repose sur votre consentement, donné à la création du compte. Elles ne sont ni vendues, ni cédées, ni utilisées à des fins publicitaires.</p>
+  <h3>Hébergement et sous-traitants</h3><ul>
+   <li>Supabase : comptes et préférences, base de données hébergée dans l'Union européenne (Irlande).</li>
+   <li>Brevo (France) : envoi des e-mails de connexion et des alertes.</li>
+   <li>GitHub Pages : hébergement du site public, qui ne contient aucune donnée de compte.</li></ul>
+  <h3>Durée de conservation</h3><p>Jusqu'à la suppression du compte, par vous ou par l'administrateur. Une demande refusée peut être supprimée à tout moment.</p>
+  <h3>Vos droits</h3><p>Vous pouvez consulter et corriger vos données dans <a href="#compte">Mon compte</a>, et supprimer votre compte à tout moment avec le bouton « Supprimer mon compte » : tout est alors effacé. Pour exercer vos autres droits (accès, rectification, opposition, limitation, portabilité), écrivez à l'administrateur du site. Vous pouvez aussi saisir la CNIL (cnil.fr).</p>
+  <p class="hint">Les données parlementaires affichées proviennent de l'open data de l'Assemblée nationale, du Sénat et de la Cour des comptes.</p></div></section>`;
+}
+
+/* bouton « Alerte e-mail » des fiches mission et texte */
+function alertBtn(c,id){const a=(A.al||[]).find(x=>x.cible===c&&x.cible_id===id);
+  return `<button class="btn" data-alopen="${c}" data-id="${esc(id)}" aria-pressed="${!!a}" title="Recevoir un e-mail à chaque nouveauté">${SVG_BELL}${a?"Alerte active":"Alerte e-mail"}</button>`}
+function alLib(c,id){if(c==="mission"){const m=S.ctl&&S.ctl.by?S.ctl.by[id]:null;return m?(m.court||m.t):id}if(c==="texte")return (dosById(id)||{}).t||id;if(c==="theme")return thLab(id);return "Toutes les nouveautés du site"}
+async function openAlert(c,id){
+  const lib=alLib(c,id);
+  if(!A.user){try{await sbLoad()}catch(e){}}
+  if(!A.user){setModal(`<div class="mhd"><div style="min-width:0"><div class="eyebrow">Alerte e-mail</div><h2 class="clamp2" style="font-size:19px">${esc(lib)}</h2></div>${closeBtn}</div>
+    <div class="setb"><section><p>Les alertes e-mail sont réservées aux comptes validés par l'administrateur. Connectez-vous, ou demandez un compte : c'est rapide.</p>
+    <div class="acts"><a class="btn pri" href="#compte" data-setclose>Se connecter ou créer un compte</a></div></section></div>`);return}
+  if(!valide()){setModal(`<div class="mhd"><div><div class="eyebrow">Alerte e-mail</div><h2 style="font-size:19px">Compte en attente</h2></div>${closeBtn}</div><div class="setb"><section><p>Vous pourrez créer des alertes dès que l'administrateur aura validé votre compte.</p></section></div>`);return}
+  const a=(A.al||[]).find(x=>x.cible===c&&x.cible_id===id);
+  const T=AL_TYPES[c],on=a&&a.types&&a.types.length?new Set(a.types):null,fr=a?a.frequence:"immediate";
+  setModal(`<div class="mhd"><div style="min-width:0"><div class="eyebrow">Alerte e-mail · ${esc(CIBLE_L[c])}</div><h2 class="clamp2" style="font-size:19px">${esc(lib)}</h2></div>${closeBtn}</div>
+  <form class="setb" data-accf="alerte" data-c="${c}" data-id="${esc(id)}" data-l="${esc(lib)}">
+   <section><h3>Me prévenir quand</h3><div class="chklist">${T.map(([k,l])=>`<label class="chk"><input type="checkbox" name="t" value="${k}" ${!on||on.has(k)?"checked":""}><span>${esc(l)}</span></label>`).join("")}</div></section>
+   <section><h3>Fréquence</h3><div class="chklist"><label class="chk"><input type="radio" name="f" value="immediate" ${fr==="immediate"?"checked":""}><span>Dès la collecte <span class="muted">· toutes les heures en semaine, deux fois par jour le week-end</span></span></label>
+    <label class="chk"><input type="radio" name="f" value="quotidienne" ${fr==="quotidienne"?"checked":""}><span>Une fois par jour <span class="muted">· récapitulatif du matin</span></span></label></div>
+    <p class="hint">Envoyé à ${esc(A.p.email)}.</p></section>
+   <div class="mf" style="padding:14px 0 0">${a?`<button type="button" class="btn danger" data-aldel="${esc(a.id)}">Supprimer l'alerte</button>`:`<span></span>`}<button class="btn pri">${a?"Enregistrer":"Activer l'alerte"}</button></div>
+  </form>`);
+}
+
+/* ---------- actions ---------- */
+const frErr=e=>{const m=(e&&e.message)||String(e);
+  if(/Invalid login credentials/i.test(m))return "Adresse ou mot de passe incorrect.";
+  if(/Email not confirmed/i.test(m))return "Confirmez d'abord votre adresse avec le lien reçu par e-mail.";
+  if(/already registered|already exists/i.test(m))return "Un compte existe déjà avec cette adresse. Connectez-vous ou utilisez « Mot de passe oublié ».";
+  if(/Password should be|weak/i.test(m))return "Mot de passe trop faible : 10 caractères au moins, en mêlant lettres et chiffres.";
+  if(/rate limit|too many/i.test(m))return "Trop de tentatives. Réessayez dans quelques minutes.";
+  if(/different from the old/i.test(m))return "Le nouveau mot de passe doit être différent de l'ancien.";
+  if(/Failed to fetch|NetworkError/i.test(m))return "Connexion impossible au service. Vérifiez votre réseau.";
+  return m};
+async function act(fn,okMsg){A.busy=true;A.err=null;A.msg=null;try{await fn();if(okMsg)toast(okMsg)}catch(e){console.error(e);A.err=frErr(e)}finally{A.busy=false}}
+const emailOk=s=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
+async function saveAlert(c,id,lib,types,fr){
+  const T=AL_TYPES[c].map(x=>x[0]);const tt=types.length===T.length?[]:types;
+  const a=(A.al||[]).find(x=>x.cible===c&&x.cible_id===id);
+  if(a){const {data,error}=await A.sb.from("alertes").update({types:tt,frequence:fr}).eq("id",a.id).select().single();if(error)throw error;Object.assign(a,data)}
+  else{const {data,error}=await A.sb.from("alertes").insert({cible:c,cible_id:id||"",libelle:(lib||"").slice(0,400),types:tt,frequence:fr}).select().single();if(error)throw error;(A.al=A.al||[]).push(data)}
+}
+document.addEventListener("submit",async ev=>{
+  const f=ev.target.closest("[data-accf]");if(!f)return;ev.preventDefault();if(A.busy)return;
+  const k=f.dataset.accf,v=n=>(f.elements[n]?f.elements[n].value:"").trim();
+  if(k==="login"){if(!emailOk(v("email"))||!v("mdp")){A.err="Indiquez votre adresse e-mail et votre mot de passe.";return render(true)}
+    await act(async()=>{const {error}=await A.sb.auth.signInWithPassword({email:v("email"),password:f.elements.mdp.value});if(error)throw error});
+    if(!A.err)A.mode="login";render(true);return}
+  if(k==="signup"){
+    if(!emailOk(v("email"))){A.err="Adresse e-mail invalide.";return render(true)}
+    if(f.elements.mdp.value.length<10){A.err="Le mot de passe doit compter 10 caractères au moins.";return render(true)}
+    if(!f.elements.rgpd.checked){A.err="Cochez la case sur les données personnelles pour continuer.";return render(true)}
+    await act(async()=>{const {data,error}=await A.sb.auth.signUp({email:v("email"),password:f.elements.mdp.value,options:{data:{nom:v("nom")},emailRedirectTo:baseUrl()+"?confirme=1"}});if(error)throw error;
+      if(data&&data.user&&Array.isArray(data.user.identities)&&!data.user.identities.length)throw new Error("already registered");
+      A.msg=data.session?null:"Demande enregistrée. Ouvrez le lien reçu par e-mail pour confirmer votre adresse ; l'administrateur validera ensuite votre compte.";});
+    if(!A.err&&A.msg)A.mode="login";render(true);return}
+  if(k==="reset"){if(!emailOk(v("email"))){A.err="Adresse e-mail invalide.";return render(true)}
+    await act(async()=>{const {error}=await A.sb.auth.resetPasswordForEmail(v("email"),{redirectTo:baseUrl()+"?mdp=1"});if(error)throw error;A.msg="Si un compte existe avec cette adresse, un lien vient de lui être envoyé."});render(true);return}
+  if(k==="newpwd"||k==="pwd"){const p=f.elements.mdp.value;if(p.length<10){A.err="Le mot de passe doit compter 10 caractères au moins.";return render(true)}
+    await act(async()=>{const {error}=await A.sb.auth.updateUser({password:p});if(error)throw error;A.recovery=false},"Mot de passe enregistré");render(true);return}
+  if(k==="profil"){await act(async()=>{const nom=v("nom").slice(0,80);const {error}=await A.sb.from("profils").update({nom}).eq("id",A.user.id);if(error)throw error;A.p.nom=nom;accBtn()},"Profil enregistré");render(true);return}
+  if(k==="alerte"){const types=[...f.querySelectorAll("input[name=t]:checked")].map(x=>x.value);if(!types.length){toast("Cochez au moins un type d'événement");return}
+    const fr=(f.querySelector("input[name=f]:checked")||{}).value||"immediate";
+    await act(()=>saveAlert(f.dataset.c,f.dataset.id,f.dataset.l,types,fr),"Alerte enregistrée");
+    if(A.err){toast(A.err);A.err=null}else $("#set").hidden=true;render(true);return}
+});
+document.addEventListener("click",async ev=>{
+  const b=ev.target.closest("[data-acc],[data-accth],[data-accmode],[data-alopen],[data-aladd],[data-aldel],[data-alt],[data-alf],[data-adm]");if(!b)return;const d=b.dataset;
+  if(d.accth!==undefined){A.allth=!A.allth;render(true);return}
+  if(d.accmode){ev.preventDefault();A.mode=d.accmode;A.err=null;A.msg=null;render(true);return}
+  if(d.alopen){ev.preventDefault();openAlert(d.alopen,d.id);return}
+  if(A.busy)return;
+  if(d.acc==="logout"){await A.sb.auth.signOut();A.p=null;A.al=null;A.adm=null;A.del=null;A.msg=null;A.err=null;accBtn();toast("Vous êtes déconnecté");render(true);return}
+  if(d.acc==="delete"){if(A.del!=="me"){A.del="me";render(true);return}
+    await act(async()=>{const {error}=await A.sb.rpc("supprimer_mon_compte");if(error)throw error;await A.sb.auth.signOut({scope:"local"}).catch(()=>{});A.p=null;A.al=null;A.del=null},"Compte supprimé");render(true);return}
+  if(d.aladd!==undefined){const c=d.aladd;await act(()=>saveAlert(c,d.id,d.l,AL_TYPES[c].map(x=>x[0]),"immediate"),"Alerte ajoutée");render(true);return}
+  if(d.aldel){const id=d.aldel;await act(async()=>{const {error}=await A.sb.from("alertes").delete().eq("id",id);if(error)throw error;A.al=A.al.filter(a=>a.id!==id)},"Alerte supprimée");$("#set").hidden=true;render(true);return}
+  if(d.alt){const a=A.al.find(x=>x.id===d.alt);if(!a)return;const T=AL_TYPES[a.cible].map(x=>x[0]);let s=new Set(a.types&&a.types.length?a.types:T);s.has(d.k)?s.delete(d.k):s.add(d.k);
+    if(!s.size){toast("Gardez au moins un type d'événement");return}
+    await act(()=>saveAlert(a.cible,a.cible_id,a.libelle,T.filter(t=>s.has(t)),a.frequence));render(true);return}
+  if(d.alf){const a=A.al.find(x=>x.id===d.alf);if(!a||a.frequence===d.k)return;const T=AL_TYPES[a.cible].map(x=>x[0]);
+    await act(()=>saveAlert(a.cible,a.cible_id,a.libelle,a.types&&a.types.length?a.types:T,d.k),d.k==="quotidienne"?"Récapitulatif quotidien":"Envoi dès la collecte");render(true);return}
+  if(d.adm){const id=d.id,k=d.adm;
+    if(k==="del"&&A.del!==id){A.del=id;render(true);return}
+    await act(async()=>{let r;
+      if(k==="del")r=await A.sb.rpc("admin_supprimer",{cible:id});
+      else if(k==="admin"||k==="unadmin")r=await A.sb.rpc("admin_role",{cible:id,est:k==="admin"});
+      else r=await A.sb.rpc("admin_statut",{cible:id,nouveau:k});
+      if(r.error)throw r.error;A.del=null;await admLoad();accBtn()},{valide:"Compte validé",refuse:"Demande refusée",suspendu:"Compte suspendu",del:"Compte supprimé",admin:"Droits d'administration accordés",unadmin:"Droits d'administration retirés"}[k]);
+    render(true);return}
+});
+Object.assign(VIEWS,{compte:vCompte,admin:vAdmin,confidentialite:vConfidentialite});
+
+/* au chargement : reprendre la session, traiter les retours de lien e-mail */
+(()=>{
+  const q=new URLSearchParams(location.search);let has=false;try{has=!!localStorage.getItem(SB_LS)}catch(e){}
+  const ret=q.has("code")||q.has("error")||q.has("error_description")||q.has("confirme")||q.has("mdp");
+  if(!has&&!ret)return;
+  if(q.has("mdp"))A.recovery=true;
+  sbLoad().then(()=>{
+    if(!ret)return;
+    const err=q.get("error_description");
+    if(err)A.err=/expired|invalid/i.test(err)?"Ce lien a expiré ou a déjà servi. Recommencez l'opération.":err;
+    else if(q.has("confirme"))A.msg=A.user?"Adresse confirmée.":"Adresse confirmée. Connectez-vous pour suivre votre demande.";
+    else if(q.has("mdp")&&!A.user)A.err="Ce lien ne peut pas être utilisé dans ce navigateur. Ouvrez-le dans le navigateur où vous avez fait la demande, ou recommencez.";
+    history.replaceState(null,"",location.pathname+"#compte");render(false);
+  }).catch(()=>{});
 })();
 </script>
 </body>
