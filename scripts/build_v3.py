@@ -300,7 +300,12 @@ def status(d):
             if any("RAPPORT" in c or "RAPP" in c for c in codes): return ("Rapport publié", "ok")
             return ("En cours", "an")
         last = tl[-1]["l"] if tl else "Déposé"
-        if any(c.endswith("-DEC") for c in codes): return ("Examiné", "ok")
+        decs = [t for t in tl if t["c"].endswith("-DEC")]
+        if decs:
+            dl = decs[-1]["l"]
+            if re.search(r"rejet du texte par la commission", dl, re.I): return ("Rejeté en commission", "off")
+            if re.search(r"rejet|non adopt", dl, re.I): return ("Rejeté", "off")
+            return ("Adopté" if re.search(r"adopt|définitive|modifi", dl, re.I) else "Examiné", "ok")
         return ("Déposé", "neutral")
     if any(c.startswith("CC") for c in codes): return ("Conseil constitutionnel", "cc")
     if not tl: return ("Déposé", "neutral")
@@ -310,9 +315,11 @@ def status(d):
     lec = {"1": "1re lecture", "2": "2e lecture", "3": "3e lecture", "NLEC": "Nouvelle lecture", "LDEF": "Lecture définitive"}.get((m.group(2) if m else "") or "", "")
     if who == "CMP": return ("Commission mixte paritaire", "cmp")
     if "DEBATS-DEC" in last or "-DEC" in last:
-        if who == "AN" and d.get("senat"): return (f"Adopté par l'AN, transmis au Sénat", "sn")
-        if who == "Sénat": return (f"Adopté par le Sénat ({lec})", "an")
-        return (f"Voté en séance ({lec})", "ok")
+        dl = next((t["l"] for t in reversed(tl) if t["c"] == last), "")
+        rej = bool(re.search(r"rejet|non adopt", dl, re.I))
+        if who == "AN" and d.get("senat"): return ("Rejeté par l'AN, transmis au Sénat" if rej else "Adopté par l'AN, transmis au Sénat", "sn")
+        if who == "Sénat": return (f"{'Rejeté' if rej else 'Adopté'} par le Sénat ({lec})", "an")
+        return (f"Rejeté en séance ({lec})", "off") if rej else (f"Voté en séance ({lec})", "ok")
     if "DEBATS" in last: return (f"En séance · {who} {lec}".strip(), "an" if who == "AN" else "sn")
     if re.search(r"COM-(FOND|AVIS)-(REUNION|RAPPORT)", last): return (f"En commission · {who} {lec}".strip(), "an" if who == "AN" else "sn")
     if "COM-FOND-NOMIN" in last: return (f"Rapporteur nommé · {who}", "an" if who == "AN" else "sn")

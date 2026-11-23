@@ -575,7 +575,7 @@ function steps(d,x){
   if(!law)return "";
   const done=seen.some(p=>p[0]==="PROM");
   const fut=[];if(!done){const first=seen[0]||PH[0];const other=first[0].startsWith("AN")?PH[1]:PH[0];if(!seen.includes(other))fut.push(other);fut.push(PH[9])}
-  const sub=p=>{const c=codes.filter(c=>c.startsWith(p[0]));return c.some(c=>/DEBATS-DEC|DEC$/.test(c))?"adopté":c.some(c=>/DEBATS/.test(c))?"en séance":c.some(c=>/COM-FOND-(RAPPORT|REUNION)/.test(c))?"en commission":c.length?"déposé":""};
+  const sub=p=>{const c=codes.filter(c=>c.startsWith(p[0]));const dec=(x.timeline||[]).filter(t=>t.c.startsWith(p[0])&&/DEBATS-DEC|DEC$/.test(t.c)).pop();return dec?(/rejet|non adopt/i.test(dec.l)?"rejeté":"adopté"):c.some(c=>/DEBATS/.test(c))?"en séance":c.some(c=>/COM-FOND-(RAPPORT|REUNION)/.test(c))?"en commission":c.length?"déposé":""};
   return `<div class="stepper">${seen.map((p,i)=>`<div class="step ${i<seen.length-1||done?"done":"cur"}">${p[1]}<small>${p[0]==="PROM"?"":sub(p)}</small></div>`).join("")}${fut.map(p=>`<div class="step">${p[1]}<small>à venir</small></div>`).join("")}</div>`;
 }
 async function vTexte(id){
