@@ -21,6 +21,7 @@ import glob
 import hashlib
 import json
 import os
+import re
 import sys
 from datetime import datetime, timedelta, timezone
 from email.utils import format_datetime
@@ -449,6 +450,8 @@ def main(site, state):
             known.add(o["id"])
             fresh.append(o)
     journal = fresh + journal
+    # hors périmètre : publications des chambres régionales et territoriales des comptes
+    journal = [o for o in journal if not (o.get("ch") == "CC" and re.search(r"\b(CRC|CTC|Crtc|Juridictions financières|Cour d'appel financière)\b", o.get("s") or "", re.I))]
     lim = (now - timedelta(days=GARDE_JOURS)).isoformat(timespec="minutes")
     journal = sorted((o for o in journal if o["ts"] >= lim), key=lambda o: o["ts"], reverse=True)
     save(os.path.join(state, "journal.json"), journal)

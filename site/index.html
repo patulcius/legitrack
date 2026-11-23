@@ -716,7 +716,7 @@ async function vRapports(){
   if(st.ty)L=L.filter(r=>r.ty===st.ty);
   if(st.q){const s=st.q.toLowerCase();L=L.filter(r=>(r.t+" "+(r.au||"")+" "+(r.res||"")+" "+(r.jur||"")).toLowerCase().includes(s))}
   const n=k=>R.filter(r=>mT(r.th)&&(!k||r.src===k)).length;
-  return `<div class="ph"><div><div class="eyebrow">Contrôle et évaluation</div><h1>Rapports et publications</h1><p>Rapports d'information de l'Assemblée, rapports du Sénat et publications de la Cour des comptes et des chambres régionales, depuis octobre 2024.</p></div></div>
+  return `<div class="ph"><div><div class="eyebrow">Contrôle et évaluation</div><h1>Rapports et publications</h1><p>Rapports d'information de l'Assemblée, rapports du Sénat et publications de la Cour des comptes, depuis octobre 2024.</p></div></div>
   <div class="agbar"><div class="seg" role="group">${[["","Tout"],["AN","Assemblée"],["SN","Sénat"],["CC","Cour des comptes"]].map(([k,l])=>`<button data-rsrc="${k}" aria-pressed="${st.src===k}">${l} <span class="sub">${n(k)}</span></button>`).join("")}</div></div>
   <section class="card"><div class="filters"><input type="search" id="rq" placeholder="Titre, auteur, juridiction…" value="${esc(st.q)}"><select id="rty"><option value="">Tous les types</option>${types.map(t=>`<option ${st.ty===t?"selected":""}>${esc(t)}</option>`).join("")}</select><span class="sub" style="margin-left:auto">${L.length.toLocaleString("fr-FR")} résultats</span></div>
   <div class="bd"><div class="rows">${L.slice(0,st.lim).map(rapRow).join("")||`<div class="empty">Aucun rapport pour ces filtres.</div>`}</div>
@@ -1219,7 +1219,7 @@ $("#mode").onclick=()=>{const r=document.documentElement;const dark=r.dataset.th
     S.themes=new Set([...S.themes].filter(t=>core.themes.some(x=>x.id===t)));
     const c=core.counts;
     $("#cTx").textContent=c.actifs.toLocaleString("fr-FR");$("#cAg").textContent=ev.filter(e=>e.d.slice(0,10)>=core.aujourdhui).length;
-    $("#foot").innerHTML=`Mis à jour le ${ds(core.genere)}<br>${c.dossiers.toLocaleString("fr-FR")} textes · ${c.amendements.toLocaleString("fr-FR")} amendements · ${c.scrutins.toLocaleString("fr-FR")} scrutins · ${c.questions.toLocaleString("fr-FR")} questions · ${c.cc.toLocaleString("fr-FR")} publications des juridictions financières<br>Sources : ${core.sources.map(s=>`<a href="${s.url}" target="_blank" rel="noopener">${esc(s.nom.split(" (")[0])}</a>`).join(", ")}<br><a href="#confidentialite">Données personnelles</a>`;
+    $("#foot").innerHTML=`Mis à jour le ${ds(core.genere)}<br>${c.dossiers.toLocaleString("fr-FR")} textes · ${c.amendements.toLocaleString("fr-FR")} amendements · ${c.scrutins.toLocaleString("fr-FR")} scrutins · ${c.questions.toLocaleString("fr-FR")} questions · ${c.cc.toLocaleString("fr-FR")} publications de la Cour des comptes<br>Sources : ${core.sources.map(s=>`<a href="${s.url}" target="_blank" rel="noopener">${esc(s.nom.split(" (")[0])}</a>`).join(", ")}<br><a href="#confidentialite">Données personnelles</a>`;
     const fresh=["veille.themes","veille.suivis","veille.elus","veille.missions","veille.rss","veille.onb"].every(k=>{try{return localStorage.getItem(k)===null}catch(e){return false}});
     try{const r=await fetch("equipe.json",{cache:"no-cache"});if(r.ok){S.team=await r.json();if(fresh){applySel(cleanSel(S.team),"replace");toast(`Profil d'équipe${S.team.nom?" « "+S.team.nom+" »":""} appliqué`)}}}catch(e){}
     thLabel();render(false);

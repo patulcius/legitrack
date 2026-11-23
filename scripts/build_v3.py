@@ -677,7 +677,8 @@ for f in sorted(glob.glob(f"{CC}/p*.html")):
         title = clean(t.group(1))
         if not th: th = themes_of(title + " " + clean(desc.group(1) if desc else ""))
         jr = clean(jur.group(1)) if jur else "Cour des comptes"
-        rapports.append({"src": "CC", "ty": "Juridictions financières" if jr.startswith(("CRC", "CTC")) else "Cour des comptes", "jur": fmt_jur(jr),
+        if not jr.lower().startswith("cour des comptes"): continue  # chambres régionales et territoriales, Cour d'appel financière : hors périmètre
+        rapports.append({"src": "CC", "ty": "Cour des comptes", "jur": "Cour des comptes",
                          "d": tm.group(1), "t": title[:300], "res": clean(desc.group(1), 400) if desc else "", "url": "https://www.ccomptes.fr" + a.group(1),
                          "th": th[:3], "cct": thz})
 rapports.sort(key=lambda r: r["d"] or "", reverse=True)
