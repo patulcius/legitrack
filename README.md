@@ -53,3 +53,7 @@ Les préférences (thématiques, textes, parlementaires et flux suivis) sont enr
 - **Lettre par e-mail** : secrets `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `LETTRE_FROM` et
   `LETTRE_DEST` (par exemple `alice@exemple.fr:securite,justice; equipe@exemple.fr:*`). Les adresses restent
   dans les secrets du dépôt et n'apparaissent jamais sur le site.
+
+## Comptes et alertes e-mail
+
+Comptes validés par un administrateur, préférences synchronisées et alertes e-mail sur mesure (missions, textes, thématiques) : voir [supabase/README.md](supabase/README.md).
