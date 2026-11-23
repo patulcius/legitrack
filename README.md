@@ -28,6 +28,26 @@ Le site est ensuite disponible à l'adresse `https://<compte>.github.io/<dépôt
 | `scripts/fetch_all.py` | Sénat (dossiers, amendements, sénateurs, ordre du jour) et Cour des comptes |
 | `scripts/build_v3.py` | construction des fichiers JSON du site (thématiques, délais, sous-amendements tombés, votes…) |
 | `scripts/fetch_rss.py` | 54 flux RSS officiels |
+| `scripts/post_build.py` | journal des nouveautés (comparaison avec la collecte précédente), flux RSS et agendas .ics |
+| `scripts/lettre.py` | lettre quotidienne par e-mail (seulement si les secrets d'envoi sont configurés) |
 | `site/index.html` | l'application (une seule page, sans dépendance à installer) |
+| `site/equipe.json` | facultatif : profil d'équipe appliqué à la première visite (voir plus bas) |
 
 Les préférences (thématiques, textes, parlementaires et flux suivis) sont enregistrées dans le navigateur de chaque utilisateur.
+
+## Nouveautés, alertes et partage
+
+- **Nouveautés** : à chaque collecte, `post_build.py` compare les données à celles de la collecte précédente
+  (instantané gardé dans `data/etat/`) et publie `changes.json` (trois semaines d'historique). Le site affiche
+  un badge, un bandeau « depuis votre dernière visite » et une page Nouveautés filtrable.
+- **Flux RSS** : `feeds/tout.xml`, `feeds/<thématique>.xml` et `feeds/t/<texte>.xml`.
+- **Agendas .ics** : `ics/tout.ics`, `ics/<thématique>.ics` et `ics/t/<texte>.ics`, abonnables dans Outlook
+  (« Ajouter un calendrier », puis « À partir d'Internet »).
+- **Partage** : le bouton de partage du site copie un lien ou enregistre un fichier contenant la sélection
+  (thématiques, textes, parlementaires, flux). Rien n'est stocké sur un serveur.
+- **Profil d'équipe** : un fichier `site/equipe.json` facultatif, par exemple
+  `{"nom": "Pôle sécurité", "th": ["securite", "justice"], "tx": [], "el": [], "fx": []}`,
+  est appliqué automatiquement à la première visite de chaque membre, et reste proposé ensuite.
+- **Lettre par e-mail** : secrets `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `LETTRE_FROM` et
+  `LETTRE_DEST` (par exemple `alice@exemple.fr:securite,justice; equipe@exemple.fr:*`). Les adresses restent
+  dans les secrets du dépôt et n'apparaissent jamais sur le site.
