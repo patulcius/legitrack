@@ -61,6 +61,10 @@ cp -r "$ROOT/site/." "$OUT/"
 if [ -f "$ROOT/scripts/post_build.py" ]; then
   python3 -I "$ROOT/scripts/post_build.py" "$OUT" "$DATA/etat" || echo "Journal des nouveautés indisponible" >&2
 fi
+# Agendas Outlook personnels des comptes (ics/u/<jeton>.ics) ; ne fait rien sans les secrets
+if [ -f "$ROOT/scripts/agendas_perso.py" ]; then
+  python3 -I "$ROOT/scripts/agendas_perso.py" "$OUT" || echo "Agendas personnels non écrits" >&2
+fi
 # Alertes e-mail personnalisées (comptes) : à chaque collecte ; ne fait rien sans les secrets
 if [ -f "$ROOT/scripts/alertes.py" ]; then
   python3 -I "$ROOT/scripts/alertes.py" "$OUT" || echo "Alertes e-mail non envoyées" >&2
