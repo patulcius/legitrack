@@ -10,6 +10,9 @@ Supabase (projet « Legitrack », région UE eu-west-1) et les e-mails sur Brevo
 - `agenda_perso.sql` : à exécuter une fois dans l'éditeur SQL (déjà inclus dans `schema.sql` pour une
   nouvelle installation). Ajoute à chaque profil un jeton `agenda_jeton` et la fonction
   `nouveau_jeton_agenda()` ; `scripts/agendas_perso.py` publie alors `ics/u/<jeton>.ics` pour chaque compte validé.
+- `declencheur.sql` : lance les mises à jour depuis Supabase (pg_cron + pg_net) aux heures prévues,
+  car GitHub retarde ou abandonne souvent ses tâches programmées. Nécessite un jeton GitHub limité au
+  dépôt (permission Actions) rangé dans le coffre-fort Supabase sous le nom `github_legitrack`.
 - `scripts/alertes.py` : lancé après chaque collecte par `update.sh`. Prévient les
   administrateurs des demandes, prévient les demandeurs de la décision, envoie les alertes
   (dès la collecte ou en récapitulatif quotidien après 8 h) via l'API Brevo.
