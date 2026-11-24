@@ -526,6 +526,10 @@ for blk in re.split(r'<a name="', page)[1:]:
                 sub = re.sub(r"\s*\(durée[^)]*\)", "", txt_of(li.group(1)).lstrip("=> ").strip()).strip() if li else ""
                 if link and not link.startswith("http"): link = "https://www.senat.fr" + link
                 dos = by_url.get(link) if link else None
+                if not dos:  # missions du PLF sans lien : rattacher au projet de loi de finances de l'année citée
+                    mfin = re.search(r"projet de loi de finances(?! rectificative)(?! de fin de gestion)\b.*?pour (\d{4})", texte, re.I)
+                    if mfin:
+                        dos = next((d for d in dossiers.values() if d.get("type") == "PLF" and d.get("titre", "").lower().startswith("projet de loi de finances pour " + mfin.group(1))), None)
                 titre = (f"{texte} : {sub}" if sub and texte and len(texte) < 120 else (sub or texte))[:400]
                 if not titre: continue
                 ev(d=start.isoformat(timespec="minutes"), k="seance", t=titre, ds=dos["id"] if dos else None,

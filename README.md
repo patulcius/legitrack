@@ -31,11 +31,24 @@ Le site est ensuite disponible à l'adresse `https://<compte>.github.io/<dépôt
 | `scripts/build_v3.py` | construction des fichiers JSON du site (thématiques, délais, sous-amendements tombés, votes…) |
 | `scripts/fetch_rss.py` | 54 flux RSS officiels |
 | `scripts/post_build.py` | journal des nouveautés (comparaison avec la collecte précédente), flux RSS et agendas .ics |
+| `scripts/agendas_perso.py` | agendas .ics personnels des comptes (`ics/u/<jeton>.ics`, textes et missions suivis) |
 | `scripts/lettre.py` | lettre quotidienne par e-mail (seulement si les secrets d'envoi sont configurés) |
 | `site/index.html` | l'application (une seule page, sans dépendance à installer) |
 | `site/equipe.json` | facultatif : profil d'équipe appliqué à la première visite (voir plus bas) |
 
 Les préférences (thématiques, textes, parlementaires et flux suivis) sont enregistrées dans le navigateur de chaque utilisateur.
+
+## Organisation du site
+
+- **Pour moi** : *Mon fil* (accueil personnel, sans compte : délais d'amendements des textes suivis regroupés par
+  texte, semaine à venir, nouveautés sur les suivis, cartes des suivis, découvertes dans les thématiques choisies),
+  *Nouveautés*, *Mon agenda* et *Mes suivis* (onglets textes, missions, parlementaires, thématiques, avec alertes,
+  agendas et flux). Sans aucun suivi, Mon fil propose un démarrage en trois étapes.
+- **Explorer** : *Vue d'ensemble* (l'ancien accueil, tout le Parlement), agenda parlementaire, textes, *Contrôle*
+  (missions et enquêtes, rapports parlementaires, Cour des comptes), questions, élus.
+- Un seul bouton **Suivre** sur chaque texte, mission ou parlementaire ; une fois suivi, il ouvre un panneau
+  (Mon fil, alerte e-mail, agenda Outlook, flux RSS). Les listes ont un interrupteur commun « Pour moi · Tout ».
+- Sur téléphone : barre de navigation en bas (Mon fil, Agenda, Rechercher, Nouveautés, Plus).
 
 ## Nouveautés, alertes et partage
 
@@ -45,6 +58,9 @@ Les préférences (thématiques, textes, parlementaires et flux suivis) sont enr
 - **Flux RSS** : `feeds/tout.xml`, `feeds/<thématique>.xml` et `feeds/t/<texte>.xml`.
 - **Agendas .ics** : `ics/tout.ics`, `ics/<thématique>.ics` et `ics/t/<texte>.ics`, abonnables dans Outlook
   (« Ajouter un calendrier », puis « À partir d'Internet »).
+- **Agenda personnel** : chaque compte validé dispose d'une adresse privée non devinable `ics/u/<jeton>.ics`,
+  régénérée à chaque collecte avec ses textes et missions suivis (`supabase/agenda_perso.sql`, une seule fois).
+  L'adresse peut être changée depuis Mes suivis ; sans compte, l'agenda des suivis se télécharge en .ics.
 - **Partage** : le bouton de partage du site copie un lien ou enregistre un fichier contenant la sélection
   (thématiques, textes, parlementaires, flux). Rien n'est stocké sur un serveur.
 - **Profil d'équipe** : un fichier `site/equipe.json` facultatif, par exemple

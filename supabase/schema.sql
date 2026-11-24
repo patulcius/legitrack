@@ -20,7 +20,8 @@ create table if not exists public.profils (
   valide_par uuid,
   admin_notifie boolean not null default false,       -- l'administrateur a été prévenu de la demande
   validation_notifiee boolean not null default false, -- l'utilisateur a été prévenu de la décision
-  quotidien_le date                                    -- date du dernier récapitulatif quotidien
+  quotidien_le date,                                   -- date du dernier récapitulatif quotidien
+  agenda_jeton uuid not null default gen_random_uuid() unique -- adresse de l'agenda personnel ics/u/<jeton>.ics
 );
 
 create table if not exists public.alertes (
@@ -150,3 +151,15 @@ revoke execute on function public.est_admin(), public.est_valide(), public.nouve
   public.supprimer_mon_compte() from public, anon;
 grant execute on function public.est_admin(), public.est_valide(), public.admin_statut(uuid, text),
   public.admin_role(uuid, boolean), public.admin_supprimer(uuid), public.supprimer_mon_compte() to authenticated;
+
+-- agenda Outlook personnel : changer d'adresse
+create or replace function public.nouveau_jeton_agenda() returns uuid
+language plpgsql security definer set search_path = public as $$
+declare j uuid := gen_random_uuid();
+begin
+  if not public.est_valide() then raise exception 'compte non validé'; end if;
+  update public.profils set agenda_jeton = j where id = auth.uid();
+  return j;
+end $$;
+revoke execute on function public.nouveau_jeton_agenda() from public, anon;
+grant execute on function public.nouveau_jeton_agenda() to authenticated;

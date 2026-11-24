@@ -9,10 +9,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#f6f5f1;--panel:#ffffff;--panel2:#fbfaf7;--ink:#17171a;--ink2:#4a4a52;--mute:#7c7c86;--line:#e7e4dc;--line2:#d9d5ca;
+  --bg:#f6f5f1;--panel:#ffffff;--panel2:#fbfaf7;--ink:#17171a;--ink2:#4a4a52;--mute:#66666f;--line:#e7e4dc;--line2:#d9d5ca;
   --acc:#3d4ee0;--acc-soft:#eceefe;--an:#1f6feb;--an-soft:#e7f0fe;--sn:#b2275a;--sn-soft:#fbe9f0;--cc:#8a5a00;--cc-soft:#fbf1dd;
   --ok:#147a4b;--ok-soft:#e3f4ea;--ko:#b4232c;--ko-soft:#fde9ea;--warn:#b45309;--warn-soft:#fdf0e1;--off:#6b6b74;--off-soft:#efeee9;
-  --dl:#d9480f;--dl-soft:#fff0e6;--se:#3d4ee0;--se-soft:#eceefe;--co:#0b7a75;--co-soft:#e1f4f2;--au:#7b3fc4;--au-soft:#f1e9fb;--re:#5b6470;--re-soft:#eef0f2;
+  --dl:#c2410c;--dl-soft:#fff0e6;--se:#3d4ee0;--se-soft:#eceefe;--co:#0b7a75;--co-soft:#e1f4f2;--au:#7b3fc4;--au-soft:#f1e9fb;--re:#5b6470;--re-soft:#eef0f2;
   --shadow:0 1px 2px rgba(20,20,30,.05),0 4px 14px rgba(20,20,30,.05);--r:14px;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
@@ -298,11 +298,9 @@ tr.clk{cursor:pointer}
 @media (max-width:820px){.nvrow{grid-template-columns:minmax(0,1fr) auto}.nvrow .k1{grid-column:1/-1;flex-direction:row;flex-wrap:wrap}.subrow{grid-template-columns:1fr}.subrow .acts{flex-wrap:wrap}}
 @media (max-width:1100px){.g2,.g3{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:820px){
-  .search{flex:0 0 auto}.search .st{display:none}.strip{grid-template-columns:repeat(7,minmax(96px,1fr))!important}
-  .strip{grid-template-columns:repeat(7,minmax(74px,1fr));overflow-x:auto}.dtile{min-height:90px;padding:8px}.dtile .ln{font-size:11px}
-  .app{grid-template-columns:1fr}.rail{position:fixed;inset:auto 0 0 0;height:auto;flex-direction:row;padding:6px;z-index:30;border-right:0;border-top:1px solid var(--line);overflow-x:auto}
-  .rail .brand,.rail .foot,.rail .sep,.nav .cnt{display:none}.nav{display:flex;gap:2px}.nav a{flex-direction:column;gap:2px;font-size:11px;padding:6px 8px}
-  .top{padding:10px 16px;flex-wrap:wrap}.page{padding:18px 16px 90px}.search kbd{display:none}
+  .search{flex:0 0 auto}.search .st{display:none}.strip{grid-template-columns:repeat(7,minmax(74px,1fr));overflow-x:auto}
+  .dtile{min-height:84px;padding:8px}.dtile .ln{font-size:11px}
+  .page{padding:18px 16px 96px}.search kbd{display:none}
   .week{grid-template-columns:1fr!important}.day{min-height:0}.month{gap:3px}.mc{min-height:64px;padding:4px}.mc .ln{display:none}
   .daylist .dl{grid-template-columns:1fr}.daylist .dlh{position:static}
   .tbl .hm{display:none}.kpis{grid-template-columns:1fr 1fr}h1{font-size:24px}.mob{display:inline}
@@ -348,39 +346,179 @@ tr.clk{cursor:pointer}
 .prose h3{font-size:15px;margin:20px 0 6px}.prose p,.prose li{font-size:14px;line-height:1.6;color:var(--ink2);max-width:75ch}.prose ul{padding-left:20px;margin:0}.prose a{color:var(--acc)}
 .hd .sub{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 @media (max-width:820px){.accgrid{grid-template-columns:1fr}.alrow{grid-template-columns:1fr}.alrow .ctl{justify-content:space-between}.addgrid{grid-template-columns:1fr}.hd .sub{display:none}}
+/* ---------- cohérence : navigation, Mon fil, suivis ---------- */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.modal input:focus-visible{outline:none}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+a.brand{color:inherit}
+.nav .grp{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--mute);padding:14px 10px 4px}
+.nav .grp:first-child{padding-top:2px}
+.nav .cnt.dlb{background:var(--dl);color:#fff;border-radius:999px;padding:0 7px;line-height:18px;font-weight:600;font-size:11.5px}
+.rail .foot{margin-top:auto;padding:8px 10px 2px}
+.nav.tools a{font-size:13px;padding:5px 10px;color:var(--mute);font-weight:500}.nav.tools a[aria-current="page"]{color:var(--ink)}
+.mbrand,#openFilt,.tabbar{display:none}
+.mbrand{align-items:center;gap:8px;font:600 17px Fraunces,Georgia,serif;margin-right:auto}.mbrand .logo{width:26px;height:26px;border-radius:8px}.mbrand .logo i{width:9px;height:9px}
+#openFilt{position:relative}.fdot{position:absolute;top:-3px;right:-3px;width:9px;height:9px;border-radius:50%;background:var(--acc);border:2px solid var(--bg)}
+.menuwrap{position:relative;margin-left:auto}
+.menu{position:absolute;right:0;top:calc(100% + 8px);min-width:250px;max-width:calc(100vw - 32px);background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,.18);padding:6px;z-index:40}
+.menu .mh{padding:8px 10px 6px;border-bottom:1px solid var(--line);margin-bottom:4px;min-width:0}.menu .mh b{display:block;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.menu .mh small{color:var(--mute);font-size:12px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.menu a,.menu button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:0;background:none;padding:8px 10px;border-radius:9px;font-size:14px;color:var(--ink2);font-weight:500}
+.menu a:hover,.menu button:hover,.menu a:focus-visible,.menu button:focus-visible{background:var(--line);color:var(--ink)}
+.menu .sepm{height:1px;background:var(--line);margin:4px 6px}
+.menu .badge{margin-left:auto;background:var(--dl);color:#fff;border-radius:999px;font-size:11px;padding:0 7px;line-height:18px}
+/* Pour moi · Tout */
+.seg.pm button[aria-pressed="true"]{background:var(--ink);color:var(--panel)}
+/* repères */
+.reps{display:flex;gap:8px;flex-wrap:wrap;margin:-6px 0 20px}
+.rep{display:inline-flex;align-items:center;gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:13.5px;font-weight:500;color:var(--ink2);max-width:100%}
+.rep b{color:var(--ink);font-weight:700}.rep.hot b{color:var(--dl)}a.rep:hover{border-color:var(--line2);color:var(--ink)}
+/* délais regroupés par texte */
+.dlp{display:inline-flex;align-items:center;gap:5px;border-radius:7px;padding:1px 8px;font-size:12px;font-weight:600;white-space:nowrap;background:var(--dl-soft);color:var(--dl);max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.row .det{font-size:12.5px;color:var(--mute);margin-top:4px}
+.mf-strip{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;padding:12px 18px 4px}
+.mfd{display:flex;flex-direction:column;align-items:flex-start;gap:1px;border:1px solid var(--line);border-radius:11px;padding:6px 8px;min-width:0;background:var(--panel);text-align:left;font-size:11.5px;color:var(--mute)}
+.mfd b{font:600 17px/1.1 Fraunces,Georgia,serif;color:var(--ink)}.mfd.today{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.mfd span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}.mfd .d{color:var(--dl);font-weight:600}
+.mfd:hover{border-color:var(--line2)}
+/* cartes de suivis */
+.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;padding:14px 18px 16px}
+.fcard{display:flex;flex-direction:column;gap:6px;border:1px solid var(--line);border-radius:12px;padding:11px 13px;min-width:0;background:var(--panel)}
+.fcard:hover{border-color:var(--line2);box-shadow:var(--shadow)}
+.fcard .tt{font-weight:600;font-size:14px;line-height:1.3}
+.fcard .meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--mute)}
+.fcard .nx{display:flex;justify-content:space-between;gap:8px;align-items:center;font-size:12.5px;color:var(--ink2);margin-top:auto}
+.fcard .nx span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ftype{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--mute)}
+details.disc>summary{list-style:none;cursor:pointer}details.disc>summary::-webkit-details-marker{display:none}
+details.disc>summary h2::after{content:"▸";display:inline-block;margin-left:8px;color:var(--mute);transition:transform .15s}
+details.disc[open]>summary h2::after{transform:rotate(90deg)}
+/* démarrage */
+.steps{display:grid;gap:18px}
+.stepc .hd{gap:12px}.stepn{width:28px;height:28px;border-radius:50%;background:var(--ink);color:var(--panel);display:grid;place-items:center;font-weight:700;font-size:13px;flex:none}
+.stepc .hd h2{display:flex;align-items:center;gap:10px}
+.sugg{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}
+.sugg:last-child{border-bottom:0}.sugg .tt{font-weight:600;line-height:1.35}
+.btn.on{background:var(--acc-soft);border-color:var(--acc);color:var(--acc)}
+/* fiche : actions et échéances */
+.hero .top1{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}
+.hero .acts{align-items:center}
+details.more{position:relative}details.more>summary{list-style:none}details.more>summary::-webkit-details-marker{display:none}
+details.more .menu{top:calc(100% + 6px)}
+.nextband{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.nb{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-left:3px solid var(--kc);border-radius:10px;padding:7px 11px;min-width:0;max-width:100%;background:var(--panel2)}
+.nb .k{font-size:12px}.nb b{font-size:13.5px;white-space:nowrap}.nb small{color:var(--mute);font-size:12px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:28ch}
+/* Mes suivis */
+.ptabs{margin-bottom:18px}.ptabs a{border:0;background:none;padding:10px 14px;font-weight:500;color:var(--mute);border-bottom:2px solid transparent;white-space:nowrap;font-size:14.5px}
+.ptabs a[aria-current="page"]{color:var(--ink);border-color:var(--ink)}.ptabs .n{font-size:12px;color:var(--mute);margin-left:4px}
+.srow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 16px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line)}
+.srow:last-child{border-bottom:0}.srow .tt{font-weight:600;line-height:1.35}.srow a.tt:hover{color:var(--acc)}
+.srow .meta{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-top:5px;font-size:12.5px;color:var(--mute)}
+.srow .ctl{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.srow .ctl .lab{font-size:12px;color:var(--mute)}
+.agcard{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center;padding:16px 18px;margin-bottom:18px}
+.agcard .ic{width:40px;height:40px;border-radius:11px;background:var(--acc-soft);display:grid;place-items:center}
+.agcard .ic svg{width:20px;height:20px;fill:none;stroke:var(--acc);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.agcard p{margin:2px 0 0;color:var(--ink2);font-size:13.5px}.agcard .acts{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.thtog{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+/* panneau Suivre */
+.fsec{display:grid;grid-template-columns:34px minmax(0,1fr);gap:12px;padding:15px 0;border-bottom:1px solid var(--line)}
+.fsec:last-child{border-bottom:0}.fsec .ic{width:34px;height:34px;border-radius:10px;background:var(--acc-soft);display:grid;place-items:center}
+.fsec .ic svg{width:17px;height:17px;fill:none;stroke:var(--acc);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.fsec h3{margin:0 0 3px;font-size:14px}.fsec p{margin:0 0 9px;color:var(--ink2);font-size:13.5px}.fsec .acts{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+/* Contrôle : nombre dans les onglets */
+.seg .sub{font-size:11.5px}
+/* feuille « Plus » (mobile) */
+.sheet{position:fixed;inset:auto 0 0 0;background:var(--panel);border-radius:18px 18px 0 0;box-shadow:0 -10px 40px rgba(0,0,0,.2);padding:10px 12px calc(16px + env(safe-area-inset-bottom));max-height:85vh;overflow:auto;z-index:55}
+.sheet .grab{width:40px;height:4px;border-radius:2px;background:var(--line2);margin:2px auto 8px}
+.sheet .grp{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--mute);padding:12px 8px 4px}
+.sheet .sgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.sheet a,.sheet button.it{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:12px;background:var(--panel2);border:1px solid var(--line);font-weight:500;font-size:14px;color:var(--ink);text-align:left;min-width:0}
+.sheet a svg,.sheet button.it svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.sheet a span,.sheet button.it span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sheetov{position:fixed;inset:0;background:rgba(10,10,15,.45);z-index:54}
+.filters .ftog{display:none}
+@media (max-width:1100px){.agcard{grid-template-columns:auto minmax(0,1fr)}.agcard .acts{grid-column:1/-1;justify-content:flex-start}}
+@media (max-width:820px){
+  .rail{display:none}.app{grid-template-columns:1fr}
+  .tabbar{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;inset:auto 0 0 0;z-index:30;background:color-mix(in srgb,var(--panel) 94%,transparent);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
+  .tabbar a,.tabbar button{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;border:0;background:none;padding:6px 2px;border-radius:10px;font-size:11px;font-weight:500;color:var(--ink2);min-width:0;min-height:48px;justify-content:center}
+  .tabbar svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .tabbar [aria-current="page"]{color:var(--acc)}
+  .tbn{position:absolute;top:4px;left:calc(50% + 6px);width:9px;height:9px;border-radius:50%;background:var(--acc);border:2px solid var(--panel)}
+  .top{padding:9px 16px;gap:8px;flex-wrap:nowrap}.mbrand{display:flex}#openFilt{display:grid}#chseg,#openTh{display:none}
+  .search{width:34px;height:34px;padding:0;justify-content:center;border-radius:10px;flex:none}.menuwrap{margin-left:0}
+  .banner{flex-wrap:wrap}.banner p{flex:1 1 100%}
+  .mf-strip{padding:10px 12px 2px;gap:4px}.mfd{padding:5px 6px}.mfd span{font-size:10.5px}
+  .fgrid{grid-template-columns:1fr;padding:12px 14px}
+  .srow{grid-template-columns:1fr}.srow .ctl{justify-content:flex-start}
+  .star{min-width:40px;min-height:40px;font-size:20px}
+  .filters{gap:8px}.filters input[type=search]{min-width:0;max-width:none;flex:1 1 160px}
+  .filters .ftog{display:inline-flex}.filters:not(.open) select,.filters:not(.open) label{display:none}
+  .filters select{max-width:100%;flex:1 1 100%}
+  .hero{padding:18px 16px}.hero h1{font-size:22px}
+  .nb small{max-width:20ch}
+  .nvrow{grid-template-columns:minmax(0,1fr)}.nvrow .tm{text-align:left}
+}
+@media (max-width:700px){
+  .tbl,.tbl tbody{display:block}.tbl thead{display:none}
+  .tbl tr{display:flex;flex-wrap:wrap;align-items:flex-start;gap:6px 8px;padding:12px 4px;border-bottom:1px solid var(--line)}
+  .tbl td{display:block;border:0;padding:0}.tbl td.hm{display:none}
+  .tbl td:has(.tt){flex:1 1 calc(100% - 52px);min-width:0}
+  .tbl td:has(.star){flex:0 0 40px}
+  .tbl td:not(:has(.tt)):not(:has(.star)){flex:1 1 100%;padding-left:48px}
+  .tbl tr:not(:has(.star)) td:not(:has(.tt)){padding-left:0}
+  .tbl tr:hover td{background:none}
+  .row:has(>div:first-child .star){grid-template-columns:40px minmax(0,1fr)}
+  .row:has(>div:first-child .star)>:nth-child(3){grid-column:2;text-align:left!important;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .row:has(>div:first-child .star)>:nth-child(3) .sub{margin-top:0!important}
+  .nb{flex-wrap:wrap;gap:4px 8px;width:100%}.nb small{max-width:none;flex:1 1 100%}
+}
+.card .hd>a{white-space:nowrap}
+details.rapl,details.rapl summary{display:inline}details.rapl summary{cursor:pointer;list-style:none}details.rapl summary::-webkit-details-marker{display:none}details.rapl[open] summary u{display:none}details.rapl[open]{line-height:1.5}
 </style>
 </head>
 <body>
 <div class="app">
   <nav class="rail" aria-label="Navigation">
-    <div class="brand"><div class="logo"><i></i></div><div><b>Legitrack</b><small>Parlement · Cour des comptes</small></div></div>
+    <a class="brand" href="#accueil"><div class="logo"><i></i></div><div><b>Legitrack</b><small>Parlement · Cour des comptes</small></div></a>
     <div class="nav" id="nav">
-      <a href="#accueil" data-v="accueil"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-5h4v5"/></svg>Aujourd'hui</a>
+      <div class="grp">Pour moi</div>
+      <a href="#accueil" data-v="accueil"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-5h4v5"/></svg>Mon fil</a>
       <a href="#nouveautes" data-v="nouveautes"><svg viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg>Nouveautés<span class="cnt" id="cNv"></span></a>
-      <a href="#agenda" data-v="agenda"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Agenda<span class="cnt" id="cAg"></span></a>
-      <a href="#textes" data-v="textes"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M9 11h7M9 15h7M9 7h3"/></svg>Textes<span class="cnt" id="cTx"></span></a>
-      <a href="#controle" data-v="controle"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5.5 5.5M8 10.5h5M10.5 8v5"/></svg>Missions et enquêtes<span class="cnt" id="cCt"></span></a>
+      <a href="#monagenda" data-v="monagenda"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M8.5 14.5l2 2 4-4"/></svg>Mon agenda<span class="cnt" id="cMa"></span></a>
       <a href="#suivis" data-v="suivis"><svg viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg>Mes suivis<span class="cnt" id="cSu"></span></a>
+      <div class="grp">Explorer</div>
+      <a href="#ensemble" data-v="ensemble"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>Vue d'ensemble</a>
+      <a href="#agenda" data-v="agenda"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Agenda parlementaire</a>
+      <a href="#textes" data-v="textes"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M9 11h7M9 15h7M9 7h3"/></svg>Textes</a>
+      <a href="#controle" data-v="controle"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5.5 5.5M8 10.5h5M10.5 8v5"/></svg>Contrôle</a>
       <a href="#questions" data-v="questions"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M9.6 9.3a2.5 2.5 0 1 1 3.4 2.4c-.7.3-1 .8-1 1.5v.6M12 16.8v.2"/></svg>Questions</a>
-      <a href="#rapports" data-v="rapports"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M21 20H3"/></svg>Rapports</a>
-      <a href="#flux" data-v="flux"><svg viewBox="0 0 24 24"><path d="M5 19h.01M5 12a7 7 0 0 1 7 7M5 5a14 14 0 0 1 14 14"/></svg>Flux RSS</a>
       <a href="#elus" data-v="elus"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"/><circle cx="17" cy="9" r="2.6"/><path d="M17 14.5c2.4 0 4 1.4 4.5 4"/></svg>Élus</a>
     </div>
-    <div class="sep"></div>
     <div class="foot" id="foot"></div>
+    <div class="nav tools"><a href="#flux" data-v="flux">Flux RSS officiels</a><a href="#apropos" data-v="apropos">À propos et sources</a></div>
   </nav>
   <div class="main">
     <header class="top">
+      <a class="mbrand" href="#accueil" aria-label="Legitrack, Mon fil"><span class="logo"><i></i></span><b>Legitrack</b></a>
       <button class="search" id="openPal" aria-label="Rechercher"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><span class="st">Rechercher un texte, une mission, un élu, un rapport…</span><kbd>Ctrl K</kbd></button>
       <div class="seg" id="chseg" role="group" aria-label="Chambre"><button data-ch="" aria-pressed="true">Tout</button><button data-ch="AN" aria-pressed="false">Assemblée</button><button data-ch="SN" aria-pressed="false">Sénat</button></div>
       <button class="btn" id="openTh"><span class="dot"></span><span id="thLabel">Toutes les thématiques</span></button>
-      <button class="iconbtn" id="openSet" aria-label="Partage et abonnements" title="Partage et abonnements"><svg viewBox="0 0 24 24"><circle cx="18" cy="5.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="M8.2 10.8l7.6-4.1M8.2 13.2l7.6 4.1"/></svg></button>
-      <a class="iconbtn" id="accBtn" href="#compte" aria-label="Se connecter" title="Se connecter"><svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c.8-4 3.8-6 7.5-6s6.7 2 7.5 6"/></svg></a>
-      <button class="iconbtn" id="mode" aria-label="Changer de thème clair ou sombre"><svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button>
+      <button class="iconbtn" id="openFilt" aria-label="Filtres : chambre et thématiques" title="Filtres"><svg viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M10 18h4"/></svg><i class="fdot" id="fDot" hidden></i></button>
+      <div class="menuwrap"><button class="iconbtn" id="accBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="accMenu" aria-label="Compte et réglages" title="Compte et réglages"><svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c.8-4 3.8-6 7.5-6s6.7 2 7.5 6"/></svg></button><div class="menu" id="accMenu" role="menu" hidden></div></div>
     </header>
     <main class="page" id="view"><div class="loading">Chargement des données…</div></main>
   </div>
 </div>
+<nav class="tabbar" aria-label="Navigation principale">
+  <a href="#accueil" data-v="accueil"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-5h4v5"/></svg>Mon fil</a>
+  <a href="#monagenda" data-v="monagenda"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Agenda</a>
+  <button type="button" data-act="pal"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>Rechercher</button>
+  <a href="#nouveautes" data-v="nouveautes"><svg viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg>Nouveautés<i class="tbn" id="cNvM" hidden></i></a>
+  <button type="button" data-act="more" aria-haspopup="dialog"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>Plus</button>
+</nav>
+<div id="live" class="sr" role="status" aria-live="polite"></div>
 <div class="overlay" id="pal" hidden><div class="modal" role="dialog" aria-label="Recherche"><input id="palIn" placeholder="Texte, mission, élu, rapport, question, page…" autocomplete="off"><div class="res" id="palRes"></div></div></div>
 <div class="overlay" id="amd" hidden><div class="modal wide" role="dialog" aria-label="Amendement" id="amdBox"></div></div>
 <div class="overlay" id="thm" hidden><div class="modal" role="dialog" aria-label="Mes thématiques">
@@ -415,14 +553,14 @@ const dshort=s=>{const d=pd(s);return d?`${JOURS[d.getDay()]} ${d.getDate()} ${M
 const hr=s=>{if(!s||s.length<16)return"";const h=+s.slice(11,13),m=s.slice(14,16);return h===0&&m==="00"?"":`${h} h ${m==="00"?"":m}`.trim()};
 const TODAY=()=>pd(S.core.aujourdhui);
 const daysTo=s=>Math.round((pd(s)-TODAY())/864e5);
-function countdown(s){const n=daysTo(s);const c=n<=2?"urg":n<=7?"soon":"far";const l=n<0?"passé":n===0?"aujourd'hui":n===1?"demain":`J-${n}`;return `<span class="count ${c}">${l}</span>`}
+function countdown(s){const n=daysTo(s);if(n>14){const d=pd(s);return `<span class="count far" title="dans ${n} jours">${d.getDate()} ${MOISC[d.getMonth()]}</span>`}const c=n<=2?"urg":n<=7?"soon":"far";const l=n<0?"passé":n===0?"aujourd'hui":n===1?"demain":`J-${n}`;return `<span class="count ${c}">${l}</span>`}
 const kv=k=>KIND[k]||KIND.reunion;
 const chPill=c=>c==="SN"?`<span class="pill sn">Sénat</span>`:c==="AN+SN"?`<span class="pill an">AN</span><span class="pill sn">Sénat</span>`:c==="CC"?`<span class="pill cc">Cour des comptes</span>`:`<span class="pill an">AN</span>`;
 const thTags=(a,n=2)=>(a||[]).slice(0,n).map(t=>`<span class="th" style="--c:${TH_COL[t]}">${esc(thLab(t))}</span>`).join("");
 const thLab=t=>(S.core.themes.find(x=>x.id===t)||{}).l||t;
 const mT=a=>!S.themes.size||(a||[]).some(t=>S.themes.has(t));
 const mCh=c=>!S.ch||(c||"AN").includes(S.ch);
-const toast=m=>{const t=document.createElement("div");t.className="toast";t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),1800)};
+const toast=m=>{const t=document.createElement("div");t.className="toast";t.setAttribute("aria-hidden","true");t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),2200);const l=$("#live");if(l){l.textContent="";setTimeout(()=>{l.textContent=m},30)}};
 async function getJ(p){if(S.cache[p])return S.cache[p];const r=await fetch(p);if(!r.ok)throw new Error(p);const j=await r.json();S.cache[p]=j;return j}
 const dosById=id=>S.D[id];
 async function getGz(p){if(S.cache[p])return S.cache[p];const r=await fetch(p);if(!r.ok)throw new Error(p);let b=new Uint8Array(await r.arrayBuffer());let j;
@@ -432,50 +570,162 @@ const starP=(id,big)=>`<button class="starp" data-folp="${esc(id)}" aria-pressed
 const paras=t=>(t||"").split("\n").filter(Boolean).map(l=>`<p>${esc(l)}</p>`).join("");
 function star(id){return `<button class="star" data-fol="${esc(id)}" aria-pressed="${S.fol.has(id)}" aria-label="Suivre ce texte" title="Suivre ce texte">★</button>`}
 
-/* ---------- vue : aujourd'hui ---------- */
-function vAccueil(){
+/* ---------- aides communes ---------- */
+const DLPREF=/^Délai limite (?:de|pour le) dépôt des amendements(?: de commission)?(?: en séance| en commission)?\s*:?\s*/i;
+function evTitle(e){const d=e.ds&&dosById(e.ds);if(d)return d.t;const t=(e.t||"").replace(DLPREF,"").trim();return t||kv(e.k).l}
+function evSub(e){ // le détail utile, jamais une répétition du titre
+  const d=e.ds&&dosById(e.ds);if(!e.k.startsWith("dl_"))return d?e.t:(e.org||"");
+  const r=(e.t||"").replace(DLPREF,"").trim();if(!d||!r)return "";
+  const i=r.lastIndexOf(" : ");if(i>0)return r.slice(i+3);
+  return r.toLowerCase().startsWith(d.t.toLowerCase().slice(0,24))?"":r}
+const hasSuivis=()=>S.fol.size+S.folm.size+S.folp.size>0;
+const isMine=e=>!!((e.ds&&S.fol.has(e.ds))||(e.mi&&S.folm.has(e.mi)));
+function dlGroups(E){const G=[],idx={};E.forEach(e=>{const k=e.d.slice(0,10)+"|"+(e.ds||evTitle(e));let g=idx[k];if(!g){g=idx[k]={day:e.d.slice(0,10),ds:e.ds,L:[]};G.push(g)}g.L.push(e)});return G}
+function dlPills(g){const seen=new Set();return g.L.filter(e=>{const k=e.k+hr(e.d);if(seen.has(k))return false;seen.add(k);return true}).map(e=>`<span class="dlp">${e.k==="dl_com"?"Commission":"Séance"}${hr(e.d)?" · "+hr(e.d):""}</span>`).join("")}
+function dlDet(g){const L=[...new Set(g.L.map(evSub).filter(Boolean))];return L.length?(L.length>2?`${L.length} missions ou parties : `:"")+L.map(esc).join(" · "):""}
+function dlRow(g){
+  const e0=g.L[0],day=pd(g.day),d=g.ds&&dosById(g.ds),det=dlDet(g),href=d?"#texte-"+g.ds:"#agenda-"+g.day;
+  return `<a class="row" href="${href}"><div class="when"><small>${JOURS[day.getDay()]}</small><b>${day.getDate()}</b><small>${MOISC[day.getMonth()]}</small></div>
+  <div><div class="tt clamp2">${esc(d?d.t:evTitle(e0))}</div><div class="meta">${chPill(e0.ch)}${dlPills(g)}${g.L.some(e=>e.calc)?`<span title="Délai calculé selon le Règlement, à confirmer">calculé</span>`:""}</div>${det?`<div class="det clamp2">${det}</div>`:""}</div>
+  <div>${countdown(e0.d)}</div></a>`}
+function dlCard(g){ // agenda : un texte, un jour, tous ses délais
+  const e0=g.L[0],d=g.ds&&dosById(g.ds),k=kv(e0.k),det=dlDet(g);
+  return `<a class="ev big" href="${d?"#texte-"+g.ds:"#agenda-"+g.day}" style="--kc:${k.c};--ks:${k.b}"><span class="hr">${hr(e0.d)||"—"}</span><div><div class="h" style="justify-content:flex-start;gap:8px;flex-wrap:wrap"><span>Délai d'amendements</span>${chPill(e0.ch)}${dlPills(g)}${g.L.some(e=>e.calc)?`<span class="sub">calculé</span>`:""}${g.day>=S.core.aujourdhui?countdown(e0.d):""}</div><div class="t">${esc(d?d.t:evTitle(e0))}</div>${det?`<div class="o" style="-webkit-line-clamp:2">${det}</div>`:""}</div></a>`}
+function dayCards(L){const D=L.filter(e=>e.k.startsWith("dl_")),O=L.filter(e=>!e.k.startsWith("dl_"));return dlGroups(D).map(dlCard).join("")+O.map(e=>evCard(e,true)).join("")}
+/* « Pour moi · Tout » : le même interrupteur sur chaque page */
+const pmSeg=(key,on)=>`<div class="seg pm" role="group" aria-label="Périmètre"><button data-pm="${key}" data-pv="moi" aria-pressed="${!!on}" title="Seulement ce que vous suivez">Pour moi</button><button data-pm="${key}" data-pv="tout" aria-pressed="${!on}">Tout</button></div>`;
+const SVG_STAR=`<svg viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg>`;
+const FSET={texte:"fol",mission:"folm",elu:"folp"};
+const isFol=(c,id)=>S[FSET[c]].has(id);
+const saveSet=c=>LS.set({texte:"veille.suivis",mission:"veille.missions",elu:"veille.elus"}[c],[...S[FSET[c]]]);
+/* bouton « Suivre » des fiches : un seul geste, les réglages dans un panneau */
+function followBtn(c,id){return isFol(c,id)?`<button class="btn on" data-fopen="${c}" data-id="${esc(id)}" aria-haspopup="dialog" title="Mon fil, alerte e-mail, agenda Outlook, flux RSS">★ Suivi <span aria-hidden="true">▾</span></button>`:`<button class="btn pri" data-fbig="${c}" data-id="${esc(id)}">☆ Suivre</button>`}
+function moreMenu(items){items=items.filter(Boolean);if(!items.length)return "";return `<details class="more"><summary class="iconbtn" aria-label="Autres actions" title="Autres actions"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg></summary><div class="menu">${items.join("")}</div></details>`}
+
+/* ---------- vue : Mon fil (accueil personnel) ---------- */
+async function vMonFil(){
+  if(!hasSuivis()||S.inDemo)return vDemarrage();
+  try{await ctlLoad()}catch(e){}
+  const t=S.core.aujourdhui,in7=iso(new Date(TODAY().getTime()+7*864e5)),in21=iso(new Date(TODAY().getTime()+21*864e5));
+  const mine=S.ev.filter(e=>isMine(e)&&mCh(e.ch)&&e.d.slice(0,10)>=t);
+  // réunions des missions suivies absentes de l'agenda général (Sénat notamment)
+  const seenK=new Set(mine.map(e=>e.d.slice(0,16)+(e.mi||"")));
+  [...S.folm].forEach(id=>{const m=S.ctl&&S.ctl.by[id];if(!m||!mCh(m.ch))return;(m.ev||[]).forEach(x=>{if(x.k==="cr"||x.x||x.d.slice(0,10)<t)return;const k=x.d.slice(0,16)+id;if(seenK.has(k))return;seenK.add(k);mine.push({d:x.d,k:x.k==="audition"?"audition":"reunion",t:x.t,org:m.court||m.t,ch:m.ch,mi:id,th:m.th})})});
+  mine.sort((a,b)=>a.d.localeCompare(b.d));
+  const dls=mine.filter(e=>e.k.startsWith("dl_")&&e.d.slice(0,10)<=in21),G=dlGroups(dls);
+  const wk=mine.filter(e=>!e.k.startsWith("dl_")&&e.d.slice(0,10)<in7);
+  const today=mine.filter(e=>!e.k.startsWith("dl_")&&e.d.slice(0,10)===t);
+  const nv=S.nv.ok?S.nv.items.filter(o=>nvFol(o)&&nvCh(o)&&o.ts>(S.nv.seen||"")):[];
+  const nvG=[],ix={};nv.forEach(o=>{const k=o.ds||o.mi||("p"+o.ai);if(ix[k]===undefined){ix[k]=nvG.length;nvG.push([])}nvG[ix[k]].push(o)});
+  const d0=TODAY(),hello=d0.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"});
+  const nom=typeof A!=="undefined"&&A.p&&A.p.statut==="valide"&&A.p.nom?A.p.nom.split(/\s+/)[0]:"";
+  const n7=dlGroups(dls.filter(e=>e.d.slice(0,10)<in7)).length;
+  const days=[...Array(7)].map((_,i)=>new Date(d0.getTime()+i*864e5));
+  const strip=`<div class="mf-strip">${days.map(x=>{const k=iso(x),L=mine.filter(e=>e.d.slice(0,10)===k),nd=dlGroups(L.filter(e=>e.k.startsWith("dl_"))).length,nr=L.length-L.filter(e=>e.k.startsWith("dl_")).length;
+    return `<a class="mfd ${k===t?"today":""}" href="#monagenda-${k}" title="${cap(JOURSL[x.getDay()])} ${x.getDate()} ${MOISL[x.getMonth()]}"><span>${JOURS[x.getDay()]}</span><b>${x.getDate()}</b>${nd?`<span class="d">${nd} délai${nd>1?"s":""}</span>`:""}${nr?`<span>${nr} réunion${nr>1?"s":""}</span>`:""}${!nd&&!nr?`<span>—</span>`:""}</a>`}).join("")}</div>`;
+  const T=[...S.fol].map(dosById).filter(Boolean),M=[...S.folm].map(i=>S.ctl&&S.ctl.by[i]).filter(Boolean);
+  let P=[];if(S.folp.size){try{const E=await getJ("elus.json");P=[...S.folp].map(id=>E.deputes.find(d=>d.id===id)||Object.assign({sen:1},E.senateurs.find(d=>d.id===id))).filter(x=>x&&x.nom);S.gcol=E.groupes||{}}catch(e){}}
+  const cards=[...T.slice().sort((a,b)=>((a.nx||{}).d||"9").localeCompare((b.nx||{}).d||"9")).map(fcardT),...M.map(fcardM),...P.map(fcardP)];
+  const disc=LS.get("veille.disc",false);
+  return `<div class="ph"><div><div class="eyebrow">${esc(cap(hello))}${S.team&&S.team.nom?` · ${esc(S.team.nom)}`:""}</div><h1>${nom?`Bonjour ${esc(nom)}`:"Mon fil"}</h1></div><div class="sub">Vos ${S.fol.size+S.folm.size+S.folp.size} suivis · <a href="#suivis" style="color:var(--acc)">gérer</a></div></div>
+  <div class="reps">
+    <a class="rep ${n7?"hot":""}" href="#monagenda"><b>${n7}</b> délai${n7>1?"s":""} d'amendements cette semaine</a>
+    <a class="rep" href="#nouveautes"><b>${nv.length}</b> nouveauté${nv.length>1?"s":""} sur vos suivis</a>
+    <a class="rep" href="#monagenda-${t}"><b>${today.length}</b> réunion${today.length>1?"s":""} aujourd'hui</a>
+  </div>
+  <div class="grid g2" style="align-items:start">
+    <section class="card"><div class="hd"><h2>À faire · délais d'amendements</h2><a href="#monagenda">Mon agenda →</a></div><div class="bd"><div class="rows">
+      ${G.slice(0,10).map(dlRow).join("")||`<div class="empty">Aucun délai d'amendement connu dans les trois semaines sur vos textes suivis.</div>`}</div>
+      ${G.length>10?`<a class="btn morebtn" href="#monagenda" style="width:max-content">Voir les ${G.length} délais</a>`:""}</div></section>
+    <section class="card"><div class="hd"><h2>Cette semaine pour moi</h2><a href="#monagenda">Semaine →</a></div>${strip}<div class="bd"><div class="rows">
+      ${wk.slice(0,6).map(evRow).join("")||`<div class="empty">Pas de séance, de réunion ni d'audition prévue cette semaine sur vos suivis.</div>`}</div>
+      ${wk.length>6?`<a class="btn morebtn" href="#monagenda" style="width:max-content">Voir les ${wk.length} réunions</a>`:""}</div></section>
+  </div>
+  <section class="card" style="margin-top:18px"><div class="hd"><h2>Depuis votre dernière visite</h2>${nv.length?`<button class="linkbtn" data-act="nvread">Tout marquer comme lu</button>`:`<a href="#nouveautes">Nouveautés →</a>`}</div><div class="bd">
+    ${nvG.slice(0,6).map(g=>nvGroup(g,null)).join("")||`<div class="empty">${S.nv.ok?"Rien de nouveau sur vos suivis depuis votre dernière visite.":"Le journal des nouveautés se remplit à chaque mise à jour du site."}</div>`}
+    ${nvG.length>6?`<a class="btn morebtn" href="#nouveautes" style="width:max-content">Voir les ${nv.length} nouveautés</a>`:""}</div></section>
+  <section class="card" style="margin-top:18px"><div class="hd"><h2>Mes suivis</h2><a href="#suivis">Gérer →</a></div><div class="fgrid">${cards.join("")}</div></section>
+  <details class="card disc" style="margin-top:18px" ${disc?"open":""} id="discBox"><summary class="hd"><h2>Dans mes thématiques · à découvrir</h2><span class="sub">${S.themes.size?`${S.themes.size} thématique${S.themes.size>1?"s":""}`:"toutes thématiques"}</span></summary><div class="bd" id="discBd"><div class="loading">…</div></div></details>`;
+}
+function fcardT(d){return `<a class="fcard" href="#texte-${esc(d.id)}"><span class="ftype">Texte · ${esc(d.ty)}</span><span class="tt clamp3">${esc(d.t)}</span><span class="meta">${chPill(d.ch)}<span class="pill ${d.sc}">${esc(d.st)}</span>${S.nv.byDs[d.id]?`<span class="newdot">nouveau</span>`:""}</span>${d.nx?`<span class="nx"><span>${kv(d.nx.k).s}</span>${countdown(d.nx.d)}</span>`:`<span class="nx"><span class="sub">Dernière étape ${d.ld?ds(d.ld):""}</span></span>`}</a>`}
+function fcardM(m){const nvM=S.nv.items.some(o=>o.mi===m.id&&o.ts>(S.nv.seen||""));return `<a class="fcard" href="#mission-${esc(m.id)}"><span class="ftype">${esc(m.ch==="SN"&&m.tl?m.tl:(CTLT[m.ty]||m.tl||"Mission"))}</span><span class="tt clamp3">${esc(m.t)}</span><span class="meta">${chPill(m.ch)}${mStPill(m)}${nvM?`<span class="newdot">nouveau</span>`:""}</span>${m.nx?`<span class="nx"><span>Prochaine réunion</span>${countdown(m.nx)}</span>`:`<span class="nx"><span class="sub">${m.na?`${m.na} audition${m.na>1?"s":""}`:"Aucune réunion annoncée"}</span></span>`}</a>`}
+function fcardP(p){return `<a class="fcard" href="${p.sen?"#sen-":"#elu-"}${esc(p.id)}"><span class="ftype">${p.sen?"Sénateur ou sénatrice":"Député ou députée"}</span><span style="display:flex;gap:10px;align-items:center;min-width:0"><span class="av" style="--gc:${p.sen?"var(--sn)":(S.gcol||{})[p.g]||"#888"};width:34px;height:34px;font-size:12px">${ini(p.nom)}</span><span class="tt" style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(p.nom)}</span></span><span class="meta">${p.sen?`<span class="pill sn">Sénat</span>`:`<span class="pill an">AN</span>`}<span>${esc(p.g||"")}</span></span></a>`}
+async function fillDisc(){
+  const el=$("#discBd");if(!el)return;
+  const since=iso(new Date(TODAY().getTime()-14*864e5));
+  const N=S.core.dossiers.filter(d=>mT(d.th)&&mCh(d.ch)&&!S.fol.has(d.id)&&d.dep&&d.dep>=since).sort((a,b)=>b.dep.localeCompare(a.dep)).slice(0,6);
+  let R=[];try{R=(await getJ("rapports.json")).filter(r=>mT(r.th)&&(!S.ch||r.src===S.ch||r.src==="CC")).slice(0,5)}catch(e){}
+  let M=[];try{const C=await ctlLoad();M=C.items.filter(m=>mT(m.th)&&mCh(m.ch)&&!S.folm.has(m.id)&&m.st==="En cours"&&m.deb&&m.deb>=iso(new Date(TODAY().getTime()-45*864e5))).slice(0,4)}catch(e){}
+  if(!$("#discBd"))return;
+  $("#discBd").innerHTML=`${S.themes.size?"":`<div class="banner card" style="box-shadow:none;margin:8px 0 6px"><p>Choisissez vos thématiques pour ne voir ici que les nouveaux textes, missions et publications de vos sujets.</p><button class="btn pri" data-act="themes">Choisir mes thématiques</button></div>`}
+  ${N.length?`<h3 class="eyebrow" style="margin:14px 0 2px">Nouveaux textes</h3><div class="rows">${N.map(d=>`<div class="row"><div>${star(d.id)}</div><a href="#texte-${esc(d.id)}"><div class="tt clamp2">${esc(d.t)}</div><div class="meta"><span class="pill out">${esc(d.ty)}</span>${chPill(d.ch)}${thTags(d.th)}<span>déposé le ${ds(d.dep)}</span></div></a><div></div></div>`).join("")}</div>`:""}
+  ${M.length?`<h3 class="eyebrow" style="margin:18px 0 2px">Nouvelles missions et enquêtes</h3><div class="rows">${M.map(mRow).join("")}</div>`:""}
+  ${R.length?`<h3 class="eyebrow" style="margin:18px 0 2px">Dernières publications</h3><div class="rows">${R.map(rapRow).join("")}</div>`:""}
+  ${!N.length&&!M.length&&!R.length?`<div class="empty">Rien de nouveau dans vos thématiques ces deux dernières semaines.</div>`:""}
+  <p class="note"><a href="#ensemble" style="color:var(--acc)">Vue d'ensemble de la semaine →</a></p>`;
+}
+
+/* ---------- vue : premiers pas (aucun suivi) ---------- */
+function vDemarrage(){
+  S.inDemo=true;
+  const t=S.core.aujourdhui,in21=iso(new Date(TODAY().getTime()+21*864e5));
+  const TX=S.core.dossiers.filter(d=>d.ac&&mT(d.th)&&mCh(d.ch)&&d.nx&&d.nx.d.slice(0,10)>=t&&d.nx.d.slice(0,10)<=in21).sort((a,b)=>a.nx.d.localeCompare(b.nx.d)).slice(0,8);
+  const MI=S.ctl?S.ctl.items.filter(m=>m.st==="En cours"&&mT(m.th)&&mCh(m.ch)).sort((a,b)=>(a.nx||"9").localeCompare(b.nx||"9")).slice(0,6):[];
+  if(!S.ctl)ctlLoad().then(()=>{if((location.hash.slice(1)||"accueil")==="accueil")render(true)}).catch(()=>{});
+  const n=S.fol.size+S.folm.size+S.folp.size;
+  const sug=(href,title,meta,btn)=>`<div class="sugg"><a href="${href}"><div class="tt clamp2">${title}</div><div class="meta" style="display:flex;gap:7px;flex-wrap:wrap;margin-top:5px;font-size:12.5px;color:var(--mute);align-items:center">${meta}</div></a>${btn}</div>`;
+  const fb=(attr,id,on)=>`<button class="btn sm ${on?"on":""}" ${attr}="${esc(id)}" aria-pressed="${on}">${on?"★ Suivi":"☆ Suivre"}</button>`;
+  return `<div class="ph"><div><div class="eyebrow">Bienvenue sur Legitrack</div><h1>Composez votre fil</h1><p>Mon fil ne montre que ce que vous suivez : les délais d'amendements de vos textes, les réunions de vos missions, les nouveautés qui vous concernent. Trois étapes suffisent ; tout se modifie ensuite dans « Mes suivis ».</p></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">${S.team?`<button class="btn" data-act="team">Profil d'équipe${S.team.nom?` « ${esc(S.team.nom)} »`:""}</button>`:""}${n?`<button class="btn pri" data-act="filok">Voir mon fil (${n} suivi${n>1?"s":""}) →</button>`:""}</div></div>
+  <div class="steps">
+   <section class="card stepc"><div class="hd"><h2><span class="stepn">1</span>Vos thématiques</h2><button class="btn ${S.themes.size?"":"pri"}" data-act="themes">${S.themes.size?"Modifier":"Choisir mes thématiques"}</button></div><div class="bd" style="padding:12px 18px 16px">
+     ${S.themes.size?`<div class="chips">${[...S.themes].map(x=>`<span class="th" style="--c:${TH_COL[x]};margin-right:8px">${esc(thLab(x))}</span>`).join("")}</div><p class="note" style="margin-top:8px">Les suggestions ci-dessous et tout le site se limitent à ces sujets.</p>`:`<p class="sub" style="margin:0">Sécurité, justice, santé, collectivités… Les suggestions ci-dessous s'adaptent à votre choix.</p>`}</div></section>
+   <section class="card stepc"><div class="hd"><h2><span class="stepn">2</span>Des textes à suivre</h2><a href="#textes">Tous les textes →</a></div><div class="bd">
+     <p class="sub" style="margin:8px 0 0">Les textes ${S.themes.size?"de vos thématiques ":""}qui ont un délai ou une séance dans les trois semaines.</p>
+     ${TX.map(d=>sug("#texte-"+esc(d.id),esc(d.t),`<span class="pill out">${esc(d.ty)}</span>${chPill(d.ch)}<span class="pill ${d.sc}">${esc(d.st)}</span>${thTags(d.th,1)}<span>${kv(d.nx.k).s} ${dshort(d.nx.d)}</span>`,fb("data-fol",d.id,S.fol.has(d.id)))).join("")||`<div class="empty">Aucun texte avec une échéance proche dans ces thématiques.</div>`}</div></section>
+   <section class="card stepc"><div class="hd"><h2><span class="stepn">3</span>Des missions et enquêtes</h2><a href="#controle">Toutes →</a></div><div class="bd">
+     <p class="sub" style="margin:8px 0 0">Auditions, comptes rendus et rapport des travaux de contrôle en cours.</p>
+     ${MI.map(m=>sug("#mission-"+esc(m.id),esc(m.t),`<span class="pill out">${esc(m.ch==="SN"&&m.tl?m.tl:(CTLT[m.ty]||m.tl||""))}</span>${chPill(m.ch)}${thTags(m.th,1)}${m.nx?`<span>prochaine réunion ${dshort(m.nx)}</span>`:""}`,fb("data-folm",m.id,S.folm.has(m.id)))).join("")||`<div class="${S.ctl?"empty":"loading"}">${S.ctl?"Aucune mission en cours dans ces thématiques.":"Chargement…"}</div>`}</div></section>
+  </div>
+  <p class="note" style="margin-top:16px">Vous pouvez aussi suivre des parlementaires depuis la page <a href="#elus" style="color:var(--acc)">Élus</a>, ou parcourir la <a href="#ensemble" style="color:var(--acc)">vue d'ensemble</a> de la semaine.</p>`;
+}
+
+/* ---------- vue : vue d'ensemble (ancien accueil, pour tous) ---------- */
+function vEnsemble(){
   const t=S.core.aujourdhui, ev=S.ev.filter(e=>mT(e.th)&&mCh(e.ch));
   const in14=iso(new Date(TODAY().getTime()+14*864e5));
-  const dls=ev.filter(e=>e.k.startsWith("dl_")&&e.d.slice(0,10)>=t&&e.d.slice(0,10)<=in14);
-  const fol=[...S.fol].map(dosById).filter(Boolean);
+  const dls=ev.filter(e=>e.k.startsWith("dl_")&&e.d.slice(0,10)>=t&&e.d.slice(0,10)<=in14),G=dlGroups(dls);
   const D=S.core.dossiers.filter(d=>mT(d.th)&&mCh(d.ch));
   const moving=D.filter(d=>d.ld&&d.ld>=iso(new Date(TODAY().getTime()-10*864e5))).sort((a,b)=>b.ld.localeCompare(a.ld)).slice(0,8);
   const wk=ev.filter(e=>e.d.slice(0,10)>=t&&e.d.slice(0,10)<iso(new Date(TODAY().getTime()+7*864e5)));
   const d0=TODAY();const hello=d0.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
-  const firstVisit=!LS.get("veille.onb",false)&&!S.themes.size;
-  return `<div class="ph"><div><div class="eyebrow">${esc(hello)}</div><h1>Ce qui compte cette semaine</h1></div>
-    <div class="sub">Données du ${ds(S.core.genere)} · ${S.themes.size?`${S.themes.size} thématique${S.themes.size>1?"s":""} suivie${S.themes.size>1?"s":""}`:"toutes thématiques"}</div></div>
-  ${firstVisit?`<div class="card banner"><p><b>Suivi de l'ensemble du travail parlementaire.</b> Choisissez vos thématiques pour n'afficher que ce qui vous concerne : sécurité, justice, santé, collectivités…</p><button class="btn pri" data-act="themes">Choisir mes thématiques</button><button class="btn" data-act="onbok">Plus tard</button></div>`:""}
-  ${nvBanner()}
-  <div class="kpis">
-    <div class="card kpi hot"><span>Délais d'amendements, 14 jours</span><b>${dls.length}</b><span>${dls.filter(e=>daysTo(e.d)<=2).length} dans les 48 h</span></div>
-    <div class="card kpi"><span>Événements, 7 jours</span><b>${wk.length}</b><span>${wk.filter(e=>e.k==="seance").length} séances · ${wk.filter(e=>e.k==="audition").length} auditions</span></div>
-    <div class="card kpi"><span>Textes actifs</span><b>${D.filter(d=>d.ac).length.toLocaleString("fr-FR")}</b><span>sur ${D.length.toLocaleString("fr-FR")} textes</span></div>
-    <div class="card kpi"><span>Textes suivis</span><b>${fol.length}</b><span>${fol.filter(d=>d.nx).length} avec une échéance</span></div>
+  return `<div class="ph"><div><div class="eyebrow">Vue d'ensemble · ${esc(hello)}</div><h1>Ce qui se passe cette semaine</h1><p>L'activité du Parlement et de la Cour des comptes ${S.themes.size?"dans vos thématiques":"toutes thématiques confondues"}. Ce que vous suivez est dans <a href="#accueil" style="color:var(--acc)">Mon fil</a>.</p></div>
+    <div class="sub">Données du ${ds(S.core.genere)}</div></div>
+  <div class="reps">
+    <a class="rep hot" href="#agenda"><b>${G.length}</b> textes avec un délai d'amendements dans les 14 jours</a>
+    <a class="rep" href="#agenda"><b>${wk.length}</b> événements sur 7 jours · ${wk.filter(e=>e.k==="seance").length} séances · ${wk.filter(e=>e.k==="audition").length} auditions</a>
+    <a class="rep" href="#textes"><b>${D.filter(d=>d.ac).length.toLocaleString("fr-FR")}</b> textes actifs</a>
   </div>
-  <div class="grid g2">
-    <section class="card"><div class="hd"><h2>Échéances des 14 prochains jours</h2><a href="#agenda">Ouvrir l'agenda →</a></div><div class="bd"><div class="rows">
-      ${dls.slice(0,12).map(evRow).join("")||`<div class="empty">Aucun délai d'amendement connu sur la période pour ces filtres.</div>`}
+  <div class="grid g2" style="align-items:start">
+    <section class="card"><div class="hd"><h2>Délais d'amendements, 14 jours</h2><a href="#agenda">Agenda →</a></div><div class="bd"><div class="rows">
+      ${G.slice(0,12).map(dlRow).join("")||`<div class="empty">Aucun délai d'amendement connu sur la période pour ces filtres.</div>`}
     </div></div></section>
-    <section class="card"><div class="hd"><h2>Mes textes suivis</h2><a href="#suivis">Tout voir →</a></div><div class="bd"><div class="rows">
-      ${fol.slice(0,6).map(dosRow).join("")||`<div class="empty">Cliquez sur ★ à côté d'un texte pour le suivre ici.</div>`}
-    </div></div></section>
+    <section class="card"><div class="hd"><h2>Séances et réunions</h2><a href="#agenda">Semaine →</a></div><div class="bd"><div class="rows">${wk.filter(e=>!e.k.startsWith("dl_")).slice(0,8).map(evRow).join("")||`<div class="empty">Pas d'événement.</div>`}</div></div></section>
   </div>
-  <div class="grid g2" style="margin-top:18px">
+  <div class="grid g2" style="margin-top:18px;align-items:start">
     <section class="card"><div class="hd"><h2>Textes qui ont bougé ces 10 derniers jours</h2><a href="#textes">Tous les textes →</a></div><div class="bd"><div class="rows">${moving.map(dosRow).join("")||`<div class="empty">Rien de nouveau.</div>`}</div></div></section>
-    <section class="card"><div class="hd"><h2>Cette semaine</h2><a href="#agenda">Semaine →</a></div><div class="bd"><div class="rows">${wk.filter(e=>!e.k.startsWith("dl_")).slice(0,9).map(evRow).join("")||`<div class="empty">Pas d'événement.</div>`}</div></div></section>
-  </div>
-  <section class="card" style="margin-top:18px" id="lastPub"><div class="hd"><h2>Dernières publications</h2><a href="#rapports">Rapports →</a></div><div class="bd"><div class="loading">…</div></div></section>`;
+    <section class="card" id="lastPub"><div class="hd"><h2>Dernières publications</h2><a href="#rapports">Contrôle →</a></div><div class="bd"><div class="loading">…</div></div></section>
+  </div>`;
 }
 function evRow(e){
-  const d=e.ds&&dosById(e.ds);const k=kv(e.k);const day=pd(e.d);
+  const d=e.ds&&dosById(e.ds);const k=kv(e.k);const day=pd(e.d);const sub=evSub(e);
   return `<a class="row" href="${d?"#texte-"+e.ds:e.mi?"#mission-"+e.mi:"#agenda-"+e.d.slice(0,10)}"><div class="when"><small>${JOURS[day.getDay()]}</small><b>${day.getDate()}</b><small>${MOISC[day.getMonth()]}</small></div>
-  <div><div class="tt">${esc(d?d.t:e.t)}</div><div class="meta"><span class="k" style="--kc:${k.c}">${k.l}</span>${hr(e.d)?`<span>${hr(e.d)}</span>`:""}${chPill(e.ch)}${d?`<span>${esc(e.t).slice(0,90)}</span>`:`<span>${esc(e.org||"")}</span>`}${e.calc?`<span title="Délai calculé selon le Règlement, à confirmer">calculé</span>`:""}</div></div>
+  <div><div class="tt clamp3">${esc(evTitle(e))}</div><div class="meta"><span class="k" style="--kc:${k.c}">${k.l}</span>${hr(e.d)?`<span>${hr(e.d)}</span>`:""}${chPill(e.ch)}${e.calc?`<span title="Délai calculé selon le Règlement, à confirmer">calculé</span>`:""}</div>${sub&&sub!==evTitle(e)?`<div class="det clamp2">${esc(sub)}</div>`:""}</div>
   <div>${countdown(e.d)}</div></a>`;
 }
 function dosRow(d){
-  return `<div class="row"><div>${star(d.id)}</div><a href="#texte-${esc(d.id)}"><div class="tt">${esc(d.t)}</div><div class="meta">${S.nv.byDs[d.id]?`<span class="newdot" title="Nouveauté depuis votre dernière visite">nouveau</span>`:""}<span class="pill out">${esc(d.ty)}</span>${chPill(d.ch)}<span class="pill ${d.sc}">${esc(d.st)}</span>${d.na?`<span>${d.na.toLocaleString("fr-FR")} amdts${d.nr?` · +${d.nr} cette semaine`:""}</span>`:""}${thTags(d.th)}</div></a>
-  <div>${d.nx?`<div style="text-align:right">${countdown(d.nx.d)}<div class="sub" style="margin-top:4px">${kv(d.nx.k).s}</div></div>`:`<span class="sub">${d.ld?ds(d.ld):""}</span>`}</div></div>`;
+  return `<div class="row"><div>${star(d.id)}</div><a href="#texte-${esc(d.id)}"><div class="tt clamp3">${esc(d.t)}</div><div class="meta">${S.nv.byDs[d.id]?`<span class="newdot" title="Nouveauté depuis votre dernière visite">nouveau</span>`:""}<span class="pill out">${esc(d.ty)}</span>${chPill(d.ch)}<span class="pill ${d.sc}">${esc(d.st)}</span>${d.na?`<span>${d.na.toLocaleString("fr-FR")} amdts${d.nr?` · +${d.nr} cette semaine`:""}</span>`:""}${thTags(d.th)}</div></a>
+  <div>${d.nx?`<div style="text-align:right">${countdown(d.nx.d)}<div class="sub" style="margin-top:4px">${kv(d.nx.k).s}</div></div>`:`<div class="sub" style="text-align:right">Dernière étape<br>${d.ld?ds(d.ld):""}</div>`}</div></div>`;
 }
 async function fillLastPub(){
   const el=$("#lastPub .bd");if(!el)return;
@@ -484,13 +734,17 @@ async function fillLastPub(){
 }
 
 /* ---------- vue : agenda ---------- */
-function agEvents(){const A=S.ag;return S.ev.filter(e=>mT(e.th)&&mCh(e.ch)&&(!A.kinds.size||[...A.kinds].some(g=>KGROUP[g].includes(e.k)))&&(!A.onlyFol||(e.ds&&S.fol.has(e.ds))||(e.mi&&S.folm.has(e.mi))))}
+function agEvents(){const A=S.ag;const kOk=e=>!A.kinds.size||[...A.kinds].some(g=>KGROUP[g].includes(e.k));
+  if(!A.onlyFol)return S.ev.filter(e=>mT(e.th)&&mCh(e.ch)&&kOk(e));
+  const L=S.ev.filter(e=>isMine(e)&&mCh(e.ch)&&kOk(e)),seen=new Set(L.map(e=>e.d.slice(0,16)+(e.mi||"")));
+  [...S.folm].forEach(id=>{const m=S.ctl&&S.ctl.by[id];if(!m||!mCh(m.ch))return;(m.ev||[]).forEach(x=>{if(x.k==="cr"||x.x)return;const k=x.d.slice(0,16)+id;if(seen.has(k))return;seen.add(k);const e={d:x.d,k:x.k==="audition"?"audition":"reunion",t:x.t,org:m.court||m.t,ch:m.ch,mi:id,th:m.th};if(kOk(e))L.push(e)})});
+  return L.sort((a,b)=>a.d.localeCompare(b.d))}
 function monday(d){const x=new Date(d);const w=(x.getDay()+6)%7;x.setDate(x.getDate()-w);return x}
 function vAgenda(arg){
   const A=S.ag;if(!arg)A.arg=null;if(arg&&A.arg!==arg){A.arg=arg;A.ref=pd(arg);A.sel=arg;A.mode="semaine"}
   if(!A.ref)A.ref=TODAY();
   const E=agEvents();
-  const cnt=g=>S.ev.filter(e=>mT(e.th)&&mCh(e.ch)&&KGROUP[g].includes(e.k)).length;
+  const k0=A.kinds;A.kinds=new Set();const E0=agEvents();A.kinds=k0;const cnt=g=>E0.filter(e=>KGROUP[g].includes(e.k)).length;
   let title="",body="";
   if(A.mode==="semaine"){
     const m=monday(A.ref);const days=[...Array(7)].map((_,i)=>{const x=new Date(m);x.setDate(m.getDate()+i);return x});
@@ -503,31 +757,34 @@ function vAgenda(arg){
       ${G.map(([g,l,kk])=>{const n=L.filter(e=>KGROUP[g].includes(e.k)).length;return n?`<span class="ln" style="--kc:${kv(kk).c}"><i></i>${n} ${g==="delais"?(n>1?"délais":"délai"):g==="seance"?(n>1?"séances":"séance"):g==="commission"?(n>1?"commissions":"commission"):(n>1?"auditions":"audition")}</span>`:""}).join("")||`<span class="ln muted">—</span>`}</button>`}).join("")}</div>`;
     const L=(by[A.sel]||[]).slice().sort((a,b)=>a.d.localeCompare(b.d));const sx=pd(A.sel);
     body=strip+`<div class="dayhead"><h2>${cap(JOURSL[sx.getDay()])} ${sx.getDate()} ${MOISL[sx.getMonth()]} ${sx.getFullYear()}</h2><span class="sub">${L.length} événement${L.length>1?"s":""}${A.sel===S.core.aujourdhui?" · aujourd'hui":""}</span></div>
-    ${G.map(([g,l,kk])=>{const X=L.filter(e=>KGROUP[g].includes(e.k));return X.length?`<section class="ksec"><h3 style="--kc:${kv(kk).c}"><span class="k" style="--kc:${kv(kk).c}">${l}</span><span class="sub">${X.length}</span></h3><div class="dlc">${X.map(e=>evCard(e,true)).join("")}</div></section>`:""}).join("")||`<div class="card empty">Rien de prévu ce jour pour ces filtres.</div>`}`;
+    ${G.map(([g,l,kk])=>{const X=L.filter(e=>KGROUP[g].includes(e.k));const C=g==="delais"?dlGroups(X).map(dlCard):X.map(e=>evCard(e,true));return X.length?`<section class="ksec"><h3 style="--kc:${kv(kk).c}"><span class="k" style="--kc:${kv(kk).c}">${l}</span><span class="sub">${g==="delais"?`${C.length} texte${C.length>1?"s":""}`:X.length}</span></h3><div class="dlc">${C.join("")}</div></section>`:""}).join("")||`<div class="card empty">${A.onlyFol?"Rien de prévu ce jour sur vos suivis.":"Rien de prévu ce jour pour ces filtres."}</div>`}`;
   }else if(A.mode==="liste"){
     const from=iso(monday(A.ref));const L=E.filter(e=>e.d.slice(0,10)>=from).slice(0,400);
     const by=[];L.forEach(e=>{const k=e.d.slice(0,10);if(!by.length||by[by.length-1].k!==k)by.push({k,L:[]});by[by.length-1].L.push(e)});
     title=`À partir du ${ds(from)}`;
-    body=`<div class="daylist">${by.map(g=>{const x=pd(g.k);return `<div class="dl"><div class="dlh"><b>${x.getDate()} ${MOISC[x.getMonth()]}</b><span>${JOURSL[x.getDay()]}${g.k===S.core.aujourdhui?" · aujourd'hui":""}</span></div><div class="dlc">${g.L.map(e=>evCard(e,true)).join("")}</div></div>`}).join("")||`<div class="empty">Aucun événement.</div>`}</div>`;
+    body=`<div class="daylist">${by.map(g=>{const x=pd(g.k);return `<div class="dl"><div class="dlh"><b>${x.getDate()} ${MOISC[x.getMonth()]}</b><span>${JOURSL[x.getDay()]}${g.k===S.core.aujourdhui?" · aujourd'hui":""}</span></div><div class="dlc">${dayCards(g.L)}</div></div>`}).join("")||`<div class="empty">Aucun événement.</div>`}</div>`;
   }else{
     const f=new Date(A.ref.getFullYear(),A.ref.getMonth(),1);const st=monday(f);title=cap(f.toLocaleDateString("fr-FR",{month:"long",year:"numeric"}));
     const by={};E.forEach(e=>{(by[e.d.slice(0,10)]=by[e.d.slice(0,10)]||[]).push(e)});
     let cells="";for(let i=0;i<42;i++){const x=new Date(st);x.setDate(st.getDate()+i);const k=iso(x),L=(by[k]||[]).sort((a,b)=>(a.k.startsWith("dl_")?0:1)-(b.k.startsWith("dl_")?0:1));
       if(i===35&&x.getMonth()!==f.getMonth())break;
-      cells+=`<button class="mc ${x.getMonth()!==f.getMonth()?"out":""} ${k===S.core.aujourdhui?"today":""}" data-day="${k}"><span class="dn">${x.getDate()}</span>${L.slice(0,3).map(e=>`<span class="ln" style="--kc:${kv(e.k).c}"><i></i><span class="tx">${esc(e.ds&&dosById(e.ds)?dosById(e.ds).t:e.t)}</span></span>`).join("")}${L.length>3?`<span class="more">+${L.length-3} autres</span>`:""}</button>`}
+      cells+=`<button class="mc ${x.getMonth()!==f.getMonth()?"out":""} ${k===S.core.aujourdhui?"today":""}" data-day="${k}"><span class="dn">${x.getDate()}</span>${L.slice(0,3).map(e=>`<span class="ln" style="--kc:${kv(e.k).c}"><i></i><span class="tx">${esc(evTitle(e))}</span></span>`).join("")}${L.length>3?`<span class="more">+${L.length-3} autres</span>`:""}</button>`}
     body=`<div class="month">${["Lun","Mar","Mer","Jeu","Ven","Sam","Dim"].map(x=>`<div class="mh">${x}</div>`).join("")}${cells}</div><p class="note">Cliquez sur un jour pour ouvrir sa semaine.</p>`;
   }
-  return `<div class="ph"><div><div class="eyebrow">Agenda parlementaire</div><h1>Agenda</h1><p>Séances, commissions, auditions et délais de dépôt des amendements à l'Assemblée et au Sénat. Les délais marqués « calculé » suivent le Règlement de l'Assemblée (17 h, 3e jour ouvrable avant l'examen) et sont à confirmer.</p></div></div>
-  <div class="agbar"><div class="seg" role="group" aria-label="Affichage">${["semaine","liste","mois"].map(m=>`<button data-agmode="${m}" aria-pressed="${A.mode===m}">${m[0].toUpperCase()+m.slice(1)}</button>`).join("")}</div>
+  const empty=A.onlyFol&&!hasSuivis();
+  return `<div class="ph"><div><div class="eyebrow">${A.onlyFol?"Pour moi":"Explorer"}</div><h1>${A.onlyFol?"Mon agenda":"Agenda parlementaire"}</h1><p>${A.onlyFol?"Les délais d'amendements, séances, commissions et auditions de vos textes et missions suivis.":"Séances, commissions, auditions et délais de dépôt des amendements à l'Assemblée et au Sénat."} Les délais marqués « calculé » suivent le Règlement de l'Assemblée (17 h, 3e jour ouvrable avant l'examen) et sont à confirmer.</p></div>
+    ${A.onlyFol?`<a class="btn" href="#suivis"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Dans Outlook</a>`:""}</div>
+  ${empty?`<div class="card banner"><p><b>Vous ne suivez encore rien.</b> Mon agenda rassemble les dates de vos textes et missions suivis. Suivez-en depuis leur fiche, ou parcourez l'agenda complet.</p><a class="btn pri" href="#accueil">Composer mon fil</a><a class="btn" href="#agenda">Agenda parlementaire</a></div>`:""}
+  <div class="agbar">${pmSeg("ag",A.onlyFol)}<div class="seg" role="group" aria-label="Affichage">${["semaine","liste","mois"].map(m=>`<button data-agmode="${m}" aria-pressed="${A.mode===m}">${m[0].toUpperCase()+m.slice(1)}</button>`).join("")}</div>
     <button class="iconbtn" data-agnav="-1" aria-label="Précédent"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><button class="btn" data-agnav="0">Aujourd'hui</button><button class="iconbtn" data-agnav="1" aria-label="Suivant"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
     <span class="title">${esc(title)}</span></div>
   <div class="agbar"><div class="chips">${[["delais","Délais d'amendements","dl_seance"],["seance","Séances","seance"],["commission","Commissions","commission"],["audition","Auditions et réunions","audition"]].map(([g,l,k])=>`<button class="chip" data-agk="${g}" aria-pressed="${A.kinds.has(g)}"><span class="k" style="--kc:${kv(k).c}"></span>${l}<span class="n">${cnt(g)}</span></button>`).join("")}
-    <button class="chip" data-agfol aria-pressed="${A.onlyFol}">★ Mes suivis</button></div></div>
+</div></div>
   ${body}`;
 }
 function evCard(e,big){
   const d=e.ds&&dosById(e.ds),k=kv(e.k);
-  const titre=d?d.t:e.t, sub=d?(e.k.startsWith("dl_")?(e.org||""):e.t):(e.org||"");
+  const titre=evTitle(e), sub=evSub(e)||(d&&e.k.startsWith("dl_")?(e.org||""):"");
   const href=d?`#texte-${e.ds}`:e.mi?`#mission-${e.mi}`:`#agenda-${e.d.slice(0,10)}`;
   if(big)return `<a class="ev big" href="${href}" style="--kc:${k.c};--ks:${k.b}"><span class="hr">${hr(e.d)||"—"}</span><div><div class="h" style="justify-content:flex-start;gap:10px"><span>${k.l}</span>${chPill(e.ch)}${e.calc?`<span class="sub">calculé</span>`:""}${e.d.slice(0,10)>=S.core.aujourdhui&&e.k.startsWith("dl_")?countdown(e.d):""}</div><div class="t">${esc(titre)}</div><div class="o">${esc(sub)}${e.lieu?` · ${esc(e.lieu)}`:""}</div></div></a>`;
   return `<a class="ev" href="${href}" style="--kc:${k.c};--ks:${k.b}" title="${esc(titre)}"><div class="h"><span>${hr(e.d)||k.s}${hr(e.d)?` · ${k.s}`:""}</span>${e.ch==="SN"?`<span class="pill sn">Sénat</span>`:`<span class="pill an">AN</span>`}</div><div class="t">${esc(titre)}</div><div class="o">${esc(sub)}</div></a>`;
@@ -537,10 +794,10 @@ function evCard(e,big){
 function vTextes(onlyFol){
   const T=S.tx;
   let D=S.core.dossiers.filter(d=>mT(d.th)&&mCh(d.ch));
-  if(onlyFol)D=D.filter(d=>S.fol.has(d.id));
+  if(onlyFol||T.fol)D=D.filter(d=>S.fol.has(d.id));
   const types=[...new Set(D.map(d=>d.ty))].sort((a,b)=>D.filter(x=>x.ty===b).length-D.filter(x=>x.ty===a).length);
   if(!onlyFol){
-    if(T.act)D=D.filter(d=>d.ac);
+    if(T.act&&!T.fol)D=D.filter(d=>d.ac);
     if(T.ty)D=D.filter(d=>d.ty===T.ty);
     if(T.st)D=D.filter(d=>T.st==="seance"?/séance/i.test(d.st):T.st==="com"?/commission|rapporteur/i.test(d.st):T.st==="sn"?d.sc==="sn":T.st==="prom"?d.st==="Promulgué":T.st==="dep"?/^Déposé/.test(d.st):true);
     if(T.q){const q=T.q.toLowerCase();D=D.filter(d=>(d.t+" "+(d.au||[]).join(" ")+" "+(d.num||"")).toLowerCase().includes(q))}
@@ -549,8 +806,10 @@ function vTextes(onlyFol){
   D=D.slice().sort(sorters[T.sort]||sorters.nx);
   const shown=onlyFol?D:D.slice(0,T.lim);
   return `<div class="ph"><div><div class="eyebrow">${onlyFol?"Ma sélection":"Travail législatif"}</div><h1>${onlyFol?"Mes textes suivis":"Textes"} <span class="muted" style="font-size:20px">${D.length.toLocaleString("fr-FR")}</span></h1>
-  <p>${onlyFol?"Les textes marqués d'une étoile. Leurs échéances apparaissent en tête de la page d'accueil et dans l'agenda (filtre ★).":"Projets et propositions de loi, résolutions, missions et commissions d'enquête de la XVIIe législature, et textes déposés au Sénat depuis octobre 2024."}</p></div></div>
+  <p>${onlyFol?"Les textes que vous suivez. Leurs échéances apparaissent dans Mon fil et dans Mon agenda.":"Ce qui se vote : projets et propositions de loi et de résolution de la XVIIe législature, et textes déposés au Sénat depuis octobre 2024. Les missions et commissions d'enquête sont dans Contrôle."}</p></div></div>
+  ${onlyFol?"":`<div class="agbar">${pmSeg("tx",T.fol)}<span class="sub">${T.fol?`${S.fol.size} texte${S.fol.size>1?"s":""} suivi${S.fol.size>1?"s":""}`:""}</span></div>`}
   <section class="card">${onlyFol?"":`<div class="filters"><input type="search" id="txq" placeholder="Filtrer par titre, auteur, numéro…" value="${esc(T.q)}">
+    <button class="btn sm ftog" type="button" data-ftog>Filtrer${(T.ty?1:0)+(T.st?1:0)?` (${(T.ty?1:0)+(T.st?1:0)})`:""}</button>
     <select id="txty"><option value="">Tous les types</option>${types.map(t=>`<option ${T.ty===t?"selected":""}>${esc(t)}</option>`).join("")}</select>
     <select id="txst"><option value="">Toutes les étapes</option>${[["dep","Déposé"],["com","En commission"],["seance","En séance"],["sn","Au Sénat"],["prom","Promulgué"]].map(([v,l])=>`<option value="${v}" ${T.st===v?"selected":""}>${l}</option>`).join("")}</select>
     <select id="txsort">${[["nx","Prochaine échéance"],["ld","Dernière étape"],["na","Nombre d'amendements"],["dep","Date de dépôt"]].map(([v,l])=>`<option value="${v}" ${T.sort===v?"selected":""}>Tri : ${l}</option>`).join("")}</select>
@@ -561,7 +820,7 @@ function vTextes(onlyFol){
   <td class="hm">${d.na?`<b>${d.na.toLocaleString("fr-FR")}</b>${d.nr?`<div class="sub">+${d.nr} en 7 j</div>`:""}`:`<span class="sub">—</span>`}</td>
   <td>${d.nx?`${countdown(d.nx.d)}<div class="sub" style="margin-top:4px">${kv(d.nx.k).s} · ${dshort(d.nx.d)}</div>`:`<span class="sub">—</span>`}</td></tr>`).join("")}
   </tbody></table></div>
-  ${!shown.length?`<div class="empty">${onlyFol?"Aucun texte suivi pour l'instant. Utilisez ★ dans la liste des textes.":"Aucun texte pour ces filtres."}</div>`:""}
+  ${!shown.length?`<div class="empty">${onlyFol||T.fol?"Aucun texte suivi pour l'instant. Utilisez ☆ dans la liste des textes ou « Suivre » sur une fiche.":"Aucun texte pour ces filtres."}</div>`:""}
   ${!onlyFol&&D.length>shown.length?`<button class="btn morebtn" data-act="txmore">Afficher plus (${(D.length-shown.length).toLocaleString("fr-FR")} restants)</button>`:""}</section>`;
 }
 
@@ -583,13 +842,13 @@ async function vTexte(id){
   let x;try{x=(await getJ(`dos/${d.f}.json`))[id]}catch(e){return `<div class="empty">Impossible de charger le détail.</div>`}
   S.cur={d,x,tab:S.cur&&S.cur.d.id===id?S.cur.tab:"chrono",dt:S.cur&&S.cur.d.id===id?S.cur.dt:""};
   const fut=(x.ech||[]).map(i=>S.evById[i]).filter(e=>e&&e.d.slice(0,10)>=S.core.aujourdhui);
-  const links=[x.url&&d.ch!=="SN"?`<a class="btn" href="${x.url}" target="_blank" rel="noopener">Assemblée nationale ↗</a>`:"",x.senat?`<a class="btn" href="${x.senat}" target="_blank" rel="noopener">Sénat ↗</a>`:""].join("");
   return `<a class="sub" href="#textes">← Textes</a>
-  <section class="card hero"><div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap"><div class="meta"><span class="pill out">${esc(d.ty)}${d.num?" n° "+esc(d.num):""}</span>${chPill(d.ch)}<span class="pill ${d.sc}">${esc(d.st)}</span>${thTags(d.th,3)}</div><div class="acts">${S.ctl?S.ctl.items.filter(m=>m.ds===id).map(m=>`<a class="btn" href="#mission-${esc(m.id)}">Auditions et rapport →</a>`).join(""):""}${links}<button class="btn" data-act="subtx" data-id="${esc(id)}" title="Recevoir les nouveautés et l'agenda de ce texte"><svg viewBox="0 0 24 24"><path d="M5 19h.01M5 12a7 7 0 0 1 7 7M5 5a14 14 0 0 1 14 14"/></svg>S'abonner</button>${alertBtn("texte",id)}<button class="btn" data-fol="${esc(id)}" aria-pressed="${S.fol.has(id)}">${S.fol.has(id)?"★ Suivi":"☆ Suivre"}</button></div></div>
+  <section class="card hero"><div class="top1"><div class="meta"><span class="pill out">${esc(d.ty)}${d.num?" n° "+esc(d.num):""}</span>${chPill(d.ch)}<span class="pill ${d.sc}">${esc(d.st)}</span>${thTags(d.th,3)}</div><div class="acts">${followBtn("texte",id)}${moreMenu([...(S.ctl?S.ctl.items.filter(m=>m.ds===id).map(m=>`<a href="#mission-${esc(m.id)}">Auditions et rapport de la mission</a>`):[]),x.url&&d.ch!=="SN"?`<a href="${x.url}" target="_blank" rel="noopener">Dossier sur le site de l'Assemblée ↗</a>`:"",x.senat?`<a href="${x.senat}" target="_blank" rel="noopener">Dossier sur le site du Sénat ↗</a>`:"",`<button type="button" data-copylink="#texte-${esc(id)}">Copier le lien de cette fiche</button>`])}</div></div>
   <h1>${esc(d.t)}</h1>
-  <div class="meta sepd">${(d.au||[]).length?`<span>Auteur${d.au.length>1?"s":""} : ${(x.auteurs||[]).slice(0,6).map((a,i)=>x.auteurs_id&&x.auteurs_id[i]?`<a href="#elu-${x.auteurs_id[i]}" style="text-decoration:underline">${esc(a)}</a>`:esc(a)).join(", ")}${(x.auteurs||[]).length>6?` et ${(x.auteurs.length-6)} autres`:""}</span>`:""}${x.commission?`<span>${esc(x.commission)}</span>`:""}${x.rapporteurs&&x.rapporteurs.length?`<span>Rapporteur${x.rapporteurs.length>1?"s":""} : ${esc(x.rapporteurs.join(", "))}</span>`:""}${d.dep?`<span>Déposé le ${ds(d.dep)}</span>`:""}</div>
-  ${steps(d,x)}</section>
-  ${fut.length?`<div class="nextbox">${fut.slice(0,6).map(e=>`<div class="card" style="padding:14px 16px;border-left:4px solid ${kv(e.k).c}"><div style="display:flex;justify-content:space-between;align-items:center"><span class="k" style="--kc:${kv(e.k).c}">${kv(e.k).l}</span>${countdown(e.d)}</div><div style="font:600 18px Fraunces,Georgia,serif;margin:6px 0 2px">${dshort(e.d)}${hr(e.d)?" · "+hr(e.d):""}</div><div class="sub">${esc(e.t).slice(0,140)}${e.calc?" · calculé selon le Règlement":""}</div></div>`).join("")}</div>`:""}
+  <div class="meta sepd">${(d.au||[]).length?`<span>Auteur${d.au.length>1?"s":""} : ${(x.auteurs||[]).slice(0,6).map((a,i)=>x.auteurs_id&&x.auteurs_id[i]?`<a href="#elu-${x.auteurs_id[i]}" style="text-decoration:underline">${esc(a)}</a>`:esc(a)).join(", ")}${(x.auteurs||[]).length>6?` et ${(x.auteurs.length-6)} autres`:""}</span>`:""}${x.commission?`<span>${esc(x.commission)}</span>`:""}${x.rapporteurs&&x.rapporteurs.length?(x.rapporteurs.length>6?`<span><details class="rapl"><summary>${x.rapporteurs.length} rapporteurs : ${esc(x.rapporteurs.slice(0,4).join(", "))}… <u>voir tous</u></summary>${esc(x.rapporteurs.join(", "))}</details></span>`:`<span>Rapporteur${x.rapporteurs.length>1?"s":""} : ${esc(x.rapporteurs.join(", "))}</span>`):""}${d.dep?`<span>Déposé le ${ds(d.dep)}</span>`:""}</div>
+  ${steps(d,x)}
+  ${fut.length?`<div class="nextband" aria-label="Prochaines échéances">${fut.slice(0,6).map(e=>`<div class="nb" style="--kc:${kv(e.k).c}" title="${esc(evSub(e)||kv(e.k).l)}"><span class="k" style="--kc:${kv(e.k).c}">${kv(e.k).s}</span><b>${dshort(e.d)}${hr(e.d)?" · "+hr(e.d):""}</b>${countdown(e.d)}${evSub(e)?`<small>${esc(evSub(e))}</small>`:e.calc?`<small>calculé</small>`:""}</div>`).join("")}</div>`:""}</section>
+
   <div class="tabs" role="tablist">${[["chrono","Chronologie",(x.timeline||[]).length],["amdt","Amendements",d.na],["votes","Scrutins",d.ns],["docs","Documents",(x.documents||[]).length],["nv","Nouveautés",S.nv.items.filter(o=>o.ds===id).length]].map(([k,l,n])=>`<button role="tab" data-tab="${k}" aria-selected="${S.cur.tab===k}">${l}<span class="n">${n||""}</span></button>`).join("")}</div>
   <div id="tabBody"></div>`;
 }
@@ -599,7 +858,7 @@ async function renderTab(){
   const el=$("#tabBody");if(!el||!S.cur)return;const{d,x,tab}=S.cur;
   if(tab==="chrono"){
     const fut=(x.ech||[]).map(i=>S.evById[i]).filter(e=>e&&e.d.slice(0,10)>=S.core.aujourdhui);
-    const items=[...(x.timeline||[]).map(t=>({d:t.d,l:t.l,o:t.o,ch:t.ch,rap:t.rap})),...fut.map(e=>({d:e.d,l:kv(e.k).l+" : "+e.t,o:e.org,fut:1,ch:e.ch==="SN"?"Sénat":"Assemblée"}))].sort((a,b)=>b.d.localeCompare(a.d));
+    const items=[...(x.timeline||[]).map(t=>({d:t.d,l:t.l,o:t.o,ch:t.ch,rap:t.rap})),...fut.map(e=>({d:e.d,l:kv(e.k).l+(evSub(e)?" : "+evSub(e):""),o:e.org,fut:1,ch:e.ch==="SN"?"Sénat":"Assemblée"}))].sort((a,b)=>b.d.localeCompare(a.d));
     el.innerHTML=`<section class="card"><div class="bd" style="padding:18px 22px"><div class="tl">${items.map(t=>`<div class="it ${t.fut?"fut":t.ch==="Sénat"?"sn":t.ch==="CMP"?"cmp":"an"}"><div class="d">${ds(t.d)}${hr(t.d)?" · "+hr(t.d):""}${t.fut?" · à venir":""}</div><div class="l">${esc(t.l)}</div><div class="sub">${esc(t.o||"")}${t.rap?" · "+esc(t.rap.join(", ")):""}</div></div>`).join("")||`<div class="empty">Pas d'étape.</div>`}</div></div></section>`;
   }else if(tab==="nv"){
     const L=S.nv.items.filter(o=>o.ds===d.id);
@@ -629,7 +888,7 @@ async function amdPanel(el,d,x){
     if(st.q){const q=st.q.toLowerCase();L=L.filter(a=>(a.n+" "+a.au+" "+a.a+" "+(a.x||"")).toLowerCase().includes(q))}
     const show=L.slice().reverse().slice(0,st.lim);S.amCtx={d,x,A,L:L.slice().reverse()};
     $("#amList").innerHTML=`<table class="tbl"><thead><tr><th>N°</th><th>Article</th><th>Auteur</th><th>Objet</th><th>Sort</th></tr></thead><tbody>${show.map(a=>{const url=a.U||(a.sn?x.senat:`${AN}/dyn/17/amendements/${a.u}`);const so=sortOf(a);
-      return `<tr class="clk" data-am="${A.indexOf(a)}" title="Voir l'amendement en entier"><td style="white-space:nowrap"><a class="tt" href="${url}" target="_blank" rel="noopener">${esc(a.n)}</a><div class="sub">${esc(a.i.replace("AN ","").replace("Sénat ","Sénat · "))}</div></td><td class="small">${esc(a.a)}</td><td class="small">${esc(a.au)}${a.g?` <span class="gtag" style="--gc:${S.core.groupes[a.g]||"#888"}">${esc(a.g)}</span>`:""}${a.c?`<div class="sub">+${a.c} cosignataires</div>`:""}</td>
+      return `<tr class="clk" tabindex="0" data-am="${A.indexOf(a)}" title="Voir l'amendement en entier"><td style="white-space:nowrap"><a class="tt" href="${url}" target="_blank" rel="noopener">${esc(a.n)}</a><div class="sub">${esc(a.i.replace("AN ","").replace("Sénat ","Sénat · "))}</div></td><td class="small">${esc(a.a)}</td><td class="small">${esc(a.au)}${a.g?` <span class="gtag" style="--gc:${S.core.groupes[a.g]||"#888"}">${esc(a.g)}</span>`:""}${a.c?`<div class="sub">+${a.c} cosignataires</div>`:""}</td>
       <td class="small" style="max-width:520px">${a.p?`<span class="pill out" style="margin-bottom:4px">Sous-amendement au n° ${esc(a.p)}</span><br>`:""}${esc(a.x||"")}</td>
       <td><span class="pill ${SORTC[so]||"out"}" ${a.sb?`title="Sous-amendement à l'amendement n° ${esc(a.p)}, qui n'a pas été adopté : il tombe. Sort enregistré dans l'open data : ${esc(a.sb)}."`:""}>${esc(so)}</span>${a.sb?`<div class="sub" style="margin-top:3px">parent non adopté</div>`:""}<div class="sub">${a.d?ds(a.d):""}</div></td></tr>`}).join("")}</tbody></table>
       ${!show.length?`<div class="empty">Aucun amendement pour ces filtres.</div>`:""}${L.length>show.length?`<button class="btn morebtn" id="amMore">Afficher plus (${(L.length-show.length).toLocaleString("fr-FR")})</button>`:""}`;
@@ -692,7 +951,7 @@ async function vQuestions(){
   const sh=L.slice(0,st.lim);
   return `<div class="ph"><div><div class="eyebrow">Contrôle du Gouvernement</div><h1>Questions <span class="muted" style="font-size:20px">${L.length.toLocaleString("fr-FR")}</span></h1><p>Questions écrites, orales sans débat et au Gouvernement : toute la législature à l'Assemblée, les douze derniers mois au Sénat.</p></div></div>
   <section class="card"><div class="filters"><input type="search" id="qq" placeholder="Mot-clé, rubrique, auteur, ministère…" value="${esc(st.q)}">
-  <select id="qty"><option value="">Tous les types</option>${[["QE","Questions écrites"],["QOSD","Orales sans débat"],["QG","Au Gouvernement"]].map(([v,l])=>`<option value="${v}" ${st.ty===v?"selected":""}>${l}</option>`).join("")}</select>
+  <button class="btn sm ftog" type="button" data-ftog>Filtrer${(st.ty?1:0)+(st.st?1:0)?` (${(st.ty?1:0)+(st.st?1:0)})`:""}</button><select id="qty"><option value="">Tous les types</option>${[["QE","Questions écrites"],["QOSD","Orales sans débat"],["QG","Au Gouvernement"]].map(([v,l])=>`<option value="${v}" ${st.ty===v?"selected":""}>${l}</option>`).join("")}</select>
   <select id="qst"><option value="">Tous les statuts</option>${[["a","En attente de réponse"],["r","Réponse publiée"],["c","Close sans réponse"]].map(([v,l])=>`<option value="${v}" ${st.st===v?"selected":""}>${l}</option>`).join("")}</select></div>
   <div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Question</th><th class="hm">Auteur</th><th class="hm">Ministère</th><th>Statut</th></tr></thead><tbody>
   ${sh.map(q=>`<tr><td><a class="tt" href="${q.url||AN+"/dyn/17/questions/"+q.id}" target="_blank" rel="noopener">${esc(q.an||q.rub)}</a><div class="meta" style="display:flex;gap:7px;flex-wrap:wrap;margin-top:5px;font-size:12.5px;color:var(--mute);align-items:center">${chPill(q.ch)}<span class="pill out">${q.ty} n° ${esc(q.n)}</span>${q.rub&&q.an?`<span>${esc(q.rub)}</span>`:""}${thTags(q.th,1)}<span>${ds(q.d)}</span></div></td>
@@ -708,19 +967,22 @@ function rapRow(r){
   <div><div class="tt">${esc(r.t)}</div><div class="meta">${src}<span>${esc(r.ty||"")}${r.n?" n° "+esc(r.n):""}</span>${thTags(r.th)}${r.au?`<span>${esc(r.au.slice(0,90))}</span>`:""}</div>
   ${r.res?`<div class="sub" style="margin-top:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${esc(r.res)}</div>`:""}</div><div></div></a>`;
 }
-async function vRapports(){
+const ctlHead=(cur,n)=>`<div class="ph"><div><div class="eyebrow">Contrôle et évaluation</div><h1>Contrôle</h1><p>Missions d'information, commissions d'enquête et rapports du Parlement, publications de la Cour des comptes (hors chambres régionales et territoriales).</p></div></div>
+  <nav class="tabs ptabs" aria-label="Contrôle">${[["controle","Missions et enquêtes"],["rapports","Rapports parlementaires"],["cour","Cour des comptes"]].map(([k,l])=>`<a href="#${k}" aria-current="${cur===k?"page":"false"}">${l}${n&&n[k]!=null?`<span class="n">${n[k]}</span>`:""}</a>`).join("")}</nav>`;
+async function vRapports(cc){
   let R;try{R=await getJ("rapports.json")}catch(e){return `<div class="empty">Impossible de charger les rapports.</div>`}
-  const st=S.rf||(S.rf={src:"",q:"",ty:"",lim:60});
-  let L=R.filter(r=>mT(r.th)&&(!S.ch||r.src===S.ch||(st.src==="CC"&&r.src==="CC"))&&(!st.src||r.src===st.src));
+  const st=cc?(S.ccf||(S.ccf={q:"",ty:"",lim:60})):(S.rf||(S.rf={src:"",q:"",ty:"",lim:60}));
+  const base=R.filter(r=>mT(r.th)&&(cc?r.src==="CC":r.src!=="CC"));
+  let L=base.filter(r=>cc||((!S.ch||r.src===S.ch)&&(!st.src||r.src===st.src)));
   const types=[...new Set(L.map(r=>r.ty))].filter(Boolean).sort();
   if(st.ty)L=L.filter(r=>r.ty===st.ty);
   if(st.q){const s=st.q.toLowerCase();L=L.filter(r=>(r.t+" "+(r.au||"")+" "+(r.res||"")+" "+(r.jur||"")).toLowerCase().includes(s))}
-  const n=k=>R.filter(r=>mT(r.th)&&(!k||r.src===k)).length;
-  return `<div class="ph"><div><div class="eyebrow">Contrôle et évaluation</div><h1>Rapports et publications</h1><p>Rapports d'information de l'Assemblée, rapports du Sénat et publications de la Cour des comptes, depuis octobre 2024.</p></div></div>
-  <div class="agbar"><div class="seg" role="group">${[["","Tout"],["AN","Assemblée"],["SN","Sénat"],["CC","Cour des comptes"]].map(([k,l])=>`<button data-rsrc="${k}" aria-pressed="${st.src===k}">${l} <span class="sub">${n(k)}</span></button>`).join("")}</div></div>
-  <section class="card"><div class="filters"><input type="search" id="rq" placeholder="Titre, auteur, juridiction…" value="${esc(st.q)}"><select id="rty"><option value="">Tous les types</option>${types.map(t=>`<option ${st.ty===t?"selected":""}>${esc(t)}</option>`).join("")}</select><span class="sub" style="margin-left:auto">${L.length.toLocaleString("fr-FR")} résultats</span></div>
-  <div class="bd"><div class="rows">${L.slice(0,st.lim).map(rapRow).join("")||`<div class="empty">Aucun rapport pour ces filtres.</div>`}</div>
-  ${L.length>st.lim?`<button class="btn morebtn" data-act="rmore">Afficher plus</button>`:""}</div></section>`;
+  const n=k=>base.filter(r=>!k||r.src===k).length;const p=cc?"cc":"r";
+  return ctlHead(cc?"cour":"rapports")+`
+  ${cc?"":`<div class="agbar"><div class="seg" role="group" aria-label="Chambre">${[["","Les deux chambres"],["AN","Assemblée"],["SN","Sénat"]].map(([k,l])=>`<button data-rsrc="${k}" aria-pressed="${(st.src||"")===k}">${l} <span class="sub">${n(k)}</span></button>`).join("")}</div></div>`}
+  <section class="card"><div class="filters"><input type="search" id="${p}q" placeholder="${cc?"Titre, juridiction, mot-clé…":"Titre, auteur, mot-clé…"}" value="${esc(st.q)}"><button class="btn sm ftog" type="button" data-ftog>Filtrer${st.ty?" (1)":""}</button><select id="${p}ty"><option value="">Tous les types</option>${types.map(t=>`<option ${st.ty===t?"selected":""}>${esc(t)}</option>`).join("")}</select><span class="sub" style="margin-left:auto">${L.length.toLocaleString("fr-FR")} résultat${L.length>1?"s":""}</span></div>
+  <div class="bd"><div class="rows">${L.slice(0,st.lim).map(rapRow).join("")||`<div class="empty">Aucune publication pour ces filtres.</div>`}</div>
+  ${L.length>st.lim?`<button class="btn morebtn" data-act="${cc?"ccmore":"rmore"}">Afficher plus</button>`:""}</div></section>`;
 }
 
 /* ---------- vue : missions et commissions d'enquête ---------- */
@@ -748,11 +1010,11 @@ async function vControle(){
   if(st.q){const W=nrm(st.q).split(/\s+/).filter(Boolean);L=L.filter(m=>{const x=nrm(m.t+" "+(m.court||"")+" "+(m.par||"")+" "+mWho(m));return W.every(w=>x.includes(w))})}
   if(st.st==="fini")L=L.slice().sort((a,b)=>(b.la||"").localeCompare(a.la||""));
   const up=C.items.filter(m=>mT(m.th)&&mCh(m.ch)&&m.nx&&m.nx.slice(0,10)<=iso(new Date(TODAY().getTime()+7*864e5))).length;
-  return `<div class="ph"><div><div class="eyebrow">Contrôle et évaluation</div><h1>Missions et enquêtes</h1><p>Missions d'information, commissions d'enquête, délégations et office parlementaire de l'Assemblée, commissions d'enquête, missions d'information, contrôle budgétaire, délégations et office du Sénat : composition, auditions, comptes rendus et rapports. Suivez-en une avec ★ pour être prévenu des nouvelles auditions, des comptes rendus et du rapport.</p></div></div>
-  <div class="agbar"><div class="seg" role="group" aria-label="Statut">${[["cours","En cours"],["fini","Terminées"],["perm","Délégations et office"],["tout","Toutes"]].map(([k,l])=>`<button data-cst="${k}" aria-pressed="${st.st===k}">${l} <span class="sub">${cnt(k)}</span></button>`).join("")}</div>
-    <button class="chip" data-cfol aria-pressed="${st.fol}">★ Suivies <span class="n">${S.folm.size}</span></button><span class="sub">${up} avec une réunion dans les 7 jours</span></div>
-  <section class="card"><div class="filters"><input type="search" id="cq" placeholder="Intitulé, commission, président, rapporteur…" value="${esc(st.q)}"><select id="cty"><option value="">Tous les types</option>${types.map(t=>`<option value="${t}" ${st.ty===t?"selected":""}>${esc(CTLT[t]||t)}</option>`).join("")}</select><span class="sub" style="margin-left:auto">${L.length} résultat${L.length>1?"s":""}</span></div>
-  <div class="bd"><div class="rows">${L.slice(0,st.lim).map(mRow).join("")||`<div class="empty">${st.fol?"Vous ne suivez encore aucune mission. Utilisez ★ pour en suivre une.":"Aucune mission pour ces filtres."}</div>`}</div>
+  return ctlHead("controle")+`<p class="sub" style="margin:-6px 0 14px;max-width:80ch">Assemblée et Sénat : composition, auditions, comptes rendus et rapport. Suivez une mission pour la retrouver dans Mon fil et être prévenu de ses réunions.</p>
+  <div class="agbar">${pmSeg("ctl",st.fol)}<div class="seg" role="group" aria-label="Statut">${[["cours","En cours"],["fini","Terminées"],["perm","Délégations et office"],["tout","Toutes"]].map(([k,l])=>`<button data-cst="${k}" aria-pressed="${st.st===k}">${l} <span class="sub">${cnt(k)}</span></button>`).join("")}</div>
+<span class="sub">${up} avec une réunion dans les 7 jours</span></div>
+  <section class="card"><div class="filters"><input type="search" id="cq" placeholder="Intitulé, commission, président, rapporteur…" value="${esc(st.q)}"><button class="btn sm ftog" type="button" data-ftog>Filtrer${st.ty?" (1)":""}</button><select id="cty"><option value="">Tous les types</option>${types.map(t=>`<option value="${t}" ${st.ty===t?"selected":""}>${esc(CTLT[t]||t)}</option>`).join("")}</select><span class="sub" style="margin-left:auto">${L.length} résultat${L.length>1?"s":""}</span></div>
+  <div class="bd"><div class="rows">${L.slice(0,st.lim).map(mRow).join("")||`<div class="empty">${st.fol?(S.folm.size?"Aucune mission suivie pour ces filtres.":"Vous ne suivez encore aucune mission. Utilisez ☆ pour en suivre une."):"Aucune mission pour ces filtres."}</div>`}</div>
   ${L.length>st.lim?`<button class="btn morebtn" data-act="cmore">Afficher plus</button>`:""}</div></section>
   <p class="note">Assemblée : open data (organes, agenda des réunions, comptes rendus, rapports). Sénat : programme de contrôle et pages publiques des travaux (composition, auditions, comptes rendus, rapports) ; l'agenda détaillé des auditions du Sénat n'est pas publié en open data.</p>`;
 }
@@ -771,8 +1033,8 @@ async function vMission(id){
   const ppl=(L,lab)=>L&&L.length?`<span>${lab}${L.length>1&&!lab.endsWith("s")?"s":""} : ${L.map(p=>p.id?`<a href="#elu-${esc(p.id)}" style="text-decoration:underline">${esc(p.n)}</a>`:esc(p.n)).join(", ")}</span>`:"";
   const nvM=S.nv.items.filter(o=>o.mi===id);
   return `<a class="sub" href="#controle">← Missions et enquêtes</a>
-  <section class="card hero"><div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap"><div class="meta"><span class="pill out">${esc(m.ch==="SN"&&m.tl?m.tl:(CTLT[m.ty]||m.tl))}</span>${chPill(m.ch)}${mStPill(m)}${thTags(m.th,3)}</div>
-    <div class="acts">${m.url?`<a class="btn" href="${esc(m.url)}" target="_blank" rel="noopener">${m.ch==="SN"?"Sénat":"Dossier AN"} ↗</a>`:""}<button class="btn" data-act="submi" data-id="${esc(id)}" title="Recevoir les nouveautés et l'agenda de ces travaux"><svg viewBox="0 0 24 24"><path d="M5 19h.01M5 12a7 7 0 0 1 7 7M5 5a14 14 0 0 1 14 14"/></svg>S'abonner</button>${alertBtn("mission",id)}${starM(id,1)}</div></div>
+  <section class="card hero"><div class="top1"><div class="meta"><span class="pill out">${esc(m.ch==="SN"&&m.tl?m.tl:(CTLT[m.ty]||m.tl))}</span>${chPill(m.ch)}${mStPill(m)}${thTags(m.th,3)}</div>
+    <div class="acts">${followBtn("mission",id)}${moreMenu([m.ds&&dosById(m.ds)?`<a href="#texte-${esc(m.ds)}">Texte lié</a>`:"",m.url?`<a href="${esc(m.url)}" target="_blank" rel="noopener">Page officielle ${m.ch==="SN"?"du Sénat":"de l'Assemblée"} ↗</a>`:"",`<button type="button" data-copylink="#mission-${esc(id)}">Copier le lien de cette fiche</button>`])}</div></div>
   <h1>${esc(m.t)}</h1>
   <div class="meta sepd">${m.par?`<span>${esc(m.par)}</span>`:""}${ppl(m.pres,"Présidence")}${ppl(m.rap,"Rapporteur")}${m.nm?`<span>${m.nm} membre${m.nm>1?"s":""}</span>`:""}${m.deb?`<span>${m.st==="Permanente"?"Depuis":id.startsWith("SN-p-")?"Début des travaux le":"Créée le"} ${ds(m.deb)}</span>`:""}${m.ech?`<span>Fin des travaux au plus tard le ${ds(m.ech)}</span>`:""}${m.echl?`<span>Échéance : ${esc(m.echl)}</span>`:""}${m.fin&&m.st!=="Permanente"?`<span>Terminée le ${ds(m.fin)}</span>`:""}</div></section>
   <div class="stats">
@@ -811,7 +1073,7 @@ async function vElus(){
   return `<div class="ph"><div><div class="eyebrow">Fiches élus</div><h1>${isAN?"Députés":"Sénateurs"} <span class="muted" style="font-size:20px">${L.length}</span></h1><p>${isAN?"Participation et cohésion de vote calculées sur les scrutins publics de la XVIIe législature, amendements déposés et adoptés, questions, textes déposés.":"Sénateurs en exercice : groupe, commission, questions des douze derniers mois et amendements déposés sur les textes suivis. Les votes nominatifs du Sénat ne sont pas encore intégrés."}</p></div></div>
   <div class="agbar"><div class="seg" role="group"><button data-ech="AN" aria-pressed="${isAN}">Assemblée</button><button data-ech="SN" aria-pressed="${!isAN}">Sénat</button></div></div>
   <section class="card"><div class="filters"><input type="search" id="eq" placeholder="Nom, département, commission…" value="${esc(st.q)}">
-  <select id="eg"><option value="">Tous les groupes</option>${groups.map(g=>`<option ${st.g===g?"selected":""}>${esc(g)}</option>`).join("")}</select>
+  <button class="btn sm ftog" type="button" data-ftog>Filtrer${st.g?" (1)":""}</button><select id="eg"><option value="">Tous les groupes</option>${groups.map(g=>`<option ${st.g===g?"selected":""}>${esc(g)}</option>`).join("")}</select>
   <select id="es">${(isAN?[["nom","Ordre alphabétique"],["pa","Participation"],["lo","Votes contre son groupe"],["am","Amendements"],["q","Questions"]]:[["nom","Ordre alphabétique"],["am","Amendements"],["q","Questions"]]).map(([v,l])=>`<option value="${v}" ${st.sort===v?"selected":""}>Tri : ${l}</option>`).join("")}</select></div>
   <div class="elus">${L.slice(0,700).map(d=>`<a class="elu" href="${isAN?"#elu-"+d.id:"#sen-"+d.id}">${starP(d.id)}<div class="av" style="--gc:${gc(d.g)}">${ini(d.nom)}</div><div style="min-width:0"><b>${esc(d.nom)}</b><small><span class="gtag" style="--gc:${gc(d.g)}">${esc(d.g)}</span> · ${esc(d.dep||"")}${d.ci?` (${d.ci}${d.ci==="1"?"re":"e"})`:""}</small>
   <div class="sub" style="font-size:12px">${isAN?`${d.pa??"—"} % participation · ${d.am} amdts · ${d.q} questions`:`${d.am} amdts · ${d.q} questions`}</div></div></a>`).join("")||`<div class="empty">Aucun élu.</div>`}</div></section>`;
@@ -830,7 +1092,7 @@ async function vElu(id){
   <section class="card hero" style="display:flex;gap:18px;align-items:center;flex-wrap:wrap"><div class="av lg" style="--gc:${gc}">${ini(p.nom)}</div><div style="flex:1;min-width:240px"><div class="meta"><span class="gtag" style="--gc:${gc}">${esc(p.gl)}</span></div><h1 style="margin:6px 0">${esc(p.civ||"")} ${esc(p.nom)}</h1>
   <div class="meta sepd">${p.dep?`<span>${esc(p.dep)}, ${p.ci}${p.ci==="1"?"re":"e"} circonscription</span>`:""}${p.com?`<span>${esc(p.com)}</span>`:""}${p.prof?`<span>${esc(p.prof)}</span>`:""}${age?`<span>${age} ans</span>`:""}</div>
   ${p.ro&&p.ro.length?`<div class="chips" style="margin-top:10px">${p.ro.map(r=>`<span class="pill out">${esc(r)}</span>`).join("")}</div>`:""}</div>
-  <div style="display:flex;gap:8px">${starP(id,1)}<a class="btn" href="${AN}/dyn/deputes/${id}" target="_blank" rel="noopener">Fiche AN ↗</a></div></section>
+  <div class="acts" style="display:flex;gap:8px">${followBtn("elu",id)}${moreMenu([`<a href="${AN}/dyn/deputes/${id}" target="_blank" rel="noopener">Fiche sur le site de l'Assemblée ↗</a>`,`<button type="button" data-copylink="#elu-${esc(id)}">Copier le lien de cette fiche</button>`])}</div></section>
   <div class="stats">
     <div class="card stat"><span>Participation aux scrutins</span><b>${p.pa??"—"} %</b><span>${p.nv.toLocaleString("fr-FR")} votes exprimés</span></div>
     <div class="card stat"><span>Vote avec son groupe</span><b>${p.lo??"—"} %</b><span>${div} votes divergents</span></div>
@@ -864,38 +1126,79 @@ async function vSen(id){
   return `<a class="sub" href="#elus">← Élus</a>
   <section class="card hero" style="display:flex;gap:18px;align-items:center;flex-wrap:wrap"><div class="av lg" style="--gc:var(--sn)">${ini(p.nom)}</div><div style="flex:1;min-width:240px"><div class="meta"><span class="pill sn">Sénat</span><span>${esc(p.gl)}</span></div><h1 style="margin:6px 0">${esc(p.civ||"")} ${esc(p.nom)}</h1>
   <div class="meta sepd">${p.dep?`<span>${esc(p.dep)}</span>`:""}${p.com?`<span>${esc(p.com)}</span>`:""}${p.prof?`<span>${esc(p.prof)}</span>`:""}</div></div>
-  <div style="display:flex;gap:8px">${starP(id,1)}<a class="btn" href="${p.url}" target="_blank" rel="noopener">Fiche Sénat ↗</a></div></section>
+  <div class="acts" style="display:flex;gap:8px">${followBtn("elu",id)}${moreMenu([`<a href="${p.url}" target="_blank" rel="noopener">Fiche sur le site du Sénat ↗</a>`,`<button type="button" data-copylink="#sen-${esc(id)}">Copier le lien de cette fiche</button>`])}</div></section>
   <div class="stats"><div class="card stat"><span>Amendements déposés</span><b>${p.am}</b><span>${p.ad} adoptés · textes depuis oct. 2024</span></div><div class="card stat"><span>Questions</span><b>${p.q}</b><span>sur les douze derniers mois</span></div></div>
   <div class="tabs" role="tablist"><button data-sf="am" aria-selected="${st.f==="am"}">Amendements récents<span class="n">${AM.length}</span></button><button data-sf="q" aria-selected="${st.f==="q"}">Questions<span class="n">${p.q}</span></button></div>
   ${st.f==="q"?await qRows(q=>q.ch==="SN"&&qName(q.au)===nk):amRows(AM)}
   <p class="note">Les votes nominatifs du Sénat ne sont pas encore intégrés. Les amendements sont rattachés par le nom de l'auteur.</p>`;
 }
-/* ---------- vue : suivis ---------- */
-async function vSuivis(){
-  const E=S.folp.size?await getJ("elus.json"):{deputes:[],senateurs:[]};
+/* ---------- vue : Mes suivis (gestion de tout ce qui est suivi) ---------- */
+const SVG_CAL=`<svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>`;
+const SVG_RSS=`<svg viewBox="0 0 24 24"><path d="M5 19h.01M5 12a7 7 0 0 1 7 7M5 5a14 14 0 0 1 14 14"/></svg>`;
+const SVG_MAIL=`<svg viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg>`;
+const alSegF=(c,id)=>typeof alSeg==="function"?alSeg(c,id):"";
+const copyB=(url,l,t)=>`<button class="btn sm" data-copy="${esc(abs(url))}" title="${esc(t)}">${l}</button>`;
+const unfB=(c,id)=>`<button class="iconbtn sm" data-unf="${c}" data-id="${esc(id)}" title="Ne plus suivre" aria-label="Ne plus suivre"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>`;
+function txFeeds(id){return {rss:S.nv.ok?`feeds/t/${id}.xml`:null,ics:S.nv.ok&&S.ev.some(e=>e.ds===id)?`ics/t/${id}.ics`:null}}
+function miFeeds(m){return {rss:S.nv.ok&&(m.st==="En cours"||m.st==="Permanente"||S.nv.items.some(o=>o.mi===m.id))?`feeds/m/${m.id}.xml`:null,ics:S.nv.ok&&(m.ev||[]).some(e=>e.k!=="cr"&&!e.x)?`ics/m/${m.id}.ics`:null}}
+function agPerso(){
+  const acc=typeof A!=="undefined"?A:null,ok=acc&&acc.user&&acc.p&&acc.p.statut==="valide";
+  if(ok&&acc.p.agenda_jeton){const u=`ics/u/${acc.p.agenda_jeton}.ics`;
+    return `<section class="card agcard"><div class="ic">${SVG_CAL}</div><div style="min-width:0"><b>Mon agenda dans Outlook</b><p>Un seul calendrier pour tous vos textes et missions suivis : délais d'amendements, séances, commissions et auditions. Il se met à jour seul à chaque collecte.</p><p class="hint" id="agPersoSt" data-u="${esc(u)}"></p></div><div class="acts">${copyB(u,"Copier l'adresse","Adresse à coller dans Outlook : Ajouter un calendrier, À partir d'Internet")}<button class="btn sm" data-act="agnew" title="Rendre l'ancienne adresse inutilisable">Changer d'adresse</button></div></section>`}
+  return `<section class="card agcard"><div class="ic">${SVG_CAL}</div><div style="min-width:0"><b>Mon agenda dans Outlook</b><p>${ok?"Votre agenda personnel sera disponible après la mise à jour de votre compte. En attendant, téléchargez l'agenda de vos suivis.":"Téléchargez l'agenda de vos textes et missions suivis (figé au moment du téléchargement). Avec un compte, vous obtenez un agenda personnel qui se met à jour seul."}</p></div><div class="acts"><button class="btn sm" data-set="icsfol" ${S.fol.size||S.folm.size?"":"disabled"}>Télécharger (.ics)</button>${ok?"":`<a class="btn sm" href="#compte">Se connecter</a>`}</div></section>`;
+}
+async function vSuivis(tab){
+  tab=["textes","missions","elus","themes"].includes(tab)?tab:(S.sutab||"textes");S.sutab=tab;
+  let C=null;try{C=await ctlLoad()}catch(e){}
+  const E=S.folp.size?await getJ("elus.json").catch(()=>({deputes:[],senateurs:[],groupes:{}})):{deputes:[],senateurs:[],groupes:{}};
   const P=[...S.folp].map(id=>E.deputes.find(d=>d.id===id)||Object.assign({sen:1},E.senateurs.find(d=>d.id===id))).filter(x=>x&&x.nom);
   const gc=g=>(E.groupes||{})[g]||"#7f8c8d";
-  let feed=[];
-  if(P.length){
-    const SC=await getJ("scrutins.json").catch(()=>[]);const Q=await getJ("questions.json").catch(()=>[]);let SA={};try{SA=await getJ("senam.json")}catch(e){}
-    for(const p of P){
-      if(p.sen){(SA[p.cle]||[]).slice(0,15).forEach(a=>feed.push({d:a[0],p,k:"Amendement",t:`n° ${a[2]} · ${(dosById(a[1])||{}).t||""}`,h:"#texte-"+a[1],s:a[3]}));
-        const nk=qName(p.nom);Q.filter(q=>q.ch==="SN"&&qName(q.au)===nk).slice(0,10).forEach(q=>feed.push({d:q.d,p,k:q.ty,t:q.an,h:q.url,ext:1,s:q.st==="r"?"Répondue":"En attente"}));continue}
-      let VV={};try{VV=(await getJ(`votes/${p.vf}.json`))[p.id]||{}}catch(e){}
-      (VV.am||[]).slice(0,15).forEach(a=>feed.push({d:a[0],p,k:"Amendement",t:`n° ${a[2]} · ${(dosById(a[1])||{}).t||""}`,h:"#texte-"+a[1],s:a[3]}));
-      (VV.v||[]).slice(-15).forEach(([i,pos])=>{const s=SC[i];if(s)feed.push({d:s.d,p,k:"Vote "+["pour","contre","abstention","non-votant"][pos],t:s.t,h:s.ds?"#texte-"+s.ds:"#elu-"+p.id,s:s.r?"Adopté":"Rejeté"})});
-      Q.filter(q=>q.ai===p.id).slice(0,10).forEach(q=>feed.push({d:q.d,p,k:q.ty,t:q.an,h:q.url||AN+"/dyn/17/questions/"+q.id,ext:1,s:q.st==="r"?"Répondue":"En attente"}));
-    }
-    feed=feed.filter(x=>x.d).sort((a,b)=>b.d.localeCompare(a.d)).slice(0,80);
-  }
-  let MI=[];if(S.folm.size){try{const C=await ctlLoad();MI=[...S.folm].map(i=>C.by[i]).filter(Boolean)}catch(e){}}
-  return `<div class="ph"><div><div class="eyebrow">Ma sélection</div><h1>Mes suivis</h1><p>Les parlementaires, les textes et les missions que vous suivez. Utilisez ★ sur une fiche élu, un texte ou une mission. Votre sélection est enregistrée dans ce navigateur.</p></div></div>
-  <div class="grid g2" style="align-items:start">
-    <section class="card"><div class="hd"><h2>Activité de mes parlementaires</h2></div><div class="bd"><div class="rows act">${feed.map(f=>`<a class="row" href="${f.h}" ${f.ext?'target="_blank" rel="noopener"':""}><div class="av" style="--gc:${f.p.sen?"var(--sn)":gc(f.p.g)}">${ini(f.p.nom)}</div><div><div class="meta" style="margin:0 0 3px"><b style="color:var(--ink)">${esc(f.p.nom)}</b><span>${esc(f.k)}</span><span>${ds(f.d)}</span>${f.s?`<span class="pill ${SORTC[f.s]||(f.s==="Répondue"?"ok":f.s==="Rejeté"?"ko":"out")}">${esc(f.s)}</span>`:""}</div><div class="tt" style="font-weight:500">${esc((f.t||"").slice(0,220))}</div></div><div></div></a>`).join("")||`<div class="empty">Suivez des députés ou des sénateurs depuis la page Élus pour voir ici leurs derniers votes, amendements et questions.</div>`}</div></div></section>
-    <section class="card"><div class="hd"><h2>Parlementaires suivis</h2><a href="#elus">Élus →</a></div><div class="bd"><div class="rows">${P.map(p=>`<div class="row"><div class="av" style="--gc:${p.sen?"var(--sn)":gc(p.g)}">${ini(p.nom)}</div><a href="${p.sen?"#sen-":"#elu-"}${esc(p.id)}"><div class="tt">${esc(p.nom)}</div><div class="meta">${p.sen?`<span class="pill sn">Sénat</span>`:`<span class="pill an">AN</span>`}<span>${esc(p.g)}</span><span>${esc(p.dep||"")}</span></div></a>${starP(p.id)}</div>`).join("")||`<div class="empty">Aucun parlementaire suivi.</div>`}</div></div></section>
-  </div>
-  ${MI.length?`<section class="card" style="margin-top:18px"><div class="hd"><h2>Missions et enquêtes suivies</h2><a href="#controle">Toutes →</a></div><div class="bd"><div class="rows">${MI.map(mRow).join("")}</div></div></section>`:""}
-  <div style="margin-top:18px">${vTextes(true).replace(/<div class="ph">[\s\S]*?<\/div><\/div>/,"")}</div>`;
+  const T=[...S.fol].map(dosById).filter(Boolean).sort((a,b)=>((a.nx||{}).d||"9").localeCompare((b.nx||{}).d||"9"));
+  const M=[...S.folm].map(i=>C&&C.by[i]).filter(Boolean);
+  const tabs=`<nav class="tabs ptabs" aria-label="Mes suivis">${[["textes","Textes",T.length],["missions","Missions et enquêtes",M.length],["elus","Parlementaires",P.length],["themes","Thématiques",S.themes.size]].map(([k,l,n])=>`<a href="#suivis-${k}" aria-current="${tab===k?"page":"false"}">${l}<span class="n">${n||""}</span></a>`).join("")}</nav>`;
+  let body="";
+  if(tab==="textes")body=T.length?T.map(d=>{const f=txFeeds(d.id);return `<div class="srow"><div style="min-width:0"><a class="tt clamp2" href="#texte-${esc(d.id)}">${esc(d.t)}</a><div class="meta"><span class="pill out">${esc(d.ty)}</span>${chPill(d.ch)}<span class="pill ${d.sc}">${esc(d.st)}</span>${d.nx?`<span>${kv(d.nx.k).s}</span>${countdown(d.nx.d)}`:""}${S.nv.byDs[d.id]?`<span class="newdot">nouveau</span>`:""}</div></div>
+    <div class="ctl">${alSegF("texte",d.id)}${f.ics?copyB(f.ics,"Agenda","Copier l'adresse de l'agenda de ce texte (Outlook)"):""}${f.rss?copyB(f.rss,"RSS","Copier l'adresse du flux RSS de ce texte"):""}${unfB("texte",d.id)}</div></div>`}).join(""):`<div class="empty">Aucun texte suivi. Suivez-en depuis la page <a href="#textes" style="color:var(--acc)">Textes</a> (☆) ou depuis une fiche (« Suivre »).</div>`;
+  else if(tab==="missions")body=M.length?M.map(m=>{const f=miFeeds(m);return `<div class="srow"><div style="min-width:0"><a class="tt clamp2" href="#mission-${esc(m.id)}">${esc(m.t)}</a><div class="meta"><span class="pill out">${esc(m.ch==="SN"&&m.tl?m.tl:(CTLT[m.ty]||m.tl||""))}</span>${chPill(m.ch)}${mStPill(m)}${m.nx?`<span>Prochaine réunion</span>${countdown(m.nx)}`:""}</div></div>
+    <div class="ctl">${alSegF("mission",m.id)}${f.ics?copyB(f.ics,"Agenda","Copier l'adresse de l'agenda de ces travaux (Outlook)"):""}${f.rss?copyB(f.rss,"RSS","Copier l'adresse du flux RSS de ces travaux"):""}${unfB("mission",m.id)}</div></div>`}).join(""):`<div class="empty">Aucune mission suivie. Suivez-en depuis <a href="#controle" style="color:var(--acc)">Contrôle</a>.</div>`;
+  else if(tab==="themes"){const th=S.core.themes,on=[...S.themes];
+    body=`<p class="sub" style="margin:12px 0">Vos thématiques filtrent tout le site (agenda, textes, questions, publications) et alimentent la partie « à découvrir » de Mon fil.</p><div class="thtog">${th.map(t=>`<button class="thcard" data-thtog="${t.id}" aria-pressed="${S.themes.has(t.id)}" style="--c:${TH_COL[t.id]}"><i></i>${esc(t.l)}</button>`).join("")}</div>
+    <h3 class="eyebrow" style="margin:22px 0 4px">Être prévenu</h3>
+    ${(on.length?on.map(t=>[thLab(t),t]):[]).concat([["Toutes les thématiques","tout"]]).map(([l,id])=>`<div class="srow"><div style="min-width:0"><span class="tt">${esc(l)}</span><div class="meta">${id==="tout"?"Toutes les nouveautés du site":"Nouveautés et agenda de la thématique"}</div></div><div class="ctl">${alSegF(id==="tout"?"tout":"theme",id==="tout"?"":id)}${S.nv.ok?copyB(`ics/${id}.ics`,"Agenda","Copier l'adresse de l'agenda (Outlook)")+copyB(`feeds/${id}.xml`,"RSS","Copier l'adresse du flux RSS"):""}</div></div>`).join("")}`}
+  else{let feed=[];
+    if(P.length){const SC=await getJ("scrutins.json").catch(()=>[]);const Q=await getJ("questions.json").catch(()=>[]);let SA={};try{SA=await getJ("senam.json")}catch(e){}
+      for(const p of P){
+        if(p.sen){(SA[p.cle]||[]).slice(0,15).forEach(a=>feed.push({d:a[0],p,k:"Amendement",t:`n° ${a[2]} · ${(dosById(a[1])||{}).t||""}`,h:"#texte-"+a[1],s:a[3]}));
+          const nk=qName(p.nom);Q.filter(q=>q.ch==="SN"&&qName(q.au)===nk).slice(0,10).forEach(q=>feed.push({d:q.d,p,k:q.ty,t:q.an,h:q.url,ext:1,s:q.st==="r"?"Répondue":"En attente"}));continue}
+        let VV={};try{VV=(await getJ(`votes/${p.vf}.json`))[p.id]||{}}catch(e){}
+        (VV.am||[]).slice(0,15).forEach(a=>feed.push({d:a[0],p,k:"Amendement",t:`n° ${a[2]} · ${(dosById(a[1])||{}).t||""}`,h:"#texte-"+a[1],s:a[3]}));
+        (VV.v||[]).slice(-15).forEach(([i,pos])=>{const s=SC[i];if(s)feed.push({d:s.d,p,k:"Vote "+["pour","contre","abstention","non-votant"][pos],t:s.t,h:s.ds?"#texte-"+s.ds:"#elu-"+p.id,s:s.r?"Adopté":"Rejeté"})});
+        Q.filter(q=>q.ai===p.id).slice(0,10).forEach(q=>feed.push({d:q.d,p,k:q.ty,t:q.an,h:q.url||AN+"/dyn/17/questions/"+q.id,ext:1,s:q.st==="r"?"Répondue":"En attente"}));
+      }
+      feed=feed.filter(x=>x.d).sort((a,b)=>b.d.localeCompare(a.d)).slice(0,80)}
+    body=P.length?P.map(p=>`<div class="srow"><div style="display:flex;gap:12px;align-items:center;min-width:0"><div class="av" style="--gc:${p.sen?"var(--sn)":gc(p.g)}">${ini(p.nom)}</div><div style="min-width:0"><a class="tt" href="${p.sen?"#sen-":"#elu-"}${esc(p.id)}">${esc(p.nom)}</a><div class="meta">${p.sen?`<span class="pill sn">Sénat</span>`:`<span class="pill an">AN</span>`}<span>${esc(p.g)}</span><span>${esc(p.dep||"")}</span></div></div></div><div class="ctl">${unfB("elu",p.id)}</div></div>`).join("")+
+      `<h3 class="eyebrow" style="margin:22px 0 4px">Activité récente</h3><div class="rows act">${feed.map(f=>`<a class="row" href="${f.h}" ${f.ext?'target="_blank" rel="noopener"':""}><div class="av" style="--gc:${f.p.sen?"var(--sn)":gc(f.p.g)}">${ini(f.p.nom)}</div><div><div class="meta" style="margin:0 0 3px"><b style="color:var(--ink)">${esc(f.p.nom)}</b><span>${esc(f.k)}</span><span>${ds(f.d)}</span>${f.s?`<span class="pill ${SORTC[f.s]||(f.s==="Répondue"?"ok":f.s==="Rejeté"?"ko":"out")}">${esc(f.s)}</span>`:""}</div><div class="tt clamp3" style="font-weight:500">${esc(f.t||"")}</div></div><div></div></a>`).join("")||`<div class="empty">Pas d'activité récente.</div>`}</div>`
+      :`<div class="empty">Aucun parlementaire suivi. Suivez des députés ou des sénateurs depuis la page <a href="#elus" style="color:var(--acc)">Élus</a> pour voir ici leurs votes, amendements et questions.</div>`}
+  const acc=typeof A!=="undefined"?A:null,ok=acc&&acc.user&&acc.p&&acc.p.statut==="valide";
+  return `<div class="ph"><div><div class="eyebrow">Pour moi</div><h1>Mes suivis</h1><p>Tout ce que vous suivez, et la façon d'en être prévenu. ${ok?"Votre sélection est enregistrée dans votre compte et vous suit sur tous vos postes.":"Sans compte, votre sélection reste dans ce navigateur ; avec un compte, elle vous suit sur tous vos postes et vous recevez des alertes e-mail."}</p></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" data-act="share">Partager ma sélection</button>${ok?"":`<a class="btn" href="#compte">${SVG_MAIL.replace("<svg",'<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8"')}Alertes e-mail</a>`}</div></div>
+  ${agPerso()}${tabs}<section class="card"><div class="bd">${body}</div></section>
+  <p class="note">« Agenda » et « RSS » copient une adresse : dans Outlook, « Ajouter un calendrier » puis « À partir d'Internet » ; pour un flux, clic droit sur le dossier « Flux RSS ».${ok?"":" Les alertes e-mail sont réservées aux comptes validés par l'administrateur."}</p>`;
+}
+async function checkAgPerso(){const el=$("#agPersoSt");if(!el)return;try{const r=await fetch(el.dataset.u,{method:"HEAD",cache:"no-cache"});el.textContent=r.ok?"Agenda à jour.":"Votre agenda sera publié à la prochaine mise à jour du site (moins d'une heure en semaine)."}catch(e){}}
+/* panneau « Suivre » : Mon fil, alerte e-mail, agenda Outlook, flux RSS */
+function followLabel(c,id){if(c==="texte")return (dosById(id)||{}).t||id;if(c==="mission"){const m=S.ctl&&S.ctl.by[id];return m?m.t:id}const E=S.cache["elus.json"];const p=E&&(E.deputes.find(d=>d.id===id)||E.senateurs.find(d=>d.id===id));return p?p.nom:id}
+function openFollow(c,id){
+  const lab=followLabel(c,id),acc=typeof A!=="undefined"?A:null,ok=acc&&acc.user&&acc.p&&acc.p.statut==="valide";
+  const f=c==="texte"?txFeeds(id):c==="mission"&&S.ctl&&S.ctl.by[id]?miFeeds(S.ctl.by[id]):{};
+  const L={texte:"Texte",mission:"Mission ou commission",elu:"Parlementaire"}[c];
+  setModal(`<div class="mhd"><div style="min-width:0"><div class="eyebrow">Suivi · ${L}</div><h2 class="clamp2" style="font-size:19px">${esc(lab)}</h2></div>${closeBtn}</div>
+  <div class="setb">
+   <div class="fsec"><div class="ic">${SVG_STAR}</div><div><h3>Dans Mon fil</h3><p>${c==="elu"?"Ses votes, amendements et questions apparaissent dans Mes suivis, et ses nouveautés dans Mon fil.":"Ses délais, réunions et nouveautés apparaissent dans Mon fil, Mon agenda et Nouveautés."}</p><div class="acts"><button class="btn sm" data-unf="${c}" data-id="${esc(id)}">Ne plus suivre</button></div></div></div>
+   ${c!=="elu"?`<div class="fsec"><div class="ic">${SVG_MAIL}</div><div><h3>Alerte e-mail</h3>${ok?`<p>Recevoir un e-mail à chaque nouveauté.</p><div class="acts">${alSegF(c,id)}<button class="linkbtn" data-alopen="${c}" data-id="${esc(id)}">Choisir les événements</button></div>`:acc&&acc.user?`<p>Disponible dès que l'administrateur aura validé votre compte.</p>`:`<p>Réservée aux comptes validés par l'administrateur.</p><div class="acts"><a class="btn sm" href="#compte" data-setclose>Se connecter ou demander un compte</a></div>`}</div></div>`:""}
+   ${c!=="elu"?`<div class="fsec"><div class="ic">${SVG_CAL}</div><div><h3>Agenda Outlook</h3><p>${ok&&acc.p.agenda_jeton?"Déjà inclus dans votre agenda personnel (Mes suivis).":f.ics?"L'agenda de ce seul élément, à ajouter dans Outlook. Avec un compte, un agenda unique regroupe tous vos suivis.":"Aucune date annoncée pour l'instant."}</p>${f.ics?`<div class="acts">${copyB(f.ics,"Copier l'adresse de l'agenda","Outlook : Ajouter un calendrier, À partir d'Internet")}</div>`:""}</div></div>`:""}
+   ${f.rss?`<div class="fsec"><div class="ic">${SVG_RSS}</div><div><h3>Flux RSS</h3><p>Les nouveautés de cet élément dans votre lecteur de flux.</p><div class="acts">${copyB(f.rss,"Copier l'adresse du flux","Adresse du flux RSS")}</div></div></div>`:""}
+  </div>`);
 }
 /* ---------- vue : flux RSS ---------- */
 function rssLast(R,f){const it=R.items.find(i=>i.f.includes(f.id));return it?it.d:null}
@@ -943,7 +1246,7 @@ async function nvLoad(){
   nvIndex();nvBadge();
 }
 function nvIndex(){const B={};S.nv.items.forEach(o=>{if(o.ds&&o.ts>(S.nv.seen||"")&&!B[o.ds])B[o.ds]=o.ts});S.nv.byDs=B}
-function nvBadge(){const n=nvUnseen().length,el=$("#cNv");if(!el)return;el.textContent=n?(n>99?"99+":n):"";el.classList.toggle("new",n>0);el.title=n?`${n} nouveauté${n>1?"s":""} depuis votre dernière visite`:""}
+function nvBadge(){const n=nvUnseen().length,el=$("#cNv");if(!el)return;el.textContent=n?(n>99?"99+":n):"";el.classList.toggle("new",n>0);el.title=n?`${n} nouveauté${n>1?"s":""} depuis votre dernière visite`:"";const m=$("#cNvM");if(m)m.hidden=!n}
 function nvMarkSeen(){const m=S.nv.items.reduce((a,o)=>o.ts>a?o.ts:a,S.nv.seen||"");if(m&&m!==S.nv.seen){S.nv.seen=m;LS.set("veille.vu",m)}nvIndex();nvBadge()}
 const nvDay=ts=>{const k=ts.slice(0,10),t=S.core.aujourdhui;const y=iso(new Date(TODAY().getTime()-864e5));const x=pd(k);const l=`${JOURSL[x.getDay()]} ${x.getDate()} ${MOISL[x.getMonth()]}`;return k===t?["Aujourd'hui",l]:k===y?["Hier",l]:[cap(l),x.getFullYear()!==TODAY().getFullYear()?String(x.getFullYear()):""]};
 function nvHref(o){const d=o.ds&&dosById(o.ds);return d?{h:"#texte-"+o.ds,ext:false}:o.mi?{h:"#mission-"+o.mi,ext:false}:{h:o.u||"#nouveautes",ext:!!o.u}}
@@ -955,6 +1258,10 @@ function nvRow(o,prev){
 }
 function nvGroup(G,prev){
   if(G.length===1)return nvRow(G[0],prev);
+  if((G[0].k==="question"||G[0].k==="reponse")&&!G[0].ds){const o=G[0],isNew=prev!=null&&G.some(x=>x.ts>prev),th=(o.th||[])[0];
+    return `<a class="nvrow" href="#questions"><div class="k1"><span class="nvk ${o.k}">${o.k==="question"?"Questions":"Réponses"}</span>${isNew?`<span class="newdot">nouveau</span>`:""}</div>
+    <div><div class="tt">${G.length} ${o.k==="question"?"nouvelles questions":"réponses du Gouvernement"}${th?` · ${esc(thLab(th))}`:""}</div><ul class="nvl">${G.slice(0,5).map(x=>`<li style="--kc:var(--${o.k==="question"?"au":"ok"})"><span class="clamp2">${esc(x.t||"")} <span class="muted">· ${esc((x.s||"").split(" · ").slice(0,2).join(" · "))}</span></span></li>`).join("")}${G.length>5?`<li class="muted">et ${G.length-5} autre${G.length-5>1?"s":""}</li>`:""}</ul>
+    <div class="meta">${chPill(o.ch)}${thTags(o.th,1)}</div></div><div class="tm">${hr(G.reduce((a,x)=>x.ts>a?x.ts:a,""))}</div></a>`}
   const o=G[0],d=o.ds&&dosById(o.ds),isNew=prev!=null&&G.some(x=>x.ts>prev),K=[...new Set(G.map(x=>x.k))];
   return `<a class="nvrow" href="${o.ds?"#texte-"+esc(o.ds):o.mi?"#mission-"+esc(o.mi):"#nouveautes"}"><div class="k1">${K.slice(0,3).map(k=>`<span class="nvk ${k}">${NVK[k]}</span>`).join("")}${isNew?`<span class="newdot">nouveau</span>`:""}</div>
   <div><div class="tt clamp2">${esc(o.t||"")}</div><ul class="nvl">${G.slice(0,6).map(x=>`<li style="--kc:var(--${{cr:"re",mission:"au",etape:"acc",doc:"re",amdt:"an",sort:"ok",agenda:"co",delai:"dl",rapport:"cc",question:"au",reponse:"ok"}[x.k]||"acc"})"><span class="clamp2">${esc(x.s||"")}</span></li>`).join("")}${G.length>6?`<li class="muted">et ${G.length-6} autre${G.length-6>1?"s":""}</li>`:""}</ul>
@@ -963,14 +1270,14 @@ function nvGroup(G,prev){
 }
 function nvList(L,prev,lim){
   if(!L.length)return "";const out=[];let cur=null,buf=[];
-  const flush=()=>{if(!buf.length)return;const C=[],idx={};buf.forEach(o=>{const k=o.ds||o.mi||o.id;if(idx[k]===undefined){idx[k]=C.length;C.push([])}C[idx[k]].push(o)});
+  const flush=()=>{if(!buf.length)return;const C=[],idx={};buf.forEach(o=>{const k=o.ds||o.mi||((o.k==="question"||o.k==="reponse")?`q|${o.k}|${o.ch}|${(o.th||[])[0]||"-"}`:o.id);if(idx[k]===undefined){idx[k]=C.length;C.push([])}C[idx[k]].push(o)});
     const[a,b]=nvDay(cur);out.push(`<div class="nvday"><h3>${esc(a)}</h3><span>${esc(b)} · ${buf.length} nouveauté${buf.length>1?"s":""}</span></div><section class="card"><div class="bd">${C.map(G=>nvGroup(G,prev)).join("")}</div></section>`);buf=[]};
   L.slice(0,lim).forEach(o=>{const k=o.ts.slice(0,10);if(k!==cur){flush();cur=k}buf.push(o)});flush();return out.join("");
 }
 async function vNouveautes(){
   await nvLoad();const N=S.nv;
   const head=`<div class="ph"><div><div class="eyebrow">Ce qui a changé</div><h1>Nouveautés</h1><p>Nouvelles étapes, documents, amendements, inscriptions à l'agenda, publications et réponses aux questions, détectés à chaque mise à jour du site. Le journal couvre les trois dernières semaines.</p></div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" data-act="subopen"><svg viewBox="0 0 24 24"><path d="M5 19h.01M5 12a7 7 0 0 1 7 7M5 5a14 14 0 0 1 14 14"/></svg>S'abonner</button>${N.ok&&nvUnseen().length?`<button class="btn" data-act="nvread">Tout marquer comme lu</button>`:""}</div></div>`;
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn" href="#suivis-themes"><svg viewBox="0 0 24 24"><path d="M5 19h.01M5 12a7 7 0 0 1 7 7M5 5a14 14 0 0 1 14 14"/></svg>Flux et alertes</a>${N.ok&&nvUnseen().length?`<button class="btn" data-act="nvread">Tout marquer comme lu</button>`:""}</div></div>`;
   if(!N.ok||!N.items.length)return head+`<div class="card empty" style="padding:40px">Le journal des nouveautés se remplit à chaque mise à jour du site. Revenez après la prochaine collecte.</div>`;
   if(N.prev===null)N.prev=N.seen||"";
   const has=S.fol.size||S.folp.size||S.folm.size||S.themes.size;if(!N.scope)N.scope=has?"moi":"tout";
@@ -982,7 +1289,7 @@ async function vNouveautes(){
   const nNew=L.filter(o=>o.ts>N.prev).length;
   const scopes=[["moi","Pour moi",S.themes.size?"Vos thématiques, vos textes, missions et élus suivis":"Vos textes, missions et élus suivis"],["suivis","Mes suivis","Seulement les textes, missions et élus marqués d'une étoile"],["tout","Tout","Toutes les nouveautés, sans filtre"]];
   const empty=N.scope==="suivis"&&!S.fol.size&&!S.folp.size&&!S.folm.size?"Vous ne suivez encore aucun texte ni aucun élu. Utilisez ★ sur une fiche pour les retrouver ici.":"Aucune nouveauté pour ces filtres.";
-  const html=head+`<div class="agbar"><div class="seg" role="group" aria-label="Périmètre">${scopes.map(([k,l,t])=>`<button data-nvs="${k}" aria-pressed="${N.scope===k}" title="${esc(t)}">${l}</button>`).join("")}</div>
+  const html=head+`<div class="agbar">${pmSeg("nv",N.scope!=="tout")}${N.scope!=="tout"?`<button class="chip" data-nvs="${N.scope==="suivis"?"moi":"suivis"}" aria-pressed="${N.scope==="suivis"}" title="${esc(scopes[1][2])}">★ Seulement mes suivis</button>`:""}
     <span class="sub">${L.length.toLocaleString("fr-FR")} nouveauté${L.length>1?"s":""}${nNew?` · <b style="color:var(--acc)">${nNew} depuis votre dernière visite</b>`:""}</span></div>
   <div class="agbar"><div class="chips">${chips}</div></div>
   ${nvList(L,N.prev,N.lim)||`<div class="card empty">${empty}</div>`}
@@ -1029,18 +1336,13 @@ function openImport(raw,src){
 function subRow(nm,feed,cal,extra){return `<div class="subrow"><div class="nm" title="${esc(nm)}">${esc(nm)}</div><div class="acts">${feed?`<button class="btn sm" data-copy="${esc(abs(feed))}" title="Copier l'adresse du flux RSS">Copier le flux RSS</button>`:""}${cal?`<button class="btn sm" data-copy="${esc(abs(cal))}" title="Copier l'adresse de l'agenda">Copier l'agenda</button>`:""}${extra||""}</div></div>`}
 const SUBHINT=`<p class="hint">Outlook : « Ajouter un calendrier », puis « À partir d'Internet », et collez l'adresse de l'agenda ; il se met à jour seul. Flux RSS (Outlook classique) : clic droit sur le dossier « Flux RSS », puis « Ajouter un nouveau flux RSS ».</p>`;
 function openSet(){
-  const th=[...S.themes];
-  const rows=(th.length?th.map(t=>[thLab(t),t]):[["Toutes les thématiques","tout"]]).map(([l,id])=>subRow(l,`feeds/${id}.xml`,`ics/${id}.ics`)).join("")+(th.length?subRow("Toutes les thématiques","feeds/tout.xml","ics/tout.ics"):"");
   const sel=selObj();
-  setModal(`<div class="mhd"><div><div class="eyebrow">Travailler en équipe</div><h2>Partage et abonnements</h2></div>${closeBtn}</div>
+  setModal(`<div class="mhd"><div><div class="eyebrow">Travailler en équipe</div><h2>Partager ma sélection</h2></div>${closeBtn}</div>
   <div class="setb">
-  <section><h3>Partager ma sélection</h3><p>Envoyez vos thématiques, textes, missions, parlementaires et flux suivis à un collègue, ou retrouvez-les sur un autre poste. Rien n'est envoyé à un serveur : la sélection voyage dans le lien ou dans le fichier.</p>
+  <section><p>Envoyez vos thématiques, textes, missions, parlementaires et flux suivis à un collègue, ou retrouvez-les sur un autre poste. Rien n'est envoyé à un serveur : la sélection voyage dans le lien ou dans le fichier.</p>
     <div class="sumchips">${selSum({th:sel.th,tx:sel.tx,el:sel.el,mi:sel.mi,fx:sel.fx})}</div>
-    <div class="acts"><button class="btn pri" data-set="link">Copier le lien de partage</button><button class="btn" data-set="export">Enregistrer dans un fichier</button><button class="btn" data-set="import">Importer un fichier</button>${S.team?`<button class="btn" data-set="team">Profil d'équipe${S.team.nom?` « ${esc(S.team.nom)} »`:""}</button>`:""}</div></section>
-  <section><h3>Recevoir les nouveautés de mes thématiques</h3><p>Un flux RSS et un agenda par thématique, mis à jour à chaque collecte.</p>
-    ${S.nv.ok?rows:`<p class="hint">Les flux et les agendas seront disponibles après la prochaine mise à jour du site.</p>`}
-    ${subRow(`Mes textes suivis (${S.fol.size})`,null,null,`<button class="btn sm" data-set="icsfol" ${S.fol.size?"":"disabled"}>Télécharger leur agenda</button>`)}
-    ${SUBHINT}<p class="hint">L'agenda téléchargé des textes suivis est figé au moment du téléchargement. Pour un agenda qui se met à jour seul, utilisez le bouton « S'abonner » d'une fiche texte.</p></section>
+    <div class="acts"><button class="btn pri" data-set="link">Copier le lien de partage</button><button class="btn" data-set="export">Enregistrer dans un fichier</button><button class="btn" data-set="import">Importer un fichier</button>${S.team?`<button class="btn" data-set="team">Profil d'équipe${S.team.nom?` « ${esc(S.team.nom)} »`:""}</button>`:""}</div>
+    <p class="hint">Flux RSS, agendas Outlook et alertes e-mail se règlent dans <a href="#suivis" data-setclose>Mes suivis</a>.</p></section>
   </div>`);
 }
 function openSubTx(id){
@@ -1055,20 +1357,20 @@ function icsFol(){
   const fold=l=>{const out=[];let cur="",n=0;for(const ch of l){const b=new TextEncoder().encode(ch).length;if(n+b>(out.length?73:74)){out.push(cur);cur="";n=0}cur+=ch;n+=b}out.push(cur);return out.join("\r\n ")};
   const p=n=>String(n).padStart(2,"0"),st=new Date(),stamp=`${st.getUTCFullYear()}${p(st.getUTCMonth()+1)}${p(st.getUTCDate())}T${p(st.getUTCHours())}${p(st.getUTCMinutes())}00Z`;
   const since=iso(new Date(TODAY().getTime()-30*864e5));
-  const E=S.ev.filter(e=>e.ds&&S.fol.has(e.ds)&&e.d.slice(0,10)>=since);
-  const L=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Legitrack//FR","CALSCALE:GREGORIAN","X-WR-CALNAME:Legitrack · mes textes suivis","X-WR-TIMEZONE:Europe/Paris",
+  const k0=S.ag.onlyFol,kk=S.ag.kinds;S.ag.onlyFol=true;S.ag.kinds=new Set();const E=agEvents().filter(e=>e.d.slice(0,10)>=since);S.ag.onlyFol=k0;S.ag.kinds=kk;
+  const L=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Legitrack//FR","CALSCALE:GREGORIAN","X-WR-CALNAME:Legitrack · mes suivis","X-WR-TIMEZONE:Europe/Paris",
     "BEGIN:VTIMEZONE","TZID:Europe/Paris","BEGIN:DAYLIGHT","TZOFFSETFROM:+0100","TZOFFSETTO:+0200","TZNAME:CEST","DTSTART:19700329T020000","RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU","END:DAYLIGHT","BEGIN:STANDARD","TZOFFSETFROM:+0200","TZOFFSETTO:+0100","TZNAME:CET","DTSTART:19701025T030000","RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU","END:STANDARD","END:VTIMEZONE"];
-  E.forEach(e=>{const d=dosById(e.ds),k=kv(e.k),ymd=e.d.slice(0,10).replace(/-/g,"");const allday=e.d.length<16||e.d.slice(11,16)==="00:00";
-    L.push("BEGIN:VEVENT",`UID:${e.ds}-${e.k}-${e.d.replace(/\D/g,"")}-${e.id}@legitrack`,`DTSTAMP:${stamp}`);
+  E.forEach(e=>{const d=e.ds&&dosById(e.ds),k=kv(e.k),ymd=e.d.slice(0,10).replace(/-/g,"");const allday=e.d.length<16||e.d.slice(11,16)==="00:00";const href=abs(d?"#texte-"+e.ds:e.mi?"#mission-"+e.mi:"#agenda-"+e.d.slice(0,10));
+    L.push("BEGIN:VEVENT",`UID:${e.ds||e.mi||"ev"}-${e.k}-${e.d.replace(/\D/g,"")}-${e.id!=null?e.id:(e.t||"").length}@legitrack`,`DTSTAMP:${stamp}`);
     if(allday){const n=new Date(pd(e.d).getTime()+864e5);L.push(`DTSTART;VALUE=DATE:${ymd}`,`DTEND;VALUE=DATE:${iso(n).replace(/-/g,"")}`)}
     else{const h=+e.d.slice(11,13),m=+e.d.slice(14,16),dur=e.k.startsWith("dl_")?30:120,end=h*60+m+dur;L.push(`DTSTART;TZID=Europe/Paris:${ymd}T${p(h)}${p(m)}00`,`DTEND;TZID=Europe/Paris:${ymd}T${p(Math.min(23,Math.floor(end/60)))}${p(end>=1440?59:end%60)}00`)}
-    L.push(`SUMMARY:${f(`${k.s} (${e.ch==="SN"?"Sénat":"AN"}) · ${d?d.t:e.t}`)}`,`DESCRIPTION:${f([k.l,e.org||"",e.calc?"Délai calculé selon le Règlement, à confirmer.":"",abs("#texte-"+e.ds)].filter(Boolean).join("\n"))}`,`URL:${abs("#texte-"+e.ds)}`);
+    L.push(`SUMMARY:${f(`${k.s} (${e.ch==="SN"?"Sénat":"AN"}) · ${evTitle(e)}`)}`,`DESCRIPTION:${f([k.l,evSub(e),e.org||"",e.calc?"Délai calculé selon le Règlement, à confirmer.":"",href].filter(Boolean).join("\n"))}`,`URL:${href}`);
     if(e.k.startsWith("dl_"))L.push("BEGIN:VALARM","ACTION:DISPLAY",`DESCRIPTION:${f(k.s)}`,"TRIGGER:-P1D","END:VALARM");
     L.push("END:VEVENT")});
-  L.push("END:VCALENDAR");dl("legitrack-textes-suivis.ics",L.map(fold).join("\r\n")+"\r\n","text/calendar");toast(`${E.length} événement${E.length>1?"s":""} exporté${E.length>1?"s":""}`);
+  L.push("END:VCALENDAR");dl("legitrack-mes-suivis.ics",L.map(fold).join("\r\n")+"\r\n","text/calendar");toast(`${E.length} événement${E.length>1?"s":""} exporté${E.length>1?"s":""}`);
 }
 document.addEventListener("click",ev=>{
-  const b=ev.target.closest("#set [data-setclose],#set [data-set],#set [data-copy],#set [data-imp]");
+  const b=ev.target.closest("#set [data-setclose],[data-set],[data-copy],#set [data-imp]");
   if(ev.target.id==="set"){$("#set").hidden=true;return}
   if(!b)return;const d=b.dataset;
   if(d.setclose!==undefined){$("#set").hidden=true;return}
@@ -1081,39 +1383,56 @@ document.addEventListener("click",ev=>{
   if(d.set==="icsfol"){icsFol();return}
 });
 $("#impFile").addEventListener("change",async e=>{const f=e.target.files[0];if(!f)return;try{openImport(JSON.parse(await f.text()),"Fichier "+f.name)}catch(er){toast("Fichier illisible")}});
-$("#openSet").onclick=openSet;
 
 /* ---------- routeur ---------- */
-const VIEWS={accueil:vAccueil,nouveautes:vNouveautes,agenda:vAgenda,textes:()=>vTextes(false),controle:vControle,suivis:vSuivis,flux:vFlux,questions:vQuestions,rapports:vRapports,elus:vElus};
+const VIEWS={accueil:vMonFil,ensemble:vEnsemble,nouveautes:vNouveautes,textes:()=>vTextes(false),controle:vControle,flux:vFlux,questions:vQuestions,rapports:()=>vRapports(false),cour:()=>vRapports(true),elus:vElus,apropos:vApropos};
+const NAVOF={texte:"textes",mission:"controle",rapports:"controle",cour:"controle",elu:"elus",sen:"elus"};
 let rid=0;
 async function render(keepScroll){
   if(location.hash.startsWith("#partage=")){const raw=location.hash.slice(9);history.replaceState(null,"",location.pathname+location.search+"#accueil");try{openImport(b64d(raw),"Lien de partage")}catch(e){toast("Lien de partage illisible")}}
+  if(!S.core)return;
   const h=decodeURIComponent(location.hash.slice(1))||"accueil";const my=++rid;
   let v=h,arg=null;
-  const m=h.match(/^(texte|elu|sen|agenda|mission)-(.+)$/);if(m){v=m[1];arg=m[2]}
-  document.querySelectorAll("#nav a").forEach(a=>a.setAttribute("aria-current",a.dataset.v===(v==="texte"?"textes":v==="mission"?"controle":(v==="elu"||v==="sen")?"elus":v)?"page":"false"));
+  const m=h.match(/^(texte|elu|sen|agenda|monagenda|mission|suivis)-(.+)$/);if(m){v=m[1];arg=m[2]}
+  if(v==="agenda"||v==="monagenda")S.ag.onlyFol=v==="monagenda";
+  if(v!=="accueil")S.inDemo=false;
+  const cur=NAVOF[v]||v;
+  document.querySelectorAll("#nav a,.nav.tools a,.tabbar a").forEach(a=>a.setAttribute("aria-current",a.dataset.v===cur?"page":"false"));
+  closeMenus();
   const sy=window.scrollY;
   let html;
   try{
-    if(v==="texte")html=await vTexte(arg);else if(v==="elu")html=await vElu(arg);else if(v==="sen")html=await vSen(arg);else if(v==="agenda")html=vAgenda(arg);else if(v==="mission"){if(!S.ctl)$("#view").innerHTML=`<div class="loading">Chargement…</div>`;html=await vMission(arg)}
-    else{const f=VIEWS[v]||vAccueil;if((f===vControle&&!S.ctl)||f===vQuestions||f===vRapports||f===vElus||f===vSuivis||f===vFlux||(f===vNouveautes&&!S.nv.ok))$("#view").innerHTML=`<div class="loading">Chargement…</div>`;html=await f()}
+    if(v==="texte")html=await vTexte(arg);else if(v==="elu")html=await vElu(arg);else if(v==="sen")html=await vSen(arg);else if(v==="agenda"||v==="monagenda"){if(S.ag.onlyFol&&!S.ctl)await ctlLoad().catch(()=>{});html=vAgenda(arg)}
+    else if(v==="mission"){if(!S.ctl)$("#view").innerHTML=`<div class="loading">Chargement…</div>`;html=await vMission(arg)}
+    else if(v==="suivis"){if(!keepScroll)$("#view").innerHTML=`<div class="loading">Chargement…</div>`;html=await vSuivis(arg)}
+    else{const f=VIEWS[v]||vMonFil;if((f===vControle&&!S.ctl)||f===vQuestions||v==="rapports"||v==="cour"||f===vElus||f===vFlux||(f===vNouveautes&&!S.nv.ok)||(f===vMonFil&&!keepScroll))$("#view").innerHTML=`<div class="loading">Chargement…</div>`;html=await f()}
   }catch(e){console.error(e);html=`<div class="empty">Erreur de chargement : ${esc(e.message)}</div>`}
   if(my!==rid)return;
   $("#view").innerHTML=html;
   if(v!=="texte")S.cur=null;
   if(v!=="nouveautes")S.nv.prev=null;
   if(v==="texte")renderTab();
-  if(v==="accueil")fillLastPub();
+  if(v==="ensemble")fillLastPub();
+  if(v==="accueil")fillDisc();
+  if(v==="suivis")checkAgPerso();
   bindInputs();
   window.scrollTo(0,keepScroll?sy:0);
-  $("#cSu").textContent=(S.fol.size+S.folp.size+S.folm.size)||"";
+  counters();
+}
+function counters(){
+  const n=S.fol.size+S.folp.size+S.folm.size;$("#cSu").textContent=n||"";
+  const t=S.core.aujourdhui,in7=iso(new Date(TODAY().getTime()+7*864e5));
+  const k=dlGroups(S.ev.filter(e=>e.k.startsWith("dl_")&&e.ds&&S.fol.has(e.ds)&&e.d.slice(0,10)>=t&&e.d.slice(0,10)<in7)).length;
+  const c=$("#cMa");c.textContent=k||"";c.classList.toggle("dlb",k>0);c.title=k?`${k} délai${k>1?"s":""} d'amendements cette semaine sur vos textes`:"";
+  const fd=$("#fDot");if(fd)fd.hidden=!(S.ch||S.themes.size);
 }
 function bindInputs(){
   const deb=(fn)=>{let t;return e=>{clearTimeout(t);t=setTimeout(()=>fn(e),220)}};
-  const bind=(sel,obj,key,isText)=>{const n=$(sel);if(!n)return;n.addEventListener(isText?"input":"change",(isText?deb:(f=>f))(()=>{obj[key]=n.type==="checkbox"?n.checked:n.value;if("lim"in obj)obj.lim=obj===S.tx?80:obj===S.rf?60:obj===S.cf?80:100;render(true).then(()=>{if(isText){const m=$(sel);if(m){m.focus();m.setSelectionRange(m.value.length,m.value.length)}}})}))};
+  const bind=(sel,obj,key,isText)=>{const n=$(sel);if(!n)return;n.addEventListener(isText?"input":"change",(isText?deb:(f=>f))(()=>{obj[key]=n.type==="checkbox"?n.checked:n.value;if("lim"in obj)obj.lim=obj===S.tx?80:obj===S.rf||obj===S.ccf?60:obj===S.cf?80:100;render(true).then(()=>{if(isText){const m=$(sel);if(m){m.focus();m.setSelectionRange(m.value.length,m.value.length)}}})}))};
   bind("#txq",S.tx,"q",1);bind("#txty",S.tx,"ty");bind("#txst",S.tx,"st");bind("#txsort",S.tx,"sort");bind("#txact",S.tx,"act");
   if(S.qf){bind("#qq",S.qf,"q",1);bind("#qty",S.qf,"ty");bind("#qst",S.qf,"st")}
   if(S.rf){bind("#rq",S.rf,"q",1);bind("#rty",S.rf,"ty")}
+  if(S.ccf){bind("#ccq",S.ccf,"q",1);bind("#ccty",S.ccf,"ty")}
   if(S.cf){bind("#cq",S.cf,"q",1);bind("#cty",S.cf,"ty")}
   if(S.rs){bind("#rsq",S.rs,"q",1)}
   if(S.ef){bind("#eq",S.ef,"q",1);bind("#eg",S.ef,"g");bind("#es",S.ef,"sort")}
@@ -1122,10 +1441,23 @@ document.addEventListener("click",ev=>{
   if(ev.target.closest("#amd")){const g=ev.target.closest("[data-amgo]");if(g){const c=S.amCtx,a=c.A[S.amIdx],i=c.L.indexOf(a)+(+g.dataset.amgo);if(c.L[i])openAmd(c.A.indexOf(c.L[i]));return}
     if(ev.target.id==="amd"||ev.target.closest("[data-amclose]")){$("#amd").hidden=true;return}return}
   const tr=ev.target.closest("tr[data-am]");if(tr&&!ev.target.closest("a")){openAmd(+tr.dataset.am);return}
-  const b=ev.target.closest("[data-rsub],[data-rtab],[data-folp],[data-sf],[data-rss],[data-rssth],[data-rfeed],[data-fol],[data-ch],[data-agmode],[data-agnav],[data-agk],[data-agfol],[data-day],[data-sel],[data-tab],[data-act],[data-rsrc],[data-ech],[data-vf],[data-nvs],[data-nvg],[data-dt],[data-folm],[data-cst],[data-cfol],[data-mf]");if(!b)return;
+  if(!ev.target.closest("details.more"))document.querySelectorAll("details.more[open]").forEach(x=>x.open=false);
+  const b=ev.target.closest("[data-pm],[data-fopen],[data-fbig],[data-unf],[data-copylink],[data-thtog],[data-ftog],[data-rsub],[data-rtab],[data-folp],[data-sf],[data-rss],[data-rssth],[data-rfeed],[data-fol],[data-ch],[data-agmode],[data-agnav],[data-agk],[data-agfol],[data-day],[data-sel],[data-tab],[data-act],[data-rsrc],[data-ech],[data-vf],[data-nvs],[data-nvg],[data-dt],[data-folm],[data-cst],[data-cfol],[data-mf]");if(!b)return;
   const d=b.dataset;
-  if(d.folp!==undefined){ev.preventDefault();const id=d.folp;S.folp.has(id)?S.folp.delete(id):S.folp.add(id);LS.set("veille.elus",[...S.folp]);nvBadge();toast(S.folp.has(id)?"Parlementaire ajouté à vos suivis":"Parlementaire retiré de vos suivis");render(true);return}
-  if(d.folm!==undefined){ev.preventDefault();const id=d.folm;S.folm.has(id)?S.folm.delete(id):S.folm.add(id);LS.set("veille.missions",[...S.folm]);nvBadge();toast(S.folm.has(id)?"Mission ajoutée à vos suivis":"Mission retirée de vos suivis");render(true);return}
+  if(d.pm){const moi=d.pv==="moi";
+    if(d.pm==="ag"){location.hash=moi?"#monagenda":"#agenda";return}
+    if(d.pm==="nv"){S.nv.scope=moi?"moi":"tout";S.nv.lim=120}
+    if(d.pm==="tx"){S.tx.fol=moi;S.tx.lim=80}
+    if(d.pm==="ctl"){S.cf.fol=moi;if(moi)S.cf.st="tout";S.cf.lim=80}
+    render(true);return}
+  if(d.fbig){const c=d.fbig,id=d.id;S[FSET[c]].add(id);saveSet(c);nvBadge();render(true).then(()=>openFollow(c,id));return}
+  if(d.fopen){openFollow(d.fopen,d.id);return}
+  if(d.unf){const c=d.unf,id=d.id;S[FSET[c]].delete(id);saveSet(c);nvBadge();$("#set").hidden=true;toast("Ne plus suivre : c'est fait");render(true);return}
+  if(d.copylink){copyTxt(abs("")+d.copylink,"Lien copié");ev.target.closest("details")&&(ev.target.closest("details").open=false);return}
+  if(d.thtog){S.themes.has(d.thtog)?S.themes.delete(d.thtog):S.themes.add(d.thtog);LS.set("veille.themes",[...S.themes]);LS.set("veille.onb",true);thLabel();nvBadge();render(true);return}
+  if(d.ftog!==undefined){b.closest(".filters").classList.toggle("open");return}
+  if(d.folp!==undefined){ev.preventDefault();const id=d.folp;S.folp.has(id)?S.folp.delete(id):S.folp.add(id);saveSet("elu");nvBadge();toast(S.folp.has(id)?"Parlementaire suivi : retrouvez-le dans Mes suivis":"Parlementaire retiré de vos suivis");render(true);return}
+  if(d.folm!==undefined){ev.preventDefault();const id=d.folm;S.folm.has(id)?S.folm.delete(id):S.folm.add(id);saveSet("mission");nvBadge();toast(S.folm.has(id)?"Mission suivie : elle apparaît dans Mon fil":"Mission retirée de vos suivis");render(true);return}
   if(d.cst){S.cf.st=d.cst;S.cf.ty="";S.cf.lim=80;render(true);return}
   if(d.cfol!==undefined){S.cf.fol=!S.cf.fol;render(true);return}
   if(d.mf!==undefined&&S.mf){S.mf.f=d.mf;render(true);return}
@@ -1135,10 +1467,10 @@ document.addEventListener("click",ev=>{
   if(d.rss!==undefined){S.rs.src=d.rss;S.rs.feed=null;S.rs.lim=80;render(true);return}
   if(d.rssth!==undefined){S.rs.th=!S.rs.th;render(true);return}
   if(d.rfeed!==undefined){S.rs.feed=d.rfeed===""?null:+d.rfeed;S.rs.lim=80;render(true);return}
-  if(d.fol!==undefined){ev.preventDefault();const id=d.fol;S.fol.has(id)?S.fol.delete(id):S.fol.add(id);LS.set("veille.suivis",[...S.fol]);nvBadge();toast(S.fol.has(id)?"Texte ajouté à vos suivis":"Texte retiré de vos suivis");render(true);return}
-  if(d.ch!==undefined){S.ch=d.ch;document.querySelectorAll("#chseg button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.ch===S.ch));nvBadge();render(true);return}
+  if(d.fol!==undefined){ev.preventDefault();const id=d.fol;S.fol.has(id)?S.fol.delete(id):S.fol.add(id);saveSet("texte");nvBadge();toast(S.fol.has(id)?"Texte suivi : il apparaît dans Mon fil":"Texte retiré de vos suivis");render(true);return}
+  if(d.ch!==undefined){S.ch=d.ch;document.querySelectorAll("[data-ch]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.ch===S.ch));nvBadge();render(true);return}
   if(d.agmode){S.ag.mode=d.agmode;LS.set("veille.agmode",d.agmode);render(true);return}
-  if(d.agnav!==undefined){const n=+d.agnav,r=S.ag.ref||TODAY();S.ag.sel=null;if(n===0)S.ag.ref=TODAY();else if(S.ag.mode==="mois")S.ag.ref=new Date(r.getFullYear(),r.getMonth()+n,1);else S.ag.ref=new Date(r.getTime()+n*7*864e5);if(location.hash.startsWith("#agenda-"))location.hash="#agenda";else render(true);return}
+  if(d.agnav!==undefined){const n=+d.agnav,r=S.ag.ref||TODAY();S.ag.sel=null;if(n===0)S.ag.ref=TODAY();else if(S.ag.mode==="mois")S.ag.ref=new Date(r.getFullYear(),r.getMonth()+n,1);else S.ag.ref=new Date(r.getTime()+n*7*864e5);if(/^#(mon)?agenda-/.test(location.hash))location.hash=S.ag.onlyFol?"#monagenda":"#agenda";else render(true);return}
   if(d.agk){S.ag.kinds.has(d.agk)?S.ag.kinds.delete(d.agk):S.ag.kinds.add(d.agk);render(true);return}
   if(d.agfol!==undefined){S.ag.onlyFol=!S.ag.onlyFol;render(true);return}
   if(d.day){S.ag.mode="semaine";S.ag.ref=pd(d.day);S.ag.sel=d.day;render(true);return}
@@ -1152,10 +1484,12 @@ document.addEventListener("click",ev=>{
   if(d.dt!==undefined&&S.cur){S.cur.dt=d.dt;renderTab();return}
   if(d.act){const a=d.act;
     if(a==="themes")openThemes();if(a==="onbok"){LS.set("veille.onb",true);render(true)}
-    if(a==="txmore"){S.tx.lim+=150;render(true)}if(a==="qmore"){S.qf.lim+=200;render(true)}if(a==="rmore"){S.rf.lim+=100;render(true)}if(a==="cmore"){S.cf.lim+=150;render(true)}if(a==="vmore"){S.vf.lim+=150;render(true)}if(a==="rsmore"){S.rs.lim+=150;render(true)}
+    if(a==="txmore"){S.tx.lim+=150;render(true)}if(a==="qmore"){S.qf.lim+=200;render(true)}if(a==="rmore"){S.rf.lim+=100;render(true)}if(a==="ccmore"){S.ccf.lim+=100;render(true)}
+    if(a==="pal")openPal();if(a==="more")openMore();if(a==="share")openSet();if(a==="team"&&S.team)openImport(S.team,"Profil d'équipe");
+    if(a==="filok"){S.inDemo=false;LS.set("veille.onb",true);render(false)}if(a==="cmore"){S.cf.lim+=150;render(true)}if(a==="vmore"){S.vf.lim+=150;render(true)}if(a==="rsmore"){S.rs.lim+=150;render(true)}
     if(a==="rsssugg"){const R=S.cache["rss.json"];R.feeds.filter(f=>f.th.some(t=>S.themes.has(t))).forEach(f=>S.rssf.add(f.url));LS.set("veille.rss",[...S.rssf]);toast("Flux de vos thématiques ajoutés");render(true)}
     if(a==="rssnone"){S.rssf.clear();LS.set("veille.rss",[]);render(true)}
-    if(a==="nvread"){nvMarkSeen();S.nv.prev=S.nv.seen;render(true);toast("Toutes les nouveautés sont marquées comme lues")}
+    if(a==="nvread"){nvMarkSeen();S.nv.prev=S.nv.seen;render(true);toast("Nouveautés marquées comme lues")}
     if(a==="nvmore"){S.nv.lim+=200;render(true)}
     if(a==="subopen")openSet();
     if(a==="subtx")openSubTx(d.id);
@@ -1183,7 +1517,7 @@ const nrm=s=>(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"
 function palDraw(){
   const raw=$("#palIn").value.trim(),q=nrm(raw),W=q.split(/\s+/).filter(Boolean);
   const hit=t=>{const x=nrm(t);return W.every(w=>x.includes(w))};
-  const pages=[["accueil","Aujourd'hui"],["nouveautes","Nouveautés"],["agenda","Agenda"],["textes","Textes"],["controle","Missions et enquêtes"],["suivis","Mes suivis"],["questions","Questions"],["rapports","Rapports et Cour des comptes"],["flux","Flux RSS"],["elus","Élus"]].filter(p=>!q||hit(p[1]));
+  const pages=[["accueil","Mon fil"],["nouveautes","Nouveautés"],["monagenda","Mon agenda"],["suivis","Mes suivis"],["ensemble","Vue d'ensemble"],["agenda","Agenda parlementaire"],["textes","Textes"],["controle","Contrôle · missions et enquêtes"],["rapports","Contrôle · rapports parlementaires"],["cour","Contrôle · Cour des comptes"],["questions","Questions"],["elus","Élus"],["flux","Flux RSS officiels"],["compte","Mon compte et mes alertes"],["apropos","À propos et sources"]].filter(p=>!q||hit(p[1]));
   const long=q.length>1;
   const T=long?S.core.dossiers.filter(d=>hit(d.t+" "+(d.num||"")+" "+(d.au||[]).join(" "))).sort((a,b)=>b.ac-a.ac||(b.ld||"").localeCompare(a.ld||"")).slice(0,8):[];
   const M=long&&S.ctl?S.ctl.items.filter(m=>hit(m.t+" "+(m.court||"")+" "+mWho(m))).sort((a,b)=>(a.st==="En cours"?0:1)-(b.st==="En cours"?0:1)).slice(0,6):[];
@@ -1207,9 +1541,58 @@ $("#openPal").onclick=openPal;
 $("#palIn").addEventListener("input",()=>{palSel=0;palDraw()});
 $("#palIn").addEventListener("keydown",e=>{const L=[...document.querySelectorAll("#palRes a")];if(e.key==="ArrowDown"){palSel=Math.min(L.length-1,palSel+1);palDraw();e.preventDefault()}else if(e.key==="ArrowUp"){palSel=Math.max(0,palSel-1);palDraw();e.preventDefault()}else if(e.key==="Enter"&&L[palSel]){L[palSel].click();$("#pal").hidden=true}else if(e.key==="Escape")$("#pal").hidden=true});
 $("#pal").addEventListener("click",e=>{if(e.target.id==="pal"||e.target.closest("#palRes a"))$("#pal").hidden=true});
-document.addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){e.preventDefault();openPal()}if(e.key==="Escape"){$("#pal").hidden=true;$("#thm").hidden=true;$("#amd").hidden=true;$("#set").hidden=true}if(!$("#amd").hidden&&(e.key==="ArrowRight"||e.key==="ArrowLeft")){const b=document.querySelector(`[data-amgo="${e.key==="ArrowRight"?1:-1}"]`);if(b&&!b.disabled)b.click()}});
-$("#mode").onclick=()=>{const r=document.documentElement;const dark=r.dataset.theme?r.dataset.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches;r.dataset.theme=dark?"light":"dark";LS.set("veille.mode",r.dataset.theme)};
+document.addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){e.preventDefault();openPal()}if(e.key==="Escape"){$("#pal").hidden=true;$("#thm").hidden=true;$("#amd").hidden=true;$("#set").hidden=true;closeMenus();closeMore()}if(!$("#amd").hidden&&(e.key==="ArrowRight"||e.key==="ArrowLeft")){const b=document.querySelector(`[data-amgo="${e.key==="ArrowRight"?1:-1}"]`);if(b&&!b.disabled)b.click()}});
+const isDark=()=>{const r=document.documentElement;return r.dataset.theme?r.dataset.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches};
+function toggleMode(){const r=document.documentElement;r.dataset.theme=isDark()?"light":"dark";LS.set("veille.mode",r.dataset.theme)}
 {const m=LS.get("veille.mode",null);if(m)document.documentElement.dataset.theme=m}
+
+/* ---------- menu du compte, feuille « Plus », filtres mobiles ---------- */
+function closeMenus(){const m=$("#accMenu");if(m&&!m.hidden){m.hidden=true;$("#accBtn").setAttribute("aria-expanded","false")}document.querySelectorAll("details.more[open]").forEach(x=>x.open=false)}
+function accMenuHtml(){
+  const acc=typeof A!=="undefined"?A:null,u=acc&&acc.user,p=acc&&acc.p;
+  const pend=acc&&acc.adm?acc.adm.filter(x=>x.statut==="en_attente").length:0;
+  return (u?`<div class="mh"><b>${esc((p&&p.nom)||u.email||"Mon compte")}</b><small>${esc(u.email||"")}${p&&p.statut!=="valide"?" · en attente de validation":""}</small></div>
+    <a role="menuitem" href="#compte">${SVG_MAIL.replace("<svg",'<svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8"')}Mon compte et mes alertes</a>
+    ${p&&p.admin&&p.statut==="valide"?`<a role="menuitem" href="#admin">Administration des comptes${pend?`<span class="badge">${pend}</span>`:""}</a>`:""}`
+   :`<div class="mh"><b>Sans compte</b><small>Vos suivis restent dans ce navigateur</small></div><a role="menuitem" href="#compte">Se connecter ou demander un compte</a>`)+
+  `<div class="sepm"></div><a role="menuitem" href="#suivis">Mes suivis, agendas et flux</a><button role="menuitem" data-act="share">Partager ma sélection</button>
+   <button role="menuitem" data-mode>${isDark()?"Thème clair":"Thème sombre"}</button><div class="sepm"></div><a role="menuitem" href="#apropos">À propos et sources</a><a role="menuitem" href="#confidentialite">Données personnelles</a>`;
+}
+$("#accBtn").addEventListener("click",e=>{e.stopPropagation();const m=$("#accMenu"),open=m.hidden;closeMenus();if(open){m.innerHTML=accMenuHtml();m.hidden=false;$("#accBtn").setAttribute("aria-expanded","true");const f=m.querySelector("a,button");f&&f.focus()}});
+$("#accMenu").addEventListener("keydown",e=>{const I=[...$("#accMenu").querySelectorAll("a,button")],i=I.indexOf(document.activeElement);if(e.key==="ArrowDown"){e.preventDefault();(I[i+1]||I[0]).focus()}if(e.key==="ArrowUp"){e.preventDefault();(I[i-1]||I[I.length-1]).focus()}if(e.key==="Escape"){closeMenus();$("#accBtn").focus()}});
+document.addEventListener("click",e=>{if(e.target.closest("[data-mode]")){toggleMode();closeMenus();return}if(!e.target.closest(".menuwrap"))closeMenus();else if(e.target.closest("#accMenu a,#accMenu button"))setTimeout(closeMenus,0)});
+function closeMore(){const a=$("#more"),b=$("#moreOv");if(a){a.remove();b&&b.remove();const t=document.querySelector('.tabbar [data-act="more"]');t&&t.focus()}}
+function openMore(){
+  closeMore();const I=(h,l,ic)=>`<a href="${h}">${ic||""}<span>${l}</span></a>`;const nav=[...document.querySelectorAll("#nav a")];const svg=h=>{const a=nav.find(x=>x.getAttribute("href")===h);return a?a.querySelector("svg").outerHTML:""};
+  document.body.insertAdjacentHTML("beforeend",`<div class="sheetov" id="moreOv"></div><div class="sheet" id="more" role="dialog" aria-modal="true" aria-label="Toutes les pages"><div class="grab"></div>
+   <div class="grp">Pour moi</div><div class="sgrid">${I("#accueil","Mon fil",svg("#accueil"))}${I("#nouveautes","Nouveautés",svg("#nouveautes"))}${I("#monagenda","Mon agenda",svg("#monagenda"))}${I("#suivis","Mes suivis",svg("#suivis"))}</div>
+   <div class="grp">Explorer</div><div class="sgrid">${I("#ensemble","Vue d'ensemble",svg("#ensemble"))}${I("#agenda","Agenda parlementaire",svg("#agenda"))}${I("#textes","Textes",svg("#textes"))}${I("#controle","Contrôle",svg("#controle"))}${I("#questions","Questions",svg("#questions"))}${I("#elus","Élus",svg("#elus"))}</div>
+   <div class="grp">Outils</div><div class="sgrid">${I("#flux","Flux RSS officiels")}${I("#compte","Compte et alertes")}<button class="it" data-act="share"><span>Partager ma sélection</span></button><button class="it" data-mode><span>${isDark()?"Thème clair":"Thème sombre"}</span></button>${I("#apropos","À propos et sources")}${I("#confidentialite","Données personnelles")}</div></div>`);
+  $("#moreOv").onclick=closeMore;$("#more").addEventListener("click",e=>{if(e.target.closest("a,button"))setTimeout(closeMore,0)});const f=$("#more a");f&&f.focus();
+}
+$("#openFilt").onclick=()=>{
+  setModal(`<div class="mhd"><div><div class="eyebrow">Filtres du site</div><h2>Chambre et thématiques</h2></div>${closeBtn}</div><div class="setb">
+   <section><h3>Chambre</h3><div class="seg" role="group" aria-label="Chambre">${[["","Tout"],["AN","Assemblée"],["SN","Sénat"]].map(([k,l])=>`<button data-ch="${k}" aria-pressed="${S.ch===k}">${l}</button>`).join("")}</div></section>
+   <section><h3>Thématiques</h3><p>${S.themes.size?[...S.themes].map(thLab).map(esc).join(" · "):"Toutes les thématiques"}</p><div class="acts"><button class="btn" data-act="themes" data-setclose>Choisir mes thématiques</button></div></section></div>`)};
+function vApropos(){
+  const c=S.core.counts;
+  return pageHd0("Legitrack","À propos et sources")+`<section class="card prose"><div class="bd" style="padding:18px 22px">
+  <p>Legitrack suit le travail de l'Assemblée nationale, du Sénat et de la Cour des comptes (hors chambres régionales et territoriales des comptes). Toutes les données sont publiques : open data et pages officielles.</p>
+  <h3>Dernière mise à jour</h3><p>${ds(S.core.genere)}${hr(S.core.genere)?" à "+hr(S.core.genere):""}. Collecte complète chaque matin et en début d'après-midi, agenda et flux toutes les heures en semaine.</p>
+  <h3>Contenu</h3><p>${c.dossiers.toLocaleString("fr-FR")} textes · ${c.amendements.toLocaleString("fr-FR")} amendements · ${c.scrutins.toLocaleString("fr-FR")} scrutins · ${c.questions.toLocaleString("fr-FR")} questions · ${c.cc.toLocaleString("fr-FR")} publications de la Cour des comptes.</p>
+  <h3>Sources</h3><ul>${S.core.sources.map(s=>`<li><a href="${s.url}" target="_blank" rel="noopener">${esc(s.nom)}</a></li>`).join("")}</ul>
+  <h3>Délais d'amendements</h3><p>Les délais marqués « calculé » suivent le Règlement de l'Assemblée (17 h, 3e jour ouvrable avant l'examen) quand la date officielle n'est pas publiée : ils sont à confirmer.</p>
+  <h3>Recevoir les informations</h3><p>Agendas Outlook, flux RSS et alertes e-mail se règlent dans <a href="#suivis">Mes suivis</a>. Les flux officiels des institutions sont dans <a href="#flux">Flux RSS officiels</a>.</p>
+  <p class="hint"><a href="#confidentialite">Données personnelles et confidentialité</a></p></div></section>`;
+}
+const pageHd0=(eye,t)=>`<div class="ph"><div><div class="eyebrow">${esc(eye)}</div><h1>${esc(t)}</h1></div></div>`;
+/* accessibilité : lignes cliquables au clavier, focus dans les fenêtres */
+document.addEventListener("keydown",e=>{const tr=e.target.closest&&e.target.closest("tr[data-am]");if(tr&&(e.key==="Enter"||e.key===" ")){e.preventDefault();openAmd(+tr.dataset.am)}});
+document.addEventListener("toggle",e=>{if(e.target.id==="discBox")LS.set("veille.disc",e.target.open)},true);
+{const ret={};const FOC='a[href],button:not([disabled]),input:not([type=hidden]),select,textarea,summary,[tabindex="0"]';
+ ["pal","amd","thm","set"].forEach(id=>{const o=$("#"+id);new MutationObserver(()=>{if(!o.hidden){ret[id]=document.activeElement;setTimeout(()=>{if(o.hidden)return;const f=id==="pal"?$("#palIn"):o.querySelector(".mhd "+FOC+",.mf "+FOC+","+FOC);if(f&&!o.contains(document.activeElement))f.focus()},30)}else if(ret[id]&&document.contains(ret[id])){ret[id].focus();ret[id]=null}}).observe(o,{attributes:true,attributeFilter:["hidden"]});
+  o.addEventListener("keydown",e=>{if(e.key!=="Tab")return;const I=[...o.querySelectorAll(FOC)].filter(x=>x.offsetParent!==null);if(!I.length)return;const a=I[0],z=I[I.length-1];if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}})});
+ ["pal","amd","thm","set"].forEach(id=>{const m=$("#"+id+" .modal");m&&m.setAttribute("aria-modal","true")});}
 
 /* ---------- démarrage ---------- */
 (async()=>{
@@ -1218,13 +1601,12 @@ $("#mode").onclick=()=>{const r=document.documentElement;const dark=r.dataset.th
     S.core=core;S.ev=ev;S.evById={};ev.forEach(e=>S.evById[e.id]=e);core.dossiers.forEach(d=>S.D[d.id]=d);
     S.themes=new Set([...S.themes].filter(t=>core.themes.some(x=>x.id===t)));
     const c=core.counts;
-    $("#cTx").textContent=c.actifs.toLocaleString("fr-FR");$("#cAg").textContent=ev.filter(e=>e.d.slice(0,10)>=core.aujourdhui).length;
-    $("#foot").innerHTML=`Mis à jour le ${ds(core.genere)}<br>${c.dossiers.toLocaleString("fr-FR")} textes · ${c.amendements.toLocaleString("fr-FR")} amendements · ${c.scrutins.toLocaleString("fr-FR")} scrutins · ${c.questions.toLocaleString("fr-FR")} questions · ${c.cc.toLocaleString("fr-FR")} publications de la Cour des comptes<br>Sources : ${core.sources.map(s=>`<a href="${s.url}" target="_blank" rel="noopener">${esc(s.nom.split(" (")[0])}</a>`).join(", ")}<br><a href="#confidentialite">Données personnelles</a>`;
+    $("#foot").innerHTML=`Mis à jour le ${ds(core.genere)}${hr(core.genere)?" à "+hr(core.genere):""}`;
     const fresh=["veille.themes","veille.suivis","veille.elus","veille.missions","veille.rss","veille.onb"].every(k=>{try{return localStorage.getItem(k)===null}catch(e){return false}});
     try{const r=await fetch("equipe.json",{cache:"no-cache"});if(r.ok){S.team=await r.json();if(fresh){applySel(cleanSel(S.team),"replace");toast(`Profil d'équipe${S.team.nom?" « "+S.team.nom+" »":""} appliqué`)}}}catch(e){}
     thLabel();render(false);
-    ctlLoad().then(C=>{$("#cCt").textContent=C.items.filter(m=>m.st==="En cours").length||""}).catch(()=>{});
-    nvLoad().then(()=>{const v=(location.hash.slice(1)||"accueil").split("-")[0];if(S.nv.ok&&["accueil","textes","suivis","texte","controle","mission"].includes(v))render(true)});
+    ctlLoad().catch(()=>{});
+    nvLoad().then(()=>{const v=(location.hash.slice(1)||"accueil").split("-")[0];if(S.nv.ok&&["accueil","ensemble","textes","suivis","texte","controle","mission"].includes(v))render(true)});
   }catch(e){$("#view").innerHTML=`<div class="empty">Impossible de charger les données (${esc(e.message)}).</div>`}
 })();
 </script>
@@ -1277,14 +1659,14 @@ function accRefresh(){
   }catch(e){console.error(e);A.err="Lecture du compte impossible : "+(e.message||e)}finally{accRf=null;accChanged()}})();
   return accRf;
 }
-function accChanged(){accBtn();const v=(location.hash.slice(1)||"accueil").split("-")[0];if(S.core&&["compte","admin","mission","texte","confidentialite"].includes(v))render(true)}
+function accChanged(){accBtn();const v=(location.hash.slice(1)||"accueil").split("-")[0];if(S.core&&["compte","admin","mission","texte","elu","sen","confidentialite","suivis","accueil"].includes(v))render(true)}
 function accBtn(){
   const b=$("#accBtn");if(!b)return;const u=A.user;
   const nom=(A.p&&A.p.nom)||(u&&u.email)||"";const ini=nom.replace(/[^\p{L}\s]/gu," ").trim().split(/\s+/).slice(0,2).map(w=>w[0]).join("").toUpperCase()||"?";
   b.classList.toggle("on",!!u);b.innerHTML=u?`<span>${esc(ini)}</span>`:SVG_USER;
   const pend=A.adm?A.adm.filter(p=>p.statut==="en_attente").length:0;
   if(pend)b.insertAdjacentHTML("beforeend",`<i class="accdot" aria-hidden="true"></i>`);
-  b.title=u?(pend?`Mon compte · ${pend} demande${pend>1?"s":""} à valider`:"Mon compte"):"Se connecter";b.setAttribute("aria-label",b.title);
+  b.title=u?(pend?`Compte et réglages · ${pend} demande${pend>1?"s":""} à valider`:"Compte et réglages"):"Compte et réglages (non connecté)";b.setAttribute("aria-label",b.title);
 }
 
 /* préférences enregistrées dans le compte : le compte fait foi, ce poste suit */
@@ -1458,6 +1840,10 @@ async function openAlert(c,id){
   </form>`);
 }
 
+/* sélecteur « Alerte e-mail » des pages Mes suivis et du panneau Suivre */
+function alSeg(c,id){if(!valide()||!AL_TYPES[c])return "";id=id||"";const a=(A.al||[]).find(x=>x.cible===c&&x.cible_id===id),v=a?a.frequence:"non";
+  return `<span class="lab">E-mail</span><div class="seg sm" role="group" aria-label="Alerte e-mail">${[["non","Non"],["quotidienne","Chaque jour"],["immediate","Dès la collecte"]].map(([k,l])=>`<button data-fal="${c}" data-id="${esc(id)}" data-k="${k}" aria-pressed="${v===k}">${l}</button>`).join("")}</div>`}
+
 /* ---------- actions ---------- */
 const frErr=e=>{const m=(e&&e.message)||String(e);
   if(/Invalid login credentials/i.test(m))return "Adresse ou mot de passe incorrect.";
@@ -1501,7 +1887,14 @@ document.addEventListener("submit",async ev=>{
     if(A.err){toast(A.err);A.err=null}else $("#set").hidden=true;render(true);return}
 });
 document.addEventListener("click",async ev=>{
-  const b=ev.target.closest("[data-acc],[data-accth],[data-accmode],[data-alopen],[data-aladd],[data-aldel],[data-alt],[data-alf],[data-adm]");if(!b)return;const d=b.dataset;
+  const b=ev.target.closest("[data-acc],[data-accth],[data-accmode],[data-alopen],[data-aladd],[data-aldel],[data-alt],[data-alf],[data-adm],[data-fal],[data-act=agnew]");if(!b)return;const d=b.dataset;
+  if(d.fal){if(A.busy)return;const c=d.fal,id=d.id||"",k=d.k,a=(A.al||[]).find(x=>x.cible===c&&x.cible_id===id);
+    if(k==="non"){if(!a)return;await act(async()=>{const {error}=await A.sb.from("alertes").delete().eq("id",a.id);if(error)throw error;A.al=A.al.filter(x=>x.id!==a.id)},"Alerte e-mail désactivée")}
+    else{if(a&&a.frequence===k)return;const T=AL_TYPES[c].map(x=>x[0]);await act(()=>saveAlert(c,id,alLib(c,id),a&&a.types&&a.types.length?a.types:T,k),k==="quotidienne"?"Alerte : un e-mail par jour":"Alerte : un e-mail dès la collecte")}
+    if(A.err){toast(A.err);A.err=null}
+    if(!$("#set").hidden&&b.closest("#set")){const s=b.closest(".seg");if(s)s.outerHTML=alSeg(c,id).replace(/^<span class="lab">E-mail<\/span>/,"")}
+    render(true);return}
+  if(d.act==="agnew"){if(A.busy)return;await act(async()=>{const {data,error}=await A.sb.rpc("nouveau_jeton_agenda");if(error)throw error;A.p.agenda_jeton=data},"Nouvelle adresse créée : remplacez-la dans Outlook");if(A.err){toast(A.err);A.err=null}render(true);return}
   if(d.accth!==undefined){A.allth=!A.allth;render(true);return}
   if(d.accmode){ev.preventDefault();A.mode=d.accmode;A.err=null;A.msg=null;render(true);return}
   if(d.alopen){ev.preventDefault();openAlert(d.alopen,d.id);return}
